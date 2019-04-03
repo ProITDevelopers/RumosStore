@@ -20,7 +20,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_rumo);
-
+        //comit
         inicializar();
 
     }
