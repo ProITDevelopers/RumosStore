@@ -61,7 +61,7 @@
                     </LinearLayout>
 
                     <EditText
-                        android:id="@+id/editTextEmailLogin"
+                        android:id="@+id/editTextEmaiLogin"
                         android:layout_width="230dp"
                         android:background="@drawable/borda_lateral"
                         android:layout_height="44dp"
