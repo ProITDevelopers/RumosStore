@@ -1,0 +1,116 @@
+package proitappsolutions.com.rumosstore.telasIniciais;
+
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+
+import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
+import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
+import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
+import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
+
+public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_inicial);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+        View headerView = navigationView.getHeaderView(0);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_abre, R.string.navigation_drawer_abre){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+
+            }
+        };
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        if (savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+
+        if (id == R.id.nav_home) {
+            FragHomeInicial fragHomeInicial = new FragHomeInicial();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragHomeInicial);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_mercado) {
+
+            FragMercado fragMercado = new FragMercado();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragMercado);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        } else if (id == R.id.nav_vanguarda) {
+
+            FragVanguarda fragVanguarda = new FragVanguarda();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragVanguarda);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        } else if (id == R.id.nav_rumo) {
+
+            FragMediaRumo fragMediaRumo = new FragMediaRumo();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragMediaRumo);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }else if (id == R.id.nav_instagram) {
+
+
+
+        }  else if (id == R.id.nav_facebook) {
+
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+}

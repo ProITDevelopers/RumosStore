@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
+    tools:context=".MediaRumoActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="100dp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logotipo_mediarumo"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="270dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/borda_arredondada"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/liUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:id="@+id/ic_user"
+                            android:src="@drawable/ic_user" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/editTextEmailLogin"
+                        android:layout_width="230dp"
+                        android:background="@drawable/borda_lateral"
+                        android:layout_height="44dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:layout_marginLeft="4dp"
+                        android:hint="@string/hit_email"
+                        android:paddingLeft="10dp"
+                        android:inputType="textEmailAddress" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="270dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="13dp"
+                    android:background="@drawable/borda_arredondada"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/liPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:id="@+id/ic_pass"
+                            android:src="@drawable/ic_lock" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/editTextPasslLogin"
+                        android:layout_width="230dp"
+                        android:background="@drawable/borda_lateral"
+                        android:layout_height="44dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:layout_marginLeft="4dp"
+                        android:hint="@string/hit_senha"
+                        android:paddingLeft="10dp"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnEntrar"
+                    android:layout_width="270dp"
+                    android:layout_marginTop="33dp"
+                    android:text="@string/hit_btn_entrar"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/borda_arredondada_login"
+                    android:layout_height="44dp" />
+
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ou"/>
+
+                <ImageView
+                    android:id="@+id/btnLogFb"
+                    android:layout_width="50dp"
+                    android:layout_height="41dp"
+                    android:src="@drawable/ic_facebook_inicial"/>
+
+                <Button
+                    android:id="@+id/btnRegistrate"
+                    android:layout_width="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hit_btn_registrate"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>
