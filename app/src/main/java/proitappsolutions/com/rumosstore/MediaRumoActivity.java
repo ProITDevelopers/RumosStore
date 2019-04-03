@@ -26,7 +26,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void inicializar() {
-        editTextEmailLogin = findViewById(R.id.editTextEmailLogin);
+        editTextEmailLogin = findViewById(R.id.editTextEmaiLogin);
         editTextPasslLogin= findViewById(R.id.editTextPasslLogin);
         btnLogFb = findViewById(R.id.btnLogFb);
         btnEntrar= findViewById(R.id.btnEntrar);
