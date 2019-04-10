@@ -186,8 +186,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         }else if (id == R.id.nav_instagram) {
             openInstagram(Common.SOCIAL_INSTAGRAM);
-
-
         }  else if (id == R.id.nav_facebook) {
 
 

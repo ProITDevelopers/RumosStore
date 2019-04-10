@@ -42,10 +42,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private ImageView btnLogFb;
     private Button btnEntrar,btnRegistrate;
 
-    LoginButton loginButton;
-    AVLoadingIndicatorView loader;
-    CallbackManager callbackManager;
-    AccessToken accessToken;
+    private LoginButton loginButton;
+    private AVLoadingIndicatorView loader;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
