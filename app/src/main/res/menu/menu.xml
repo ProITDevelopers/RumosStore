@@ -19,6 +19,11 @@
                 android:id="@+id/menu_jornais"
                 android:checkableBehavior="single">
 
+                <item
+                    android:id="@+id/nav_concurso"
+                    android:icon="@drawable/logo_media_rumo"
+                    android:title="Concurso Media Rumo" />
+
         <item
             android:id="@+id/nav_mercado"
             android:icon="@drawable/ic_mercado"

@@ -141,6 +141,23 @@
                     android:textColor="@android:color/white"
                     android:background="@android:color/transparent"/>
 
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/loginBtn"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"/>
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:visibility="invisible"
+                    app:indicatorColor="@color/colormedia"
+                    app:indicatorName="BallPulseIndicator"/>
+
             </LinearLayout>
 
         </LinearLayout>

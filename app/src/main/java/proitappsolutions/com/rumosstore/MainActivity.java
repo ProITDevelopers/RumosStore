@@ -16,16 +16,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                /*
-                * if (AppPref.getInstance().getAuthToken()== null){
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                    return;
+               if (AppPref.getInstance().getAuthToken()== null){
+//                    Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    startActivity(intent);
+//                    finish();
+//                    return;
+
+                   launchHomeScreen();
                 }
-                * */
-                launchHomeScreen();
+
+
             }
         }, 2000);
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
