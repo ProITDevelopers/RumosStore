@@ -4,6 +4,7 @@
     <string name="hit_email">Email</string>
     <string name="hit_senha">Senha</string>
     <string name="hit_senha_conf">Repita a senha</string>
+    <string name="hit_ja_tem_conta">Já tem uma conta? Entra aqui</string>
     <string name="hit_btn_entrar">ENTRAR</string>
     <string name="hit_btn_registrar">REGISTRAR</string>
     <string name="hit_btn_registrate">NÃO TEM UMA CONTA ? REGISTRA-SE AQUI</string>
