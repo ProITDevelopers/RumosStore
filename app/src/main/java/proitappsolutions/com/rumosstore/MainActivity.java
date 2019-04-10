@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import proitappsolutions.com.rumosstore.telasIniciais.HomeInicialActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (TextUtils.isEmpty(AppPref.getInstance().getAuthToken())) {
-//                    Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    startActivity(intent);
-//                    finish();
-//                    return;
+                    Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                    return;
 
-                   launchHomeScreen();
                 }
+                launchHomeScreen();
 
 
             }
@@ -34,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(MainActivity.this, HomeInicialActivity.class);
         startActivity(intent);
         finish();
     }

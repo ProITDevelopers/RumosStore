@@ -78,7 +78,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 btnLogFb.setEnabled(false);
                 loader.setVisibility(View.VISIBLE);
 
-                if (!isConnected(10000)) {
+                if (!Common.isConnected(10000)) {
                     loader.setVisibility(View.INVISIBLE);
                     LoginManager.getInstance().logOut();
 
@@ -172,9 +172,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     AppDatabase.saveUser(user);
 
                     AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
-                    Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                    intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intentEntrar);
+                    launchHomeScreen();
 
 
 
@@ -194,29 +192,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void launchHomeScreen() {
         Intent intent = new Intent(MediaRumoActivity.this, HomeInicialActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
-    private boolean isConnected(int timeOut) {
-        InetAddress inetAddress = null;
-        try {
-            Future<InetAddress> future = Executors.newSingleThreadExecutor().submit(new Callable<InetAddress>() {
-                @Override
-                public InetAddress call() {
-                    try {
-                        return InetAddress.getByName("google.com");
-                    } catch (UnknownHostException e) {
-                        return null;
-                    }
-                }
-            });
-            inetAddress = future.get(timeOut, TimeUnit.MILLISECONDS);
-            future.cancel(true);
-        } catch (InterruptedException e) {
-        } catch (ExecutionException e) {
-        } catch (TimeoutException e) {
-        }
-        return inetAddress != null && !inetAddress.equals("");
-    }
+
 }

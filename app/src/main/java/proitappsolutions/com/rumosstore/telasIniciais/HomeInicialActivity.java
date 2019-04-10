@@ -188,7 +188,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             openInstagram(Common.SOCIAL_INSTAGRAM);
         }  else if (id == R.id.nav_facebook) {
 
-
+            openFbUrl(Common.SOCIAL_FACEBOOK);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -217,5 +217,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://instagram.com/" + username)));
         }
+    }
+
+    protected void openFbUrl(String username){
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.facebook.com/" + username)));
     }
 }
