@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-               if (AppPref.getInstance().getAuthToken()== null){
+                if (TextUtils.isEmpty(AppPref.getInstance().getAuthToken())) {
 //                    Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    startActivity(intent);

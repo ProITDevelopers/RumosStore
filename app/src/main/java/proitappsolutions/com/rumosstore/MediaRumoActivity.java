@@ -171,7 +171,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     AppDatabase.saveUser(user);
 
-                    AppPref.getInstance().saveAuthToken(newAccessToken);
+                    AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
                     Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);
