@@ -126,9 +126,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         switch (view.getId()){
             case R.id.btnEntrar:
-                Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intentEntrar);
+                Toast.makeText(this, "Login com facebook", Toast.LENGTH_SHORT).show();
+//                Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
+//                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intentEntrar);
                 break;
 
             case R.id.btnRegistrate:
