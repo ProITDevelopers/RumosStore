@@ -167,9 +167,9 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
 
-                    Usuario user = new Usuario(id,email,name,image_url);
+                    Common.mCurrentUser = new Usuario(id,email,name,image_url);
 
-                    AppDatabase.saveUser(user);
+                    AppDatabase.saveUser(Common.mCurrentUser);
 
                     AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
                     launchHomeScreen();

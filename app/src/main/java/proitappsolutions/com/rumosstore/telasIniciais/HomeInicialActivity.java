@@ -35,11 +35,11 @@ import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    CircleImageView circleImageView;
-    TextView txtName;
-    TextView txtEmail;
+    private CircleImageView circleImageView;
+    private TextView txtName;
+    private TextView txtEmail;
 
-    Usuario usuario;
+
 
 
     @Override
@@ -61,9 +61,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
 
-        usuario = AppDatabase.getUser();
 
-        loaduserProfile(usuario);
+        loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
