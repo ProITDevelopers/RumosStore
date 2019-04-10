@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:weightSum="3"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="11dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="90dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
+                <TextSwitcher
+                    android:id="@+id/title"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextSwitcher>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="11dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="90dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
+                <TextSwitcher
+                    android:id="@+id/title2"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextSwitcher>
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="11dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="90dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
+                <TextSwitcher
+                    android:id="@+id/title3"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextSwitcher>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+
+
+    </LinearLayout>
+
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/progress"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/colormedia"
+        app:indicatorName="BallPulseIndicator" />
+
+</RelativeLayout>

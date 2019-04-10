@@ -32,6 +32,7 @@ import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
+import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -145,7 +146,19 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_concurso) {
+        } else if (id == R.id.nav_quiosque) {
+
+            FragQuiosque fragQuiosque = new FragQuiosque();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragQuiosque);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+
+
+        else if (id == R.id.nav_concurso) {
 
             FragConcurso fragConcurso = new FragConcurso();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
