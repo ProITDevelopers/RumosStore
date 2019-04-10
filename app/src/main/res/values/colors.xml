@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorCima">#b48d00</color>
+    <color name="statuscolor">#6c5642</color>
     <color name="colorBotaoLogin">#e1c65a</color>
     <color name="colormedia">#b48d00</color>
     <color name="white">#ffffff</color>
