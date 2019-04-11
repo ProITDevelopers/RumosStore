@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#F0F0F0"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <LinearLayout
+        android:layout_margin="11dp"
         android:orientation="vertical"
         android:weightSum="3"
         android:layout_centerVertical="true"
@@ -15,29 +17,16 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
-            android:layout_margin="11dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
             app:cardElevation="10dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/coverflow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:coverHeight="90dp"
-                    app:coverWidth="70dp"
-                    app:maxScaleFactor="1.5"
-                    app:reflectionGap="0px"
-                    app:rotationThreshold="0.5"
-                    app:scalingThreshold="0.5"
-                    app:spacing="0.6" />
+                android:layout_height="match_parent">
 
                 <TextSwitcher
                     android:id="@+id/title"
@@ -46,6 +35,18 @@
                     android:layout_height="wrap_content">
                 </TextSwitcher>
 
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="100dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
 
             </LinearLayout>
 
@@ -53,29 +54,16 @@
 
 
         <android.support.v7.widget.CardView
-            android:layout_margin="11dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
             app:cardElevation="10dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/coverflow2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:coverHeight="90dp"
-                    app:coverWidth="70dp"
-                    app:maxScaleFactor="1.5"
-                    app:reflectionGap="0px"
-                    app:rotationThreshold="0.5"
-                    app:scalingThreshold="0.5"
-                    app:spacing="0.6" />
+                android:layout_height="match_parent">
 
                 <TextSwitcher
                     android:id="@+id/title2"
@@ -84,12 +72,26 @@
                     android:layout_height="wrap_content">
                 </TextSwitcher>
 
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="100dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
+
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_margin="11dp"
+
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -98,19 +100,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/coverflow3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:coverHeight="90dp"
-                    app:coverWidth="70dp"
-                    app:maxScaleFactor="1.5"
-                    app:reflectionGap="0px"
-                    app:rotationThreshold="0.5"
-                    app:scalingThreshold="0.5"
-                    app:spacing="0.6" />
+                android:layout_height="match_parent">
 
                 <TextSwitcher
                     android:id="@+id/title3"
@@ -118,6 +108,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </TextSwitcher>
+
+                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                    android:id="@+id/coverflow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:coverHeight="100dp"
+                    app:coverWidth="70dp"
+                    app:maxScaleFactor="1.5"
+                    app:reflectionGap="0px"
+                    app:rotationThreshold="0.5"
+                    app:scalingThreshold="0.5"
+                    app:spacing="0.6" />
+
+
 
 
             </LinearLayout>

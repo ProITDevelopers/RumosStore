@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/label"
         android:padding="8dp"
-        android:background="@drawable/label_bg"
+        android:textColor="@color/black"
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

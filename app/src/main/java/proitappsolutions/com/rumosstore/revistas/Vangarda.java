@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Kiosque extends RealmObject {
+public class Vangarda extends RealmObject {
 
     @PrimaryKey
     private int kiosqueID;
@@ -16,9 +16,9 @@ public class Kiosque extends RealmObject {
 
     private float preco;
 
-    public Kiosque() {}
+    public Vangarda() {}
 
-    public Kiosque(int kiosqueID, String name, String imageURL, float preco) {
+    public Vangarda(int kiosqueID, String name, String imageURL, float preco) {
         this.kiosqueID = kiosqueID;
         this.Name = name;
         this.ImageURL = imageURL;
