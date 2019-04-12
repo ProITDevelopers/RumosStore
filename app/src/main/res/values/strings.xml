@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">RumosStore</string>
     <string name="hit_nome">Nome</string>
+    <string name="hit_nomeUser">Mel Chaves</string>
     <string name="hit_email">Email</string>
+    <string name="hit_emailUser">melchaves@gmail.com</string>
     <string name="hit_senha">Senha</string>
     <string name="hit_senha_conf">Repita a senha</string>
     <string name="hit_ja_tem_conta">Já tem uma conta? Entra aqui</string>
