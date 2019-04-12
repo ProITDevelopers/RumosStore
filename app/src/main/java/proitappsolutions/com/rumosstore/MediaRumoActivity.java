@@ -278,7 +278,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void launchHomeScreen() {
-        Intent intent = new Intent(MediaRumoActivity.this, HomeInicialActivity.class);
+        Intent intent = new Intent(MediaRumoActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
