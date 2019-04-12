@@ -1,11 +1,16 @@
 package proitappsolutions.com.rumosstore;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,25 +40,31 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import proitappsolutions.com.rumosstore.api.ApiClient;
+import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.modelo.Autenticacao;
+import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.telasIniciais.HomeInicialActivity;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MediaRumoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmailLogin,editTextPasslLogin;
     private ImageView btnLogFb;
     private Button btnEntrar,btnRegistrate;
-
     private LoginButton loginButton;
     private AVLoadingIndicatorView loader;
     private CallbackManager callbackManager;
     private AccessToken accessToken;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.statuscolor));
         setContentView(R.layout.activity_media_rumo);
-        //comit
+
         inicializar();
 
         callbackManager = CallbackManager.Factory.create();
@@ -116,7 +127,9 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btnRegistrate = findViewById(R.id.btnRegistrate);
         btnEntrar.setOnClickListener(MediaRumoActivity.this);
         btnRegistrate.setOnClickListener(MediaRumoActivity.this);
-//        btnLogFb.setOnClickListener(MediaRumoActivity.this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
 
         loginButton = findViewById(R.id.loginBtn);
         loader = findViewById(R.id.loader);
@@ -127,10 +140,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         switch (view.getId()){
             case R.id.btnEntrar:
-                Toast.makeText(this, "Login com facebook", Toast.LENGTH_SHORT).show();
-//                Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-//                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intentEntrar);
+                autenticacaoLoginApi();
                 break;
 
             case R.id.btnRegistrate:
@@ -142,6 +152,84 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 //                break;
         }
 
+    }
+
+    private void autenticacaoLoginApi() {
+
+
+        if (verificarCampos()){
+
+
+        progressDialog.setMessage("Verificando...");
+        progressDialog.show();
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        retrofit2.Call<Void> call = apiInterface.autenticarCliente(editTextEmailLogin.getText().toString(),editTextPasslLogin.getText().toString());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+
+                //response.body()==null
+                if (response.isSuccessful()){
+                    progressDialog.dismiss();
+
+                    Log.d("autenticacaoVerifLogin",response.message());
+                    Log.d("autenticacaoVerifLogin", String.valueOf(response.code()));
+                    Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
+                    intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intentEntrar);
+                }else {
+                    progressDialog.dismiss();
+                    Snackbar
+                            .make(getCurrentFocus(), "Email ou senha inválidos", 4000)
+                            .setActionTextColor(Color.MAGENTA)
+                            .show();
+                    Log.d("autenticacaoVerif",response.message());
+                    Log.d("autenticacaoVerif", String.valueOf(response.code()));
+                }
+
+                //loginRequisisao = response.body();
+                //SharedPreferenceManager.getInstance(MainActivity.this).saveUser(dadosEmSessao);
+
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.d("autenticacaoVerifFailed",t.getMessage());
+            }
+        });
+
+        }
+
+    }
+
+    private boolean verificarCampos() {
+
+        String email = editTextEmailLogin.getText().toString().trim();
+        String palavraPass = editTextPasslLogin.getText().toString().trim();
+
+        if (email.isEmpty()){
+            editTextEmailLogin.requestFocus();
+            editTextEmailLogin.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (!email.matches("[a-zA-Z_0-9]+(@){1}[a-zA-Z]+.[a-zA-Z]+(.)*[a-zA-Z]*")){
+            editTextEmailLogin.requestFocus();
+            editTextEmailLogin.setError("Preencha-o com um email.");
+            return false;
+        }
+
+        if (palavraPass.isEmpty()){
+            editTextPasslLogin.requestFocus();
+            editTextPasslLogin.setError("Preencha o campo.");
+            return false;
+        }
+
+        editTextEmailLogin.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        editTextPasslLogin.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
+        return true;
     }
 
     @Override
@@ -171,10 +259,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Common.mCurrentUser = new Usuario(id,email,name,image_url);
 
                     AppDatabase.saveUser(Common.mCurrentUser);
-
                     AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
                     launchHomeScreen();
-
 
 
                 } catch (JSONException e) {

@@ -15,7 +15,7 @@ public class AppDatabase {
 
     public static void saveUser(Usuario user) {
         Realm.getDefaultInstance().executeTransaction(realm -> {
-            realm.delete(Usuario.class); // deleting previous user data
+            realm.delete(Usuario.class); //deleting previous user data
             realm.copyToRealmOrUpdate(user);
         });
     }

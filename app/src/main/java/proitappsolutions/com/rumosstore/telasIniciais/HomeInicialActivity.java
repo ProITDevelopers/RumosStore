@@ -100,7 +100,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                     .placeholder(R.drawable.ic_avatar)
                     .into(circleImageView);
 
-
             txtName.setText(usuario.getUsuarioNome());
             txtEmail.setText(usuario.getUsuarioEmail());
         }

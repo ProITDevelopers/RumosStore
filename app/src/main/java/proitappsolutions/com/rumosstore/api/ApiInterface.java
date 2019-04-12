@@ -1,14 +1,25 @@
 package proitappsolutions.com.rumosstore.api;
 
+import proitappsolutions.com.rumosstore.modelo.Autenticacao;
+import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
 
     @POST("/v1/app/")
     Call<Void> registrarCliente(@Body UsuarioApi usuarioApi);
+
+    @FormUrlEncoded
+    @POST("/v1/app/login")
+    Call<Void> autenticarCliente(
+            @Field("email") String email,
+            @Field("password") String password
+    );
 
     /*
     @Multipart
