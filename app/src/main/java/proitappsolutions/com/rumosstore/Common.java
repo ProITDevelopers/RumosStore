@@ -27,6 +27,7 @@ public class Common {
     public static List<Vangarda> vanguardaList = new ArrayList<>();
     public static List<Rumo> rumoList = new ArrayList<>();
 
+    //
 
     public static final int GALLERY_PICK = 1;
     public static String APP_CATEGORY = "News";
