@@ -174,9 +174,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     Log.d("autenticacaoVerifLogin",response.message());
                     Log.d("autenticacaoVerifLogin", String.valueOf(response.code()));
-                    Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
+                    /*Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);
+                    */
+                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
+                    launchHomeScreen();
                 }else {
                     progressDialog.dismiss();
                     Snackbar
