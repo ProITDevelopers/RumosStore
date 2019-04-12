@@ -214,6 +214,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         AppDatabase.clearData();
         AppPref.getInstance().clearData();
 
+
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

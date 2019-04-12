@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
 
-        Common.mercadoList.clear();
-        Common.vanguardaList.clear();
-        Common.rumoList.clear();
 
         Common.mercadoList.add(new Kiosque(1,"Mercado: Bodiva","http://www.meiosepublicidade.pt/wp-content/uploads/2015/04/Mercado.jpg",150));
         Common.mercadoList.add(new Kiosque(2,"Mercado: Orçamentos plurianuais","https://thumbs.web.sapo.io/?pic=http://ia.imgs.sapo.pt/01/images/6/6a/10035_6a4bd2af5992c06127cdaa6c653fc13e.png&W=562&H=687&delay_optim=1&tv=2",200));

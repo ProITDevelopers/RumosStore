@@ -51,15 +51,15 @@ public class FragQuiosque extends Fragment {
     private TextSwitcher mTitle3;
     private View view;
 
-    private Realm realm;
-//    private RealmResults<CartItem> cartItems;
-//    private RealmChangeListener<RealmResults<CartItem>> cartRealmChangeListener;
+
 
     public static RealmResults<Kiosque> mercadoList;
     public static RealmResults<Vangarda> vanguardaList;
     public static RealmResults<Rumo> rumoList;
 
     public FragQuiosque() {}
+
+
 
     @Nullable
     @Override
@@ -70,8 +70,12 @@ public class FragQuiosque extends Fragment {
 
         progressBar = view.findViewById(R.id.progress);
 
+
         initData();
-        realm = Realm.getDefaultInstance();
+
+
+
+
         mTitle = (TextSwitcher)view.findViewById(R.id.title);
         mTitle.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -113,10 +117,10 @@ public class FragQuiosque extends Fragment {
 
                 if (i<mercadoList.size()){
                     mTitle.setText(mercadoList.get(i).getName());
-                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-                    intent.putExtra("movie_index",i);
-                    intent.putExtra("type","mercado");
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
+//                    intent.putExtra("movie_index",i);
+//                    intent.putExtra("type","mercado");
+//                    startActivity(intent);
                 }
             }
         });
@@ -162,10 +166,10 @@ public class FragQuiosque extends Fragment {
 
                 if (i<vanguardaList.size()){
                     mTitle2.setText(vanguardaList.get(i).getName());
-                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-                    intent.putExtra("movie_index",i);
-                    intent.putExtra("type","vanguarda");
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
+//                    intent.putExtra("movie_index",i);
+//                    intent.putExtra("type","vanguarda");
+//                    startActivity(intent);
                 }
 
             }
@@ -213,10 +217,10 @@ public class FragQuiosque extends Fragment {
 
                 if (i<rumoList.size()){
                     mTitle3.setText(rumoList.get(i).getName());
-                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-                    intent.putExtra("movie_index",i);
-                    intent.putExtra("type","rumo");
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
+//                    intent.putExtra("movie_index",i);
+//                    intent.putExtra("type","rumo");
+//                    startActivity(intent);
                 }
             }
         });
@@ -234,20 +238,11 @@ public class FragQuiosque extends Fragment {
     }
 
     private void initData() {
-
-
         mercadoList = AppDatabase.getMercadoList();
         vanguardaList = AppDatabase.getVanguardaList();
         rumoList = AppDatabase.getRumoList();
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (realm != null) {
-            realm.close();
-        }
-    }
 }
