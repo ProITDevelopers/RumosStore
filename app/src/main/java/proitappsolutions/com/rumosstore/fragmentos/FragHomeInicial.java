@@ -37,9 +37,7 @@ public class FragHomeInicial extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        
         carregarRss();
-        
         return view;
 
     }
