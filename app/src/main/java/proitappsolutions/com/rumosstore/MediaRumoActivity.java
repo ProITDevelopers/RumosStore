@@ -2,6 +2,7 @@ package proitappsolutions.com.rumosstore;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,15 +43,15 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private ImageView btnLogFb;
     private Button btnEntrar,btnRegistrate;
 
-    LoginButton loginButton;
-    AVLoadingIndicatorView loader;
-    CallbackManager callbackManager;
-    AccessToken accessToken;
+    private LoginButton loginButton;
+    private AVLoadingIndicatorView loader;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.statuscolor));
         setContentView(R.layout.activity_media_rumo);
         //comit
         inicializar();
@@ -78,7 +79,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 btnLogFb.setEnabled(false);
                 loader.setVisibility(View.VISIBLE);
 
-                if (!isConnected(10000)) {
+                if (!Common.isConnected(10000)) {
                     loader.setVisibility(View.INVISIBLE);
                     LoginManager.getInstance().logOut();
 
@@ -126,9 +127,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         switch (view.getId()){
             case R.id.btnEntrar:
-                Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intentEntrar);
+                Toast.makeText(this, "Login com facebook", Toast.LENGTH_SHORT).show();
+//                Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
+//                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intentEntrar);
                 break;
 
             case R.id.btnRegistrate:
@@ -166,14 +168,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
 
-                    Usuario user = new Usuario(id,email,name,image_url);
+                    Common.mCurrentUser = new Usuario(id,email,name,image_url);
 
-                    AppDatabase.saveUser(user);
+                    AppDatabase.saveUser(Common.mCurrentUser);
 
-                    AppPref.getInstance().saveAuthToken(newAccessToken);
-                    Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                    intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intentEntrar);
+                    AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
+                    launchHomeScreen();
 
 
 
@@ -193,29 +193,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void launchHomeScreen() {
         Intent intent = new Intent(MediaRumoActivity.this, HomeInicialActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
-    private boolean isConnected(int timeOut) {
-        InetAddress inetAddress = null;
-        try {
-            Future<InetAddress> future = Executors.newSingleThreadExecutor().submit(new Callable<InetAddress>() {
-                @Override
-                public InetAddress call() {
-                    try {
-                        return InetAddress.getByName("google.com");
-                    } catch (UnknownHostException e) {
-                        return null;
-                    }
-                }
-            });
-            inetAddress = future.get(timeOut, TimeUnit.MILLISECONDS);
-            future.cancel(true);
-        } catch (InterruptedException e) {
-        } catch (ExecutionException e) {
-        } catch (TimeoutException e) {
-        }
-        return inetAddress != null && !inetAddress.equals("");
-    }
+
 }

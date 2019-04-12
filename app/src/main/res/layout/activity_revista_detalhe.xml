@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".revistas.RevistaDetalheActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorBotaoLogin"
+        android:id="@+id/toolbar" />
+
+        <android.support.v7.widget.CardView
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="268.2dp"
+            app:cardElevation="10dp">
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img_share"
+                    android:layout_marginTop="34.3dp"
+                    android:layout_marginLeft="15.4dp"
+                    android:layout_width="22.1dp"
+                    android:layout_height="22.1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_share_black_24dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="160.6dp"
+                    android:layout_height="222dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_avatar"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/img_favorit"
+                    android:layout_below="@+id/img_share"
+                    android:layout_marginTop="155.5dp"
+                    android:layout_marginLeft="15.4dp"
+                    android:layout_width="22.1dp"
+                    android:layout_height="22.1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_favorite_black_24dp"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/image"
+                    android:layout_marginTop="11.5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:background="@drawable/menos_icn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="9.5dp"
+                        android:paddingRight="9.5dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:text="2"/>
+
+                    <ImageView
+                        android:background="@drawable/mais_icn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+        </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/nome"
+        android:layout_below="@+id/card"
+        android:layout_marginTop="21dp"
+        android:layout_marginLeft="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#413b3b"
+        android:text="Descrição"
+        />
+
+    <TextView
+        android:id="@+id/preco"
+        android:layout_above="@+id/linShop"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="24.6dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#6c5642"
+        android:lineSpacingExtra="2sp"
+        android:gravity="center_horizontal"
+        android:text="1.200 KWZ"
+        />
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/linShop"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Add Ao Carrinho"
+            android:background="#f0efef"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="Comprar"
+            android:background="#e1c65a"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -33,6 +33,7 @@ public class MyApplication extends Application {
                 .name(Common.DB_REALM)
                 .build();
         Realm.setDefaultConfiguration(defaultRealmConfiguration);
+        Realm.compactRealm(defaultRealmConfiguration);
     }
 
     public static MyApplication getInstance() {

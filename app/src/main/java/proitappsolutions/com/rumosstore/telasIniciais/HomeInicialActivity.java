@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,15 +32,16 @@ import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
+import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    CircleImageView circleImageView;
-    TextView txtName;
-    TextView txtEmail;
+    private CircleImageView circleImageView;
+    private TextView txtName;
+    private TextView txtEmail;
 
-    Usuario usuario;
+
 
 
     @Override
@@ -61,9 +63,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
 
-        usuario = AppDatabase.getUser();
 
-        loaduserProfile(usuario);
+        loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -145,7 +146,19 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_concurso) {
+        } else if (id == R.id.nav_quiosque) {
+
+            FragQuiosque fragQuiosque = new FragQuiosque();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragQuiosque);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+
+
+        else if (id == R.id.nav_concurso) {
 
             FragConcurso fragConcurso = new FragConcurso();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -186,11 +199,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         }else if (id == R.id.nav_instagram) {
             openInstagram(Common.SOCIAL_INSTAGRAM);
-
-
         }  else if (id == R.id.nav_facebook) {
 
-
+            openFbUrl(Common.SOCIAL_FACEBOOK);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -219,5 +230,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://instagram.com/" + username)));
         }
+    }
+
+    protected void openFbUrl(String username){
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.facebook.com/" + username)));
     }
 }
