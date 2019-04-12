@@ -18,8 +18,10 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:gravity="center"
             android:background="@color/colorBotaoLogin"
             android:id="@+id/toolbar" />
+
 
         <FrameLayout
             android:id="@+id/container"

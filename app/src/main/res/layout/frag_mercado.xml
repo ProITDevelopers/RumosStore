@@ -9,10 +9,7 @@
     <WebView
         android:id="@+id/webViewMercado"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
-
-
+        android:layout_height="match_parent"></WebView>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/progress"
@@ -24,5 +21,15 @@
         android:layout_marginBottom="@dimen/dimen_30"
         app:indicatorColor="@color/colormedia"
         app:indicatorName="BallPulseIndicator" />
+
+    <TextView
+        android:id="@+id/tvPorcento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#b6b629"
+        android:layout_gravity="center"
+        android:textStyle="bold" />
 
 </android.support.design.widget.CoordinatorLayout>
