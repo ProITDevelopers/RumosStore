@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import proitappsolutions.com.rumosstore.modelo.Data;
 
 public class Usuario extends RealmObject {
 
@@ -14,6 +15,10 @@ public class Usuario extends RealmObject {
     @SerializedName("usuarioPic")
     private String usuarioPic;
     public String usuarioToken;
+    public String usuarioLoginFrom;
+
+
+
 
     public Usuario() {}
 
@@ -22,6 +27,12 @@ public class Usuario extends RealmObject {
         this.usuarioEmail = usuarioEmail;
         this.usuarioNome = usuarioNome;
         this.usuarioPic = usuarioPic;
+    }
+
+    public Usuario(String usuarioNome, String usuarioEmail, String usuarioLoginFrom) {
+        this.usuarioNome = usuarioNome;
+        this.usuarioEmail = usuarioEmail;
+        this.usuarioLoginFrom = usuarioLoginFrom;
     }
 
     public String getUsuarioId() {
@@ -54,5 +65,13 @@ public class Usuario extends RealmObject {
 
     public void setUsuarioPic(String usuarioPic) {
         this.usuarioPic = usuarioPic;
+    }
+
+    public String getUsuarioLoginFrom() {
+        return usuarioLoginFrom;
+    }
+
+    public void setUsuarioLoginFrom(String usuarioLoginFrom) {
+        this.usuarioLoginFrom = usuarioLoginFrom;
     }
 }

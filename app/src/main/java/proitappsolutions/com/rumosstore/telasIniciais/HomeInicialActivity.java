@@ -96,17 +96,23 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private void loaduserProfile(Usuario usuario){
 
         if (usuario !=null){
-            Picasso.with(HomeInicialActivity.this)
-                    .load(usuario.getUsuarioPic())
-                    .placeholder(R.drawable.ic_avatar)
-                    .into(circleImageView);
 
-            txtName.setText(usuario.getUsuarioNome());
-            txtEmail.setText(usuario.getUsuarioEmail());
-        }else {
-            Intent dados = getIntent();
-            txtName.setText(dados.getStringExtra("nome"));
-            txtEmail.setText(dados.getStringExtra("email"));
+            if (usuario.getUsuarioLoginFrom().equals("userApi")){
+                txtName.setText(usuario.getUsuarioNome());
+                txtEmail.setText(usuario.getUsuarioEmail());
+            } else {
+
+                Picasso.with(HomeInicialActivity.this)
+                        .load(usuario.getUsuarioPic())
+                        .placeholder(R.drawable.ic_avatar)
+                        .into(circleImageView);
+
+                txtName.setText(usuario.getUsuarioNome());
+                txtEmail.setText(usuario.getUsuarioEmail());
+
+            }
+
+
         }
 
 

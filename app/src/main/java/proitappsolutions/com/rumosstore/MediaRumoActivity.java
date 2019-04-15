@@ -180,11 +180,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
-                    Intent intent = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("nome",data.getEmSessao().getNome());
-                    intent.putExtra("email",data.getEmSessao().getEmail());
-                    startActivity(intent);
+
+                    Usuario usuario = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
+                    AppDatabase.saveUser(usuario);
+                    launchHomeScreen();
                 }else {
                     progressDialog.dismiss();
                     Snackbar
