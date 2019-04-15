@@ -43,6 +43,7 @@ import java.util.concurrent.TimeoutException;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
+import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.telasIniciais.HomeInicialActivity;
 import retrofit2.Callback;
@@ -58,6 +59,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private CallbackManager callbackManager;
     private AccessToken accessToken;
     private ProgressDialog progressDialog;
+    public Data data = new Data();
+    public EmSessao emSessao = new EmSessao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,31 +165,32 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         progressDialog.setMessage("Verificando...");
         progressDialog.show();
+
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        retrofit2.Call<Void> call = apiInterface.autenticarCliente(editTextEmailLogin.getText().toString(),editTextPasslLogin.getText().toString());
-        call.enqueue(new Callback<Void>() {
+        retrofit2.Call<Data> call = apiInterface.autenticarCliente(editTextEmailLogin.getText().toString(),editTextPasslLogin.getText().toString());
+        call.enqueue(new Callback<Data>() {
             @Override
-            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+            public void onResponse(retrofit2.Call<Data> call, Response<Data> response) {
 
                 //response.body()==null
                 if (response.isSuccessful()){
-                    progressDialog.dismiss();
 
-                    Log.d("autenticacaoVerifLogin",response.message());
-                    Log.d("autenticacaoVerifLogin", String.valueOf(response.code()));
-                    /*Intent intentEntrar = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
-                    intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intentEntrar);
-                    */
+                    data = response.body();
+                    progressDialog.dismiss();
                     AppPref.getInstance().saveAuthToken("ksaksnaksa");
-                    launchHomeScreen();
+                    Log.d("autenticacaoVerif",data.getEmSessao().getNome());
+                    Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
+                    Intent intent = new Intent(MediaRumoActivity.this,HomeInicialActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("nome",data.getEmSessao().getNome());
+                    intent.putExtra("email",data.getEmSessao().getEmail());
+                    startActivity(intent);
                 }else {
                     progressDialog.dismiss();
                     Snackbar
                             .make(getCurrentFocus(), "Email ou senha inválidos", 4000)
                             .setActionTextColor(Color.MAGENTA)
                             .show();
-                    Log.d("autenticacaoVerif",response.message());
                     Log.d("autenticacaoVerif", String.valueOf(response.code()));
                 }
 
@@ -196,7 +200,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+            public void onFailure(retrofit2.Call<Data> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.d("autenticacaoVerifFailed",t.getMessage());
             }

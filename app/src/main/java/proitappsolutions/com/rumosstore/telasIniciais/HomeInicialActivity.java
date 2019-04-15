@@ -34,6 +34,7 @@ import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
 import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
+import proitappsolutions.com.rumosstore.modelo.EmSessao;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -102,6 +103,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
             txtName.setText(usuario.getUsuarioNome());
             txtEmail.setText(usuario.getUsuarioEmail());
+        }else {
+            Intent dados = getIntent();
+            txtName.setText(dados.getStringExtra("nome"));
+            txtEmail.setText(dados.getStringExtra("email"));
         }
 
 

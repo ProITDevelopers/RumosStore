@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class EmSessao {
 
-    @SerializedName("nome")
+    @SerializedName("nomeCliente")
     private String nome;
     @SerializedName("email")
     private String email;
+
+    public EmSessao() {
+    }
 
     public EmSessao(String nome, String email) {
         this.nome = nome;
