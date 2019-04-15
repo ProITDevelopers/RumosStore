@@ -143,7 +143,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         switch (view.getId()){
             case R.id.btnEntrar:
-                autenticacaoLoginApi();
+
+                if (Common.isConnected(10000))
+                    autenticacaoLoginApi();
+
                 break;
 
             case R.id.btnRegistrate:

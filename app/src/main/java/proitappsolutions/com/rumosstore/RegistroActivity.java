@@ -59,7 +59,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.btnRegistrar:
                 if (verificarCampo()){
-                    registrarUsuario();
+                    if (Common.isConnected(10000))
+                        registrarUsuario();
+
                 }
                 break;
 
