@@ -46,7 +46,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         setContentView(R.layout.activity_home_inicial);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Rumos Store");
+        toolbar.setTitle("Rumo Store");
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -207,6 +207,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }  else if (id == R.id.nav_facebook) {
 
             openFbUrl(Common.SOCIAL_FACEBOOK);
+
+        }  else if (id == R.id.nav_share) {
+
+            shareTheApp();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -241,5 +245,22 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     protected void openFbUrl(String username){
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.facebook.com/" + username)));
+    }
+
+    //Sharing the app
+    private void shareTheApp() {
+
+        final String appPackageName = getPackageName();
+        String appName = getString(R.string.app_name);
+        String appCategory = "Notícias e Revistas";
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        String postData = "Obtenha " + appName + " app para ter acesso as " + appCategory +" recentes: "+ "https://play.google.com/store/apps/details?id=" + appPackageName;
+
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Baixar Agora!");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, postData);
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
     }
 }
