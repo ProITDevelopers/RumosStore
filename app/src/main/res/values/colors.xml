@@ -9,4 +9,8 @@
     <color name="black">#000000</color>
     <color name="statuscolor">#6c5642</color>
     <color name="colorExemplo">#beffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="proitCyanBlue">#75c5f0</color>
+    <color name="btn_remove_item">#fc2222</color>
+    <color name="border_remove_item">#fc9898</color>
 </resources>

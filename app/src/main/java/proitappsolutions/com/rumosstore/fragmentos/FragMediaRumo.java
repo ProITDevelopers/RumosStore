@@ -11,9 +11,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
 public class FragMediaRumo extends Fragment {
@@ -27,23 +29,28 @@ public class FragMediaRumo extends Fragment {
         View view = inflater.inflate(R.layout.frag_media_rumo, container, false);
 
         progressBar = view.findViewById(R.id.progress);
+        if (Common.isConnected(10000)){
+            WebView webView = new WebView(getContext());
+            webView = view.findViewById(R.id.webViewMediaRumo);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient());
+            webView.loadUrl("https://mediarumo.com/");
+            webView.setWebChromeClient(new WebChromeClient() {
+                public void onProgressChanged(WebView view, int progress) {
+                    if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
+                        progressBar.setVisibility(ProgressBar.VISIBLE);
+                    }
 
-        WebView webView = new WebView(getContext());
-        webView = view.findViewById(R.id.webViewMediaRumo);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://mediarumo.com/");
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
-                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                    if(progress == 100) {
+                        progressBar.setVisibility(ProgressBar.GONE);
+                    }
                 }
+            });
+        } else {
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+            Toast.makeText(getContext(), "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+        }
 
-                if(progress == 100) {
-                    progressBar.setVisibility(ProgressBar.GONE);
-                }
-            }
-        });
 
         return view;
 

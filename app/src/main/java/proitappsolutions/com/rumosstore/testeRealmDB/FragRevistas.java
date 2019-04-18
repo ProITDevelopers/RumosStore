@@ -1,4 +1,4 @@
-package proitappsolutions.com.rumosstore.fragmentos;
+package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -13,37 +16,23 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import proitappsolutions.com.rumosstore.AppDatabase;
-import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.revistas.Kiosque;
-import proitappsolutions.com.rumosstore.revistas.KiosqueAdapter;
-import proitappsolutions.com.rumosstore.revistas.RevistaDetalheActivity;
-import proitappsolutions.com.rumosstore.revistas.Rumo;
-import proitappsolutions.com.rumosstore.revistas.RumoAdapter;
-import proitappsolutions.com.rumosstore.revistas.Vangarda;
-import proitappsolutions.com.rumosstore.revistas.VanguardaAdapter;
 
 
-public class FragQuiosque extends Fragment {
+public class FragRevistas extends Fragment {
 
     private AVLoadingIndicatorView progressBar;
     private FeatureCoverFlow coverFlow;
     private FeatureCoverFlow coverFlow2;
     private FeatureCoverFlow coverFlow3;
 
-    private KiosqueAdapter movieAdapter;
-    private VanguardaAdapter movieAdapter2;
-    private RumoAdapter movieAdapter3;
+    private RevistasAdapter revistasAdapter;
 
 
     private TextSwitcher mTitle;
@@ -52,29 +41,22 @@ public class FragQuiosque extends Fragment {
     private View view;
 
 
+    public FragRevistas() {}
 
-    public static RealmResults<Kiosque> mercadoList;
-    public static RealmResults<Vangarda> vanguardaList;
-    public static RealmResults<Rumo> rumoList;
-
-    public FragQuiosque() {}
-
-
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setHasOptionsMenu(true);
+//    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frag_quiosque, container, false);
+        view = inflater.inflate(R.layout.frag_revistas, container, false);
 
         progressBar = view.findViewById(R.id.progress);
-
-
-        initData();
-
-
-
 
         mTitle = (TextSwitcher)view.findViewById(R.id.title);
         mTitle.setFactory(new ViewSwitcher.ViewFactory() {
@@ -93,16 +75,20 @@ public class FragQuiosque extends Fragment {
         mTitle.setOutAnimation(out);
 
         //
-        movieAdapter = new KiosqueAdapter(mercadoList,getContext());
 
+
+
+
+
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasMercadoList(),getContext());
         coverFlow = (FeatureCoverFlow)view.findViewById(R.id.coverflow);
-        coverFlow.setAdapter(movieAdapter);
+        coverFlow.setAdapter(revistasAdapter);
 
 
         coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle.setText((position + 1)+" de "+mercadoList.size());
+                mTitle.setText((position + 1)+" de "+AppDatabase.getRevistasMercadoList().size());
             }
 
             @Override
@@ -115,17 +101,17 @@ public class FragQuiosque extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (i<mercadoList.size()){
-                    mTitle.setText(mercadoList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","mercado");
+                if (i<AppDatabase.getRevistasMercadoList().size()){
+                    mTitle.setText(AppDatabase.getRevistasMercadoList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","mercado");
 //                    startActivity(intent);
                 }
             }
         });
 
-        //=========================================================================================
+        //========================================VANGUARDA=================================================
         //=========================================================================================
 
         mTitle2 = (TextSwitcher)view.findViewById(R.id.title2);
@@ -141,16 +127,16 @@ public class FragQuiosque extends Fragment {
         mTitle2.setInAnimation(in);
         mTitle2.setOutAnimation(out);
 
-        movieAdapter2 = new VanguardaAdapter(vanguardaList,getContext());
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasVanguardaList(),getContext());
 
         coverFlow2 = (FeatureCoverFlow)view.findViewById(R.id.coverflow2);
-        coverFlow2.setAdapter(movieAdapter2);
+        coverFlow2.setAdapter(revistasAdapter);
 
 
         coverFlow2.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle2.setText((position + 1)+" de "+vanguardaList.size());
+                mTitle2.setText((position + 1)+" de "+AppDatabase.getRevistasVanguardaList().size());
             }
 
             @Override
@@ -164,11 +150,11 @@ public class FragQuiosque extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if (i<vanguardaList.size()){
-                    mTitle2.setText(vanguardaList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","vanguarda");
+                if (i<AppDatabase.getRevistasVanguardaList().size()){
+                    mTitle2.setText(AppDatabase.getRevistasVanguardaList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","vanguarda");
 //                    startActivity(intent);
                 }
 
@@ -176,7 +162,7 @@ public class FragQuiosque extends Fragment {
         });
 
 
-        //=========================================================================================
+        //===========================================RUMO==============================================
         //=========================================================================================
 
         mTitle3 = (TextSwitcher)view.findViewById(R.id.title3);
@@ -192,17 +178,17 @@ public class FragQuiosque extends Fragment {
         mTitle3.setInAnimation(in);
         mTitle3.setOutAnimation(out);
 
-        movieAdapter3 = new RumoAdapter(rumoList,getContext());
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasRumoList(),getContext());
 
 
         coverFlow3 = (FeatureCoverFlow)view.findViewById(R.id.coverflow3);
-        coverFlow3.setAdapter(movieAdapter3);
+        coverFlow3.setAdapter(revistasAdapter);
 
 
         coverFlow3.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle3.setText((position + 1)+" de "+rumoList.size());
+                mTitle3.setText((position + 1)+" de "+AppDatabase.getRevistasRumoList().size());
             }
 
             @Override
@@ -215,20 +201,20 @@ public class FragQuiosque extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (i<rumoList.size()){
-                    mTitle3.setText(rumoList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","rumo");
+                if (i<AppDatabase.getRevistasRumoList().size()){
+                    mTitle3.setText(AppDatabase.getRevistasRumoList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","rumo");
 //                    startActivity(intent);
                 }
             }
         });
 
-        if (mercadoList.size()>0 && vanguardaList.size()>0 && rumoList.size()>0){
-            coverFlow.scrollToPosition(mercadoList.size());
-            coverFlow2.scrollToPosition(vanguardaList.size());
-            coverFlow3.scrollToPosition(rumoList.size());
+        if (AppDatabase.getRevistasMercadoList().size()>0 && AppDatabase.getRevistasVanguardaList().size()>0 && AppDatabase.getRevistasRumoList().size()>0){
+            coverFlow.scrollToPosition(AppDatabase.getRevistasMercadoList().size());
+            coverFlow2.scrollToPosition(AppDatabase.getRevistasVanguardaList().size());
+            coverFlow3.scrollToPosition(AppDatabase.getRevistasRumoList().size());
         }
 
 
@@ -237,12 +223,25 @@ public class FragQuiosque extends Fragment {
 
     }
 
-    private void initData() {
-        mercadoList = AppDatabase.getMercadoList();
-        vanguardaList = AppDatabase.getVanguardaList();
-        rumoList = AppDatabase.getRumoList();
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_frag_revista, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//
+//            case R.id.menu_cart:
+//                // Do onlick on menu action here
+//                Intent i = new Intent(getContext(), ShoppingCartActivity.class);
+//                startActivity(i);
+//                return true;
+//        }
+//        return false;
+//    }
 
-    }
 
 
 }

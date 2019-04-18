@@ -79,7 +79,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View view) {
                 loginButton.performClick();
                 btnLogFb.setEnabled(false);
-//                loader.setVisibility(View.VISIBLE);
 
             }
         });
@@ -94,6 +93,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 loader.setVisibility(View.VISIBLE);
 
                 if (!Common.isConnected(10000)) {
+                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
                     loader.setVisibility(View.INVISIBLE);
                     LoginManager.getInstance().logOut();
 
@@ -144,8 +144,13 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()){
             case R.id.btnEntrar:
 
-                if (Common.isConnected(10000))
+
+                if (Common.isConnected(10000)) {
                     autenticacaoLoginApi();
+                }else {
+                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+                }
+
 
                 break;
 
@@ -180,12 +185,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     data = response.body();
                     progressDialog.dismiss();
-                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 
-                    Usuario usuario = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
-                    AppDatabase.saveUser(usuario);
+                    Common.mCurrentUser = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
+                    AppDatabase.saveUser(Common.mCurrentUser);
+                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     launchHomeScreen();
                 }else {
                     progressDialog.dismiss();
@@ -196,8 +201,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Log.d("autenticacaoVerif", String.valueOf(response.code()));
                 }
 
-                //loginRequisisao = response.body();
-                //SharedPreferenceManager.getInstance(MainActivity.this).saveUser(dadosEmSessao);
+
 
             }
 

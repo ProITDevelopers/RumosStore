@@ -11,18 +11,19 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
 public class FragConcurso extends Fragment {
 
     private AVLoadingIndicatorView progressBar;
 
-    public FragConcurso() {
-    }
+    public FragConcurso() {}
 
 
 
@@ -33,6 +34,10 @@ public class FragConcurso extends Fragment {
         View view = inflater.inflate(R.layout.frag_concurso, container, false);
 
         progressBar = view.findViewById(R.id.progress);
+
+        if (Common.isConnected(10000)){
+
+
 
         WebView webView = new WebView(getContext());
         webView = view.findViewById(R.id.webViewMercado);
@@ -50,6 +55,11 @@ public class FragConcurso extends Fragment {
                 }
             }
         });
+
+        } else {
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+            Toast.makeText(getContext(), "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
 

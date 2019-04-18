@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,33 +24,28 @@ import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
-import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
-import proitappsolutions.com.rumosstore.modelo.EmSessao;
+import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistas;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private CircleImageView circleImageView;
     private TextView txtName;
     private TextView txtEmail;
-
-
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_inicial);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rumos Store");
         setSupportActionBar(toolbar);
 
@@ -158,10 +152,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
         } else if (id == R.id.nav_quiosque) {
 
-            FragQuiosque fragQuiosque = new FragQuiosque();
+
+            FragRevistas fragRevistas = new FragRevistas();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragQuiosque);
+            fragmentTransaction.replace(R.id.container,fragRevistas);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 

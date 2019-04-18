@@ -11,9 +11,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
 public class FragVanguarda extends Fragment {
@@ -27,6 +29,8 @@ public class FragVanguarda extends Fragment {
         View view = inflater.inflate(R.layout.frag_vanguarda, container, false);
 
         progressBar = view.findViewById(R.id.progress);
+
+        if (Common.isConnected(10000)){
 
         WebView webView = new WebView(getContext());
         webView = view.findViewById(R.id.webViewVanguarda);
@@ -44,6 +48,12 @@ public class FragVanguarda extends Fragment {
                 }
             }
         });
+
+        }else{
+            Toast.makeText(getContext(), "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+        }
+
         
         return view;
 

@@ -17,36 +17,40 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import proitappsolutions.com.rumosstore.revistas.Kiosque;
-import proitappsolutions.com.rumosstore.revistas.Rumo;
-import proitappsolutions.com.rumosstore.revistas.Vangarda;
+import io.realm.RealmResults;
+import proitappsolutions.com.rumosstore.testeRealmDB.CartItemRevistas;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {
 
-    public static List<Kiosque> mercadoList = new ArrayList<>();
-    public static List<Vangarda> vanguardaList = new ArrayList<>();
-    public static List<Rumo> rumoList = new ArrayList<>();
+
+    public static List<Revistas> revistasArrayList = new ArrayList<>();
 
     //
 
     public static final int GALLERY_PICK = 1;
-    public static String APP_CATEGORY = "News";
 
     public static final String PAYPAL_CLIENT_ID = "AcWb_OrCdYDpYwI0UL_jQ3Az-dj0akEzIxFLj8yVWCDP9gW8d36a38sfyPHhDC4DNZjZ5ORtzj6rXPUh";
     public static final int PAYPAL_REQUEST_CODE = 123;
+    public static final String ORDER_STATUS_COMPLETED = "approved";
     public static Usuario mCurrentUser;
 
     public static final String DB_REALM = "rumos_store_db";
-    public static final String ORDER_STATUS_COMPLETED = "approved";
 
     //Your social Page ID or Username here. Not links....
     public static String SOCIAL_FACEBOOK = "Media-Rumo";
-    public static String SOCIAL_LINKEDIN = "media-rumo";
     public static String SOCIAL_INSTAGRAM = "revistarumo";
-    //Your website homepage link in below String item....
-    public static String SOCIAL_BROWSER = "https://mediarumo.com/";
 
 
+
+
+    public static float getCartPrice(RealmResults<CartItemRevistas> cartItems) {
+        float price = 0f;
+        for (CartItemRevistas item : cartItems) {
+            price += item.revistas.getRevistaPreco() * item.quantity;
+        }
+        return price;
+    }
 
 
 

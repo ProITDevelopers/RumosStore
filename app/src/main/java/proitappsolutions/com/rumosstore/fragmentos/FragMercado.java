@@ -15,9 +15,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
 public class FragMercado extends Fragment {
@@ -34,6 +36,9 @@ public class FragMercado extends Fragment {
         progressBar = view.findViewById(R.id.progress);
         tvPorcento = view.findViewById(R.id.tvPorcento);
         tvPorcento.setVisibility(View.VISIBLE);
+
+        if (Common.isConnected(10000)){
+
 
         WebView webView = new WebView(getContext());
         webView = view.findViewById(R.id.webViewMercado);
@@ -59,6 +64,12 @@ public class FragMercado extends Fragment {
                 }
             }
         });
+
+        }else{
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+            tvPorcento.setVisibility(View.INVISIBLE);
+            Toast.makeText(getContext(), "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
 

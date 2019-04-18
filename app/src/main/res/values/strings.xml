@@ -13,4 +13,9 @@
     <string name="navigation_drawer_abre"> </string>
     <string name="facebook_app_id">587866601707572</string>
     <string name="fb_login_protocol_scheme">fb587866601707572</string>
+    <string name="lbl_view_cart">VIEW CART</string>
+    <string name="cart_info_bar_data">%d Items | Kz%s</string>
+    <string name="lbl_item_price_quantity">%s x %d</string>
+    <string name="price_with_currency">Kz%.2f</string>
+    <string name="btn_checkout">CHECKOUT (%s)</string>
 </resources>

@@ -61,6 +61,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 if (verificarCampo()){
                     if (Common.isConnected(10000))
                         registrarUsuario();
+                    else
+                    Toast.makeText(this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
 
                 }
                 break;

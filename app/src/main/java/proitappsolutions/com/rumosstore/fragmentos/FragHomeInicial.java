@@ -13,10 +13,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import proitappsolutions.com.rumosstore.Adapter.FeedAdapter;
+import proitappsolutions.com.rumosstore.Common;
+import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.HTTPDataHandler;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
@@ -37,7 +40,12 @@ public class FragHomeInicial extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        carregarRss();
+
+        if (Common.isConnected(10000))
+            carregarRss();
+        else
+            Toast.makeText(getContext(), "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+
         return view;
 
     }

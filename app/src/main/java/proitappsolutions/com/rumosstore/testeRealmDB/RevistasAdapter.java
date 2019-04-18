@@ -1,4 +1,4 @@
-package proitappsolutions.com.rumosstore.revistas;
+package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,24 +14,24 @@ import java.util.List;
 
 import proitappsolutions.com.rumosstore.R;
 
-public class RumoAdapter extends BaseAdapter {
+public class RevistasAdapter extends BaseAdapter {
 
-    private List<Rumo> movieList;
+    private List<Revistas> revistasList;
     private Context mContext;
 
-    public RumoAdapter(List<Rumo> movieList, Context mContext) {
-        this.movieList = movieList;
+    public RevistasAdapter(List<Revistas> revistasList, Context mContext) {
+        this.revistasList = revistasList;
         this.mContext = mContext;
     }
 
     @Override
     public int getCount() {
-        return movieList.size();
+        return revistasList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return movieList.get(i);
+        return revistasList.get(i);
     }
 
     @Override
@@ -49,10 +49,10 @@ public class RumoAdapter extends BaseAdapter {
             ImageView image = (ImageView)rowView.findViewById(R.id.image);
 
             //Set Data
-            Rumo movie = movieList.get(i);
+            Revistas revistas = revistasList.get(i);
 
-            Picasso.with(mContext).load(movie.getImageURL()).placeholder(R.drawable.ic_avatar).into(image);
-            name.setText(movie.getName());
+            Picasso.with(mContext).load(revistas.getRevistaLink()).placeholder(R.drawable.ic_avatar).into(image);
+            name.setText(revistas.getRevistaNome());
         }
 
         return rowView;

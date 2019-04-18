@@ -4,10 +4,8 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import proitappsolutions.com.rumosstore.revistas.CartItemKiosque;
-import proitappsolutions.com.rumosstore.revistas.Kiosque;
-import proitappsolutions.com.rumosstore.revistas.Rumo;
-import proitappsolutions.com.rumosstore.revistas.Vangarda;
+import proitappsolutions.com.rumosstore.testeRealmDB.CartItemRevistas;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class AppDatabase {
 
@@ -25,43 +23,35 @@ public class AppDatabase {
         return Realm.getDefaultInstance().where(Usuario.class).findFirst();
     }
 
-    public static void saveMercadoList(final List<Kiosque> kiosques) {
+
+
+    //==========================================================================//
+    //==========================================================================//
+    public static void saveResvistasList(final List<Revistas> revistasList) {
         Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-            for (Kiosque kiosque : kiosques) {
-                realm.copyToRealmOrUpdate(kiosque);
+            for (Revistas revistas : revistasList) {
+                realm.copyToRealmOrUpdate(revistas);
             }
         });
     }
 
-    public static RealmResults<Kiosque> getMercadoList() {
-        return Realm.getDefaultInstance().where(Kiosque.class).findAll();
+    public static RealmResults<Revistas> getTodasRevistasList() {
+        return Realm.getDefaultInstance().where(Revistas.class).findAll();
     }
 
-
-    public static void saveVanguardaList(final List<Vangarda> kiosques2) {
-        Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-            for (Vangarda kiosque2 : kiosques2) {
-                realm.copyToRealmOrUpdate(kiosque2);
-            }
-        });
+    public static RealmResults<Revistas> getRevistasMercadoList() {
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "mercado").findAll();
     }
 
-    public static RealmResults<Vangarda> getVanguardaList() {
-        return Realm.getDefaultInstance().where(Vangarda.class).findAll();
+    public static RealmResults<Revistas> getRevistasVanguardaList() {
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "vanguarda").findAll();
     }
 
-
-    public static void saveRumoList(final List<Rumo> kiosques3) {
-        Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-            for (Rumo kiosque3 : kiosques3) {
-                realm.copyToRealmOrUpdate(kiosque3);
-            }
-        });
+    public static RealmResults<Revistas> getRevistasRumoList() {
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "rumo").findAll();
     }
-
-    public static RealmResults<Rumo> getRumoList() {
-        return Realm.getDefaultInstance().where(Rumo.class).findAll();
-    }
+    //==========================================================================//
+    //==========================================================================//
 
 
     /**
@@ -69,16 +59,17 @@ public class AppDatabase {
      * Will create a new cart entry if there is no cart created yet
      * Will increase the product quantity count if the item exists already
      */
-    public static void addKiosqueItemToCart(Kiosque kiosque) {
-        initNewCart(kiosque);
+
+    public static void addRevistaItemToCart(Revistas revistas) {
+        initNewCartRevistas(revistas);
     }
 
-    private static void initNewCart(Kiosque kiosque) {
+    private static void initNewCartRevistas(Revistas revistas) {
         Realm.getDefaultInstance().executeTransaction(realm -> {
-            CartItemKiosque cartItem = realm.where(CartItemKiosque.class).equalTo("kiosque.kiosqueID", kiosque.getKiosqueID()).findFirst();
+            CartItemRevistas cartItem = realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", revistas.getRevistaID()).findFirst();
             if (cartItem == null) {
-                CartItemKiosque ci = new CartItemKiosque();
-                ci.kiosque = kiosque;
+                CartItemRevistas ci = new CartItemRevistas();
+                ci.revistas = revistas;
                 ci.quantity = 1;
                 realm.copyToRealmOrUpdate(ci);
             } else {
@@ -88,9 +79,9 @@ public class AppDatabase {
         });
     }
 
-    public static void removeCartItem(Kiosque kiosque) {
+    public static void removeRevistaCartItem(Revistas revistas) {
         Realm.getDefaultInstance().executeTransaction(realm -> {
-            CartItemKiosque cartItem = realm.where(CartItemKiosque.class).equalTo("kiosque.kiosqueID", kiosque.getKiosqueID()).findFirst();
+            CartItemRevistas cartItem = realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", revistas.getRevistaID()).findFirst();
             if (cartItem != null) {
                 if (cartItem.quantity == 1) {
                     cartItem.deleteFromRealm();
@@ -102,13 +93,18 @@ public class AppDatabase {
         });
     }
 
-    public static void removeCartItem(CartItemKiosque cartItem) {
-        Realm.getDefaultInstance().executeTransaction(realm -> realm.where(CartItemKiosque.class).equalTo("kiosque.kiosqueID", cartItem.kiosque.getKiosqueID()).findAll().deleteAllFromRealm());
+    public static void removeCartRevistaItem(CartItemRevistas cartItem) {
+        Realm.getDefaultInstance().executeTransaction(realm -> realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", cartItem.revistas.getRevistaID()).findAll().deleteAllFromRealm());
     }
 
-    public static void clearCart() {
-        Realm.getDefaultInstance().executeTransactionAsync(realm -> realm.delete(CartItemKiosque.class));
+
+
+
+    public static void clearRevistaCart() {
+        Realm.getDefaultInstance().executeTransactionAsync(realm -> realm.delete(CartItemRevistas.class));
     }
+
+
 
 
     public static void clearData() {
