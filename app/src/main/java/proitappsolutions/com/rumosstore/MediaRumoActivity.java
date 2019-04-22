@@ -135,7 +135,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         progressDialog.setCancelable(false);
 
         loginButton = findViewById(R.id.loginBtn);
-        loader = findViewById(R.id.loader);
+        //loader = findViewById(R.id.loader);
     }
 
     @Override
