@@ -1,22 +1,22 @@
-package proitappsolutions.com.rumosstore.revistas;
+package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import java.util.UUID;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class CartItemKiosque extends RealmObject {
+public class CartItemRevistas extends RealmObject {
 
     @PrimaryKey
     public String id = UUID.randomUUID().toString();
-    public Kiosque kiosque;
+    public Revistas revistas;
     public int quantity = 0;
 
-    public CartItemKiosque() {}
+    public CartItemRevistas() {}
 
-    public CartItemKiosque(String id, Kiosque kiosque, int quantity) {
+    public CartItemRevistas(String id, Revistas revistas, int quantity) {
         this.id = id;
-        this.kiosque = kiosque;
+        this.revistas = revistas;
         this.quantity = quantity;
     }
 
@@ -28,12 +28,12 @@ public class CartItemKiosque extends RealmObject {
         this.id = id;
     }
 
-    public Kiosque getKiosque() {
-        return kiosque;
+    public Revistas getRevistas() {
+        return revistas;
     }
 
-    public void setKiosque(Kiosque kiosque) {
-        this.kiosque = kiosque;
+    public void setRevistas(Revistas revistas) {
+        this.revistas = revistas;
     }
 
     public int getQuantity() {

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="proitappsolutions.com.rumosstore">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_media_rumo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".revistas.RevistaDetalheActivity" />
+        <activity android:name=".testeRealmDB.ShoppingCartActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".testeRealmDB.RevistasDetalheActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -32,7 +34,7 @@
             android:name=".RegistroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telasActivity.HomeInicialActivity"
+            android:name=".telasIniciais.HomeInicialActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cart_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBotaoLogin"
+    android:padding="@dimen/activity_margin_half">
+
+    <!--android:textColor="@color/gradient_2"-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="3sp"
+        android:text="@string/lbl_view_cart"
+        android:textColor="@color/white"
+        android:textSize="@dimen/cart_info_data"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/cart_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="3sp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/cart_info_data"
+        android:textStyle="normal" />
+
+</RelativeLayout>

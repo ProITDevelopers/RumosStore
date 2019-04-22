@@ -1,26 +1,19 @@
 package proitappsolutions.com.rumosstore;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -32,7 +25,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-//import com.wang.avi.AVLoadingIndicatorView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,13 +39,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.regex.Pattern;
 
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
-import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
+import proitappsolutions.com.rumosstore.modelo.EmSessao;
+import proitappsolutions.com.rumosstore.telasIniciais.HomeInicialActivity;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -62,22 +55,21 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private ImageView btnLogFb;
     private Button btnEntrar,btnRegistrate;
     private LoginButton loginButton;
-    //private AVLoadingIndicatorView loader;
+    private AVLoadingIndicatorView loader;
     private CallbackManager callbackManager;
     private AccessToken accessToken;
     private ProgressDialog progressDialog;
     public Data data = new Data();
-    private RelativeLayout linearLayout;
-    private RelativeLayout errorLayout;
-    private TextView btnRetry;
+    public EmSessao emSessao = new EmSessao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.statuscolor));
         setContentView(R.layout.activity_media_rumo);
+
         inicializar();
-        verifConecxao();
+
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
 
@@ -87,7 +79,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View view) {
                 loginButton.performClick();
                 btnLogFb.setEnabled(false);
-//                loader.setVisibility(View.VISIBLE);
 
             }
         });
@@ -99,12 +90,15 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 accessToken = loginResult.getAccessToken();
 
                 btnLogFb.setEnabled(false);
-                //loader.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.VISIBLE);
 
                 if (!Common.isConnected(10000)) {
+                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+                    loader.setVisibility(View.INVISIBLE);
                     LoginManager.getInstance().logOut();
 
                     btnLogFb.setEnabled(true);
+
                 } else{
                     loaduserProfile(accessToken);
                 }
@@ -114,14 +108,14 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancel() {
-                //loader.setVisibility(View.INVISIBLE);
+                loader.setVisibility(View.INVISIBLE);
                 btnLogFb.setEnabled(true);
 
             }
 
             @Override
             public void onError(FacebookException error) {
-                //loader.setVisibility(View.INVISIBLE);
+                loader.setVisibility(View.INVISIBLE);
                 btnLogFb.setEnabled(true);
 
             }
@@ -136,13 +130,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btnRegistrate = findViewById(R.id.btnRegistrate);
         btnEntrar.setOnClickListener(MediaRumoActivity.this);
         btnRegistrate.setOnClickListener(MediaRumoActivity.this);
-        linearLayout = findViewById(R.id.linearLayout);
-        errorLayout = findViewById(R.id.erroLayout);
-        btnRetry = findViewById(R.id.btnRecarregar);
-        btnRetry.setText("Voltar");
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+
         loginButton = findViewById(R.id.loginBtn);
+        loader = findViewById(R.id.loader);
     }
 
     @Override
@@ -150,7 +143,15 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         switch (view.getId()){
             case R.id.btnEntrar:
-                autenticacaoLoginApi();
+
+
+                if (Common.isConnected(10000)) {
+                    autenticacaoLoginApi();
+                }else {
+                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+                }
+
+
                 break;
 
             case R.id.btnRegistrate:
@@ -166,9 +167,9 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void autenticacaoLoginApi() {
 
-        errorLayout.setVisibility(View.GONE);
 
         if (verificarCampos()){
+
 
         progressDialog.setMessage("Verificando...");
         progressDialog.show();
@@ -184,13 +185,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                     data = response.body();
                     progressDialog.dismiss();
-                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
-                    Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 
-                    Usuario usuario = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
-                    AppDatabase.saveUser(usuario);
+                    Common.mCurrentUser = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
+                    AppDatabase.saveUser(Common.mCurrentUser);
+                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     launchHomeScreen();
                 }else {
                     progressDialog.dismiss();
@@ -201,58 +201,19 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Log.d("autenticacaoVerif", String.valueOf(response.code()));
                 }
 
-                //loginRequisisao = response.body();
-                //SharedPreferenceManager.getInstance(MainActivity.this).saveUser(dadosEmSessao);
+
 
             }
 
             @Override
             public void onFailure(retrofit2.Call<Data> call, Throwable t) {
                 progressDialog.dismiss();
-                verifConecxao();
-                switch (t.getMessage()){
-                    case "timeout":
-                        Toast.makeText(MediaRumoActivity.this,
-                                "Impossivel se comunicar. Internet lenta.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(MediaRumoActivity.this,
-                                "Algum problema aconteceu. Tente novamente.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                Log.d("autenticacaoVerifFalhoy",t.getMessage());
+                Log.d("autenticacaoVerifFailed",t.getMessage());
             }
         });
 
         }
-    }
 
-    private void verifConecxao(){
-        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            mostarMsnErro();
-        }else{
-
-        }
-    }
-
-    private void mostarMsnErro(){
-
-         if (errorLayout.getVisibility() == View.GONE){
-            errorLayout.setVisibility(View.VISIBLE);
-            linearLayout.setVisibility(View.GONE);
-        }
-
-        btnRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                linearLayout.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
-            }
-        });
     }
 
     private boolean verificarCampos() {
@@ -266,11 +227,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             return false;
         }
 
-        if (!MetodosComuns.validarEmail(email)) {
+        if (!email.matches("[a-zA-Z_0-9]+(@){1}[a-zA-Z]+.[a-zA-Z]+(.)*[a-zA-Z]*")){
             editTextEmailLogin.requestFocus();
-            editTextEmailLogin.setError("Preencha o campo com um email.");
+            editTextEmailLogin.setError("Preencha-o com um email.");
             return false;
-
         }
 
         if (palavraPass.isEmpty()){
@@ -291,9 +251,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     private void loaduserProfile(AccessToken newAccessToken){
 
-        //loader.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.VISIBLE);
 
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
@@ -335,5 +296,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         startActivity(intent);
         finish();
     }
+
 
 }

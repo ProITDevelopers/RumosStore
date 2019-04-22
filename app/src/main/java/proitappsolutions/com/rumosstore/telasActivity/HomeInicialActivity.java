@@ -1,4 +1,4 @@
-package proitappsolutions.com.rumosstore.telasActivity;
+package proitappsolutions.com.rumosstore.telasIniciais;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -30,22 +30,22 @@ import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
-import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
-import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
+import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistas;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private CircleImageView circleImageView;
     private TextView txtName;
     private TextView txtEmail;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_inicial);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rumo Store");
         setSupportActionBar(toolbar);
 
@@ -115,14 +115,19 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.rumos_store, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             logOut();
             return true;
@@ -137,7 +142,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        //nav_meu_perfil
 
         if (id == R.id.nav_home) {
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
@@ -146,25 +150,18 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_meu_perfil) {
+        } else if (id == R.id.nav_quiosque) {
 
-            FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
+
+            FragRevistas fragRevistas = new FragRevistas();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragMeuPerfil);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-
-        }else if (id == R.id.nav_quiosque) {
-
-            FragQuiosque fragQuiosque = new FragQuiosque();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragQuiosque);
+            fragmentTransaction.replace(R.id.container,fragRevistas);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         }
+
 
         else if (id == R.id.nav_concurso) {
 
@@ -208,7 +205,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }else if (id == R.id.nav_instagram) {
             openInstagram(Common.SOCIAL_INSTAGRAM);
         }  else if (id == R.id.nav_facebook) {
+
             openFbUrl(Common.SOCIAL_FACEBOOK);
+
+        }  else if (id == R.id.nav_share) {
+
+            shareTheApp();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -243,5 +245,22 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     protected void openFbUrl(String username){
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://www.facebook.com/" + username)));
+    }
+
+    //Sharing the app
+    private void shareTheApp() {
+
+        final String appPackageName = getPackageName();
+        String appName = getString(R.string.app_name);
+        String appCategory = "Notícias e Revistas";
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        String postData = "Obtenha " + appName + " app para ter acesso as " + appCategory +" recentes: "+ "https://play.google.com/store/apps/details?id=" + appPackageName;
+
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Baixar Agora!");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, postData);
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
     }
 }

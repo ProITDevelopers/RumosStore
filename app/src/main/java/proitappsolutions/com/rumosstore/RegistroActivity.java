@@ -1,31 +1,21 @@
 package proitappsolutions.com.rumosstore;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import okhttp3.internal.http.RealResponseBody;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
-import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
-import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
-import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Erro;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import retrofit2.Call;
@@ -38,9 +28,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegistrar,btnLoginInicial;
     private String nome,email,senha,senhaConf;
     private ProgressDialog progressDialog;
-    private RelativeLayout linearLayout;
-    private RelativeLayout errorLayout;
-    private TextView btnRetry;
+    private Erro erro = new Erro();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +39,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         editTextEmailRegistro = findViewById(R.id.editTextEmailRegistro);
         editTextPassRegistro = findViewById(R.id.editTextPassRegistro);
         editTextPassRegistro2 = findViewById(R.id.editTextPassRegistro2);
-
-        linearLayout = findViewById(R.id.linearLayout);
-        errorLayout = findViewById(R.id.erroLayout);
-        btnRetry = findViewById(R.id.btnRecarregar);
-        btnRetry.setText("Voltar");
+        editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
 
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnLoginInicial = findViewById(R.id.btnLoginInicial);
@@ -75,7 +59,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.btnRegistrar:
                 if (verificarCampo()){
-                    registrarUsuario();
+                    if (Common.isConnected(10000))
+                        registrarUsuario();
+                    else
+                    Toast.makeText(this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+
                 }
                 break;
 
@@ -92,50 +80,32 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private boolean verificarCampo() {
 
         nome = editTextNomeRegistro.getText().toString();
-        email = editTextEmailRegistro.getText().toString().trim();
-        senha = editTextPassRegistro.getText().toString().trim();
-        senhaConf = editTextPassRegistro2.getText().toString().trim();
+        email = editTextEmailRegistro.getText().toString();
+        senha = editTextPassRegistro.getText().toString();
+        senhaConf = editTextPassRegistro2.getText().toString();
 
 
 
         if (nome.isEmpty()){
+            //editTextNomeRegistro.setErrorEnabled(true);
             editTextNomeRegistro.setError("Preencha o campo.");
             return false;
         }
 
-        if (!nome.matches("[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+")){
-            editTextNomeRegistro.requestFocus();
-            editTextNomeRegistro.setError("Preencha o campo com letras apenas");
-            return false;
-        }
-
         if (email.isEmpty()){
+            //editTextEmailRegistro.setErrorEnabled(true);
             editTextEmailRegistro.setError("Preencha o campo.");
             return false;
         }
 
-        if (!MetodosComuns.validarEmail(email)) {
-            editTextEmailRegistro.requestFocus();
-            editTextEmailRegistro.setError("Preencha o campo com um email.");
-            return false;
-        }
-
         if (senha.isEmpty()){
+            //editTextEmailRegistro.setErrorEnabled(true);
             editTextPassRegistro.setError("Preencha o campo.");
             return false;
         }
 
-        if (senha.length()<5){
-            editTextPassRegistro.setError("Senha fraca..");
-            return false;
-        }
-
-        if (senhaConf.length()<5){
-            editTextPassRegistro2.setError("Senha fraca..");
-            return false;
-        }
-
         if (!senha.equals(senhaConf)){
+            //editTextEmailRegistro.setErrorEnabled(true);
             editTextPassRegistro2.setError("As senhas devem ser iguais.");
             return false;
         }
@@ -146,7 +116,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     private void registrarUsuario(){
 
-        errorLayout.setVisibility(View.GONE);
         progressDialog.setMessage("Quase Pronto...!");
         progressDialog.show();
 
@@ -162,9 +131,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                 if (!response.isSuccessful()){
 
-                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                    Toast.makeText(RegistroActivity.this, errorResponce.getError(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroActivity.this,"Email já existe.", Toast.LENGTH_SHORT).show();
+                    try {
+                        Log.i("verificacao","certo" + response.errorBody().string());
+                        //erro = response.errorBody().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     progressDialog.dismiss();
 
                 } else {
@@ -172,7 +145,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);
-                    Log.i("verificacaoCerta","certo" + response.code());
+                    Log.i("verificacao","certo" + response.code());
                 }
 
 
@@ -180,50 +153,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.i("onFailure","erro" + t.getMessage());
+                Toast.makeText(RegistroActivity.this,"Algum problema aconteceu.", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
-                verifConecxao();
-                switch (t.getMessage()){
-                    case "timeout":
-                        Toast.makeText(RegistroActivity.this,
-                                "Impossivel se comunicar. Internet lenta.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(RegistroActivity.this,
-                                "Algum problema aconteceu. Tente novamente.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                Log.d("autenticacaoVerifFalhoy",t.getMessage());
             }
         });
 
-    }
-
-    private void verifConecxao(){
-        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            mostarMsnErro();
-        }else{
-
-        }
-    }
-
-    private void mostarMsnErro(){
-
-        if (errorLayout.getVisibility() == View.GONE){
-            errorLayout.setVisibility(View.VISIBLE);
-            linearLayout.setVisibility(View.GONE);
-        }
-
-        btnRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                linearLayout.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
-            }
-        });
     }
 
 }
