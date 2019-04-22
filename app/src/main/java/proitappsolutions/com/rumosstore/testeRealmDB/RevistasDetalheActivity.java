@@ -210,7 +210,7 @@ public class RevistasDetalheActivity extends AppCompatActivity implements CartAd
         for (CartItemRevistas cartItem : cartItems) {
             itemCount += cartItem.quantity;
         }
-        cartInfoBar.setData(itemCount, String.valueOf(Common.getCartPrice(cartItems)));
+        cartInfoBar.setData(itemCount, String.valueOf(AppDatabase.getCartPrice(cartItems)));
     }
 
     void showCart() {

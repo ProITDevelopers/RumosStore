@@ -53,6 +53,14 @@ public class AppDatabase {
     //==========================================================================//
     //==========================================================================//
 
+    public static float getCartPrice(RealmResults<CartItemRevistas> cartItems) {
+        float price = 0f;
+        for (CartItemRevistas item : cartItems) {
+            price += item.revistas.getRevistaPreco() * item.quantity;
+        }
+        return price;
+    }
+
 
     /**
      * Adding product to cart

@@ -81,7 +81,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements CartRevis
 
     private void setTotalPrice() {
         if (cartItems != null) {
-            float price = Common.getCartPrice(cartItems);
+            float price = AppDatabase.getCartPrice(cartItems);
             if (price > 0) {
                 btnCheckout.setText(getString(R.string.btn_checkout, getString(R.string.price_with_currency, price)));
             } else {
