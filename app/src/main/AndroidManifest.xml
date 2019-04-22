@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="proitappsolutions.com.rumosstore">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -34,7 +35,7 @@
             android:name=".RegistroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telasIniciais.HomeInicialActivity"
+            android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

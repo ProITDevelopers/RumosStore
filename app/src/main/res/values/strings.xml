@@ -18,4 +18,21 @@
     <string name="lbl_item_price_quantity">%s x %d</string>
     <string name="price_with_currency">Kz%.2f</string>
     <string name="btn_checkout">CHECKOUT (%s)</string>
+    <string name="txtPerfil">Meu Perfil </string>
+    <string name="txtInfo">Informações </string>
+    <string name="txtTelefE">Telefone</string>
+    <string name="txtTelef">Telefone - </string>
+    <string name="txtProvinciaE">Cidade</string>
+    <string name="txtProvincia">Cidade - </string>
+    <string name="txtMunicipioE">Municipio</string>
+    <string name="txtMunicipio">Municipio - </string>
+    <string name="txtBairroE">Bairro</string>
+    <string name="txtBairro">Bairro - </string>
+    <string name="txtRuaE">Rua</string>
+    <string name="txtRua">Rua - </string>
+    <string name="txtGeneroE">Gênero</string>
+    <string name="txtGenero">Gênero - </string>
+    <string name="txtDataNascE">Data Nascimento</string>
+    <string name="txtDataNasc">Data Nascimento - </string>
+    <string name="hit_btn_salvar_dados">Salvar Dados</string>
 </resources>

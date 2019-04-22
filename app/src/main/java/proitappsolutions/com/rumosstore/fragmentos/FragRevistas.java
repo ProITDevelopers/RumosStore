@@ -25,26 +25,19 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.revistas.Kiosque;
-import proitappsolutions.com.rumosstore.revistas.KiosqueAdapter;
-import proitappsolutions.com.rumosstore.revistas.RevistaDetalheActivity;
-import proitappsolutions.com.rumosstore.revistas.Rumo;
-import proitappsolutions.com.rumosstore.revistas.RumoAdapter;
-import proitappsolutions.com.rumosstore.revistas.Vangarda;
-import proitappsolutions.com.rumosstore.revistas.VanguardaAdapter;
 
-
-public class FragQuiosque extends Fragment {
+public class FragRevistas extends Fragment {
 
     private AVLoadingIndicatorView progressBar;
     private FeatureCoverFlow coverFlow;
     private FeatureCoverFlow coverFlow2;
     private FeatureCoverFlow coverFlow3;
 
+    /*
     private KiosqueAdapter movieAdapter;
     private VanguardaAdapter movieAdapter2;
     private RumoAdapter movieAdapter3;
-
+*/
 
     private TextSwitcher mTitle;
     private TextSwitcher mTitle2;
@@ -52,12 +45,12 @@ public class FragQuiosque extends Fragment {
     private View view;
 
 
-
+    /*
     public static RealmResults<Kiosque> mercadoList;
     public static RealmResults<Vangarda> vanguardaList;
     public static RealmResults<Rumo> rumoList;
-
-    public FragQuiosque() {}
+*/
+    public FragRevistas() {}
 
 
 
@@ -71,7 +64,7 @@ public class FragQuiosque extends Fragment {
         progressBar = view.findViewById(R.id.progress);
 
 
-        initData();
+        //initData();
 
         mTitle = (TextSwitcher)view.findViewById(R.id.title);
         mTitle.setFactory(new ViewSwitcher.ViewFactory() {
@@ -89,7 +82,9 @@ public class FragQuiosque extends Fragment {
         mTitle.setInAnimation(in);
         mTitle.setOutAnimation(out);
 
+
         //
+        /*
         movieAdapter = new KiosqueAdapter(mercadoList,getContext());
 
         coverFlow = (FeatureCoverFlow)view.findViewById(R.id.coverflow);
@@ -228,16 +223,21 @@ public class FragQuiosque extends Fragment {
             coverFlow3.scrollToPosition(rumoList.size());
         }
 
+        */
+
         return view;
 
     }
 
+    /*
     private void initData() {
         mercadoList = AppDatabase.getMercadoList();
         vanguardaList = AppDatabase.getVanguardaList();
         rumoList = AppDatabase.getRumoList();
 
     }
+*/
+
 
 
 }

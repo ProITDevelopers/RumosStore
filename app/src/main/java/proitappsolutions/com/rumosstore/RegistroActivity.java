@@ -1,21 +1,30 @@
 package proitappsolutions.com.rumosstore;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import okhttp3.internal.http.RealResponseBody;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Erro;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import retrofit2.Call;
@@ -28,6 +37,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegistrar,btnLoginInicial;
     private String nome,email,senha,senhaConf;
     private ProgressDialog progressDialog;
+    private RelativeLayout errorLayout;
+    private RelativeLayout relLativeLayout;
+    private TextView btnTentarDeNovo;
     private Erro erro = new Erro();
 
     @Override
@@ -35,6 +47,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+        errorLayout = findViewById(R.id.erroLayout);
+        relLativeLayout = findViewById(R.id.relLativeLayout);
+        btnTentarDeNovo = findViewById(R.id.btnRecarregar);
+        btnTentarDeNovo.setText("Voltar");
         editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
         editTextEmailRegistro = findViewById(R.id.editTextEmailRegistro);
         editTextPassRegistro = findViewById(R.id.editTextPassRegistro);
@@ -59,11 +75,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.btnRegistrar:
                 if (verificarCampo()){
-                    if (Common.isConnected(10000))
-                        registrarUsuario();
-                    else
-                    Toast.makeText(this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
-
+                    verifConecxao();
                 }
                 break;
 
@@ -77,6 +89,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
     private boolean verificarCampo() {
 
         nome = editTextNomeRegistro.getText().toString();
@@ -87,25 +104,36 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
 
         if (nome.isEmpty()){
-            //editTextNomeRegistro.setErrorEnabled(true);
             editTextNomeRegistro.setError("Preencha o campo.");
             return false;
         }
 
         if (email.isEmpty()){
-            //editTextEmailRegistro.setErrorEnabled(true);
             editTextEmailRegistro.setError("Preencha o campo.");
             return false;
         }
 
+        if (MetodosComuns.validarEmail(email)){
+            editTextEmailRegistro.setError("Preencha o campo com um email.");
+            return false;
+        }
+
         if (senha.isEmpty()){
-            //editTextEmailRegistro.setErrorEnabled(true);
             editTextPassRegistro.setError("Preencha o campo.");
             return false;
         }
 
+        if (senha.length()<5){
+            editTextPassRegistro.setError("Senha fraca.");
+            return false;
+        }
+
+        if (senhaConf.length()<5){
+            editTextPassRegistro2.setError("Senha fraca.");
+            return false;
+        }
+
         if (!senha.equals(senhaConf)){
-            //editTextEmailRegistro.setErrorEnabled(true);
             editTextPassRegistro2.setError("As senhas devem ser iguais.");
             return false;
         }
@@ -116,6 +144,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     private void registrarUsuario(){
 
+        errorLayout.setVisibility(View.GONE);
         progressDialog.setMessage("Quase Pronto...!");
         progressDialog.show();
 
@@ -154,11 +183,49 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.i("onFailure","erro" + t.getMessage());
-                Toast.makeText(RegistroActivity.this,"Algum problema aconteceu.", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
+                verifConecxao();
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(RegistroActivity.this,
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(RegistroActivity.this,
+                                "Algum problema aconteceu. Tente novamente.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
 
+    }
+
+    private void verifConecxao() {
+        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            mostarMsnErro();
+        }else{
+            registrarUsuario();
+        }
+    }
+
+    private void mostarMsnErro(){
+
+        if (errorLayout.getVisibility() == View.GONE){
+            errorLayout.setVisibility(View.VISIBLE);
+            relLativeLayout.setVisibility(View.GONE);
+        }
+
+        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relLativeLayout.setVisibility(View.VISIBLE);
+                errorLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
 }

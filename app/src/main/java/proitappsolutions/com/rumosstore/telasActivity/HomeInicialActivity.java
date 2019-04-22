@@ -1,4 +1,4 @@
-package proitappsolutions.com.rumosstore.telasIniciais;
+package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -30,8 +30,10 @@ import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
+import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
+import proitappsolutions.com.rumosstore.fragmentos.FragRevistas;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
-import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistas;
+
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -142,7 +144,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-
         if (id == R.id.nav_home) {
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -150,9 +151,15 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+        }else if (id == R.id.nav_meu_perfil) {
+            FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragMeuPerfil);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_quiosque) {
-
-
             FragRevistas fragRevistas = new FragRevistas();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -160,10 +167,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
-        }
-
-
-        else if (id == R.id.nav_concurso) {
+        } else if (id == R.id.nav_concurso) {
 
             FragConcurso fragConcurso = new FragConcurso();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -172,10 +176,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
-        }
-
-
-        else if (id == R.id.nav_mercado) {
+        }else if (id == R.id.nav_mercado) {
 
             FragMercado fragMercado = new FragMercado();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
