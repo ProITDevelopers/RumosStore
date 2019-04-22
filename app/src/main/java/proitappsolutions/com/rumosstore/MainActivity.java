@@ -1,7 +1,6 @@
 package proitappsolutions.com.rumosstore;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.text.TextUtils;
 import proitappsolutions.com.rumosstore.revistas.Kiosque;
 import proitappsolutions.com.rumosstore.revistas.Rumo;
 import proitappsolutions.com.rumosstore.revistas.Vangarda;
-import proitappsolutions.com.rumosstore.telasIniciais.HomeInicialActivity;
+import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(AppPref.getInstance().getAuthToken())) {
             Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
+            Intent dados = getIntent();
+            if (dados != null){
+                intent.putExtra("nome",dados.getStringExtra("nome"));
+                intent.putExtra("email",dados.getStringExtra(dados.getStringExtra("email")));
+            }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         Intent intent = new Intent(MainActivity.this, HomeInicialActivity.class);
+        Intent dados = getIntent();
+        if (dados != null){
+            intent.putExtra("nome",dados.getStringExtra("nome"));
+            intent.putExtra("email",dados.getStringExtra("email"));
+        }
         startActivity(intent);
         finish();
     }

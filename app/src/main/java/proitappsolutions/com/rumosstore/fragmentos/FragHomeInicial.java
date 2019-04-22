@@ -1,6 +1,9 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +11,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
+
+import java.util.regex.Pattern;
 
 import proitappsolutions.com.rumosstore.Adapter.FeedAdapter;
 import proitappsolutions.com.rumosstore.R;
@@ -25,6 +35,9 @@ public class FragHomeInicial extends Fragment {
 
     RecyclerView recyclerView;
     RSSObjecto rssObjecto;
+    private LinearLayout linearLayout;
+    private RelativeLayout errorLayout;
+    private TextView btnRetry;
 
     private final String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
     private final String RSS_PARA_JSON_API = " https://api.rss2json.com/v1/api.json?rss_url=";
@@ -35,23 +48,55 @@ public class FragHomeInicial extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home_inicial, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
+        linearLayout = view.findViewById(R.id.linearLayout);
+        errorLayout = view.findViewById(R.id.erroLayout);
+        btnRetry = view.findViewById(R.id.btnRecarregar);
+        btnRetry.setText("Tentar novamente");
+        btnRetry.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        carregarRss();
+        verifConecxao();
         return view;
 
     }
 
+    private void verifConecxao(){
+        ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            mostarMsnErro();
+        }else{
+            carregarRss();
+        }
+    }
+    private void mostarMsnErro(){
+
+        if (errorLayout.getVisibility() == View.GONE){
+            errorLayout.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
+        }
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                verifConecxao();
+            }
+        });
+    }
+
+
     private void carregarRss() {
+
+        linearLayout.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.GONE);
 
         AsyncTask<String,String,String> carregaAsync = new AsyncTask<String, String, String>() {
 
-            ProgressDialog mDialog = new ProgressDialog(getContext());
+            //ProgressDialog mDialog = new ProgressDialog(getContext());
 
             @Override
             protected void onPreExecute() {
-                mDialog.setMessage("Aguarde");
-                mDialog.show();
+                //
             }
 
             @Override
@@ -64,7 +109,7 @@ public class FragHomeInicial extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
-                mDialog.dismiss();
+                //mDialog.dismiss();
                 rssObjecto = new Gson().fromJson(s,RSSObjecto.class);
                 FeedAdapter adapter = new FeedAdapter(rssObjecto,getContext());
                 recyclerView.setAdapter(adapter);

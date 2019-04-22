@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RumosStore</string>
+    <string name="app_name">Rumo Store</string>
     <string name="hit_nome">Nome</string>
     <string name="hit_nomeUser">Mel Chaves</string>
     <string name="hit_email">Email</string>
@@ -9,8 +9,25 @@
     <string name="hit_ja_tem_conta">Já tem uma conta? Entra aqui</string>
     <string name="hit_btn_entrar">ENTRAR</string>
     <string name="hit_btn_registrar">REGISTRAR</string>
+    <string name="hit_btn_salvar_dados">Salvar dados</string>
     <string name="hit_btn_registrate">NÃO TEM UMA CONTA ? REGISTRA-SE AQUI</string>
     <string name="navigation_drawer_abre"> </string>
     <string name="facebook_app_id">587866601707572</string>
     <string name="fb_login_protocol_scheme">fb587866601707572</string>
+    <string name="txtTelef">Telemôvel - </string>
+    <string name="txtTelefE">Telemôvel </string>
+    <string name="txtProvincia">Cidade - </string>
+    <string name="txtProvinciaE">Cidade </string>
+    <string name="txtMunicipio">Município - </string>
+    <string name="txtMunicipioE">Município </string>
+    <string name="txtBairro">Bairro - </string>
+    <string name="txtBairroE">Bairro </string>
+    <string name="txtRua">Rua - </string>
+    <string name="txtRuaE">Rua</string>
+    <string name="txtGenero">Gênero - </string>
+    <string name="txtGeneroE">Gênero</string>
+    <string name="txtDataNasc">Data Nascimento - </string>
+    <string name="txtDataNascE">Data Nascimento</string>
+    <string name="txtInfo">Editar Informações</string>
+    <string name="txtPerfil">Meu Perfil </string>
 </resources>

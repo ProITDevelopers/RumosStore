@@ -14,10 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgPublicacao"
+        <RelativeLayout
             android:layout_width="150dp"
-            android:layout_height="120dp" />
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/imgPublicacao"
+                android:layout_width="150dp"
+                android:layout_height="120dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_marginTop="40dp"
+                android:indeterminateDrawable="@drawable/cor_progress_bar"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

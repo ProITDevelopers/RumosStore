@@ -10,6 +10,11 @@
             android:icon="@drawable/ic_home"
             android:title="Inicio" />
 
+        <item
+            android:id="@+id/nav_meu_perfil"
+            android:icon="@drawable/ic_perfil"
+            android:title="Meu Perfil" />
+
     </group>
 
     <item
@@ -27,7 +32,7 @@
                 <item
                     android:id="@+id/nav_concurso"
                     android:icon="@drawable/logo_media_rumo"
-                    android:title="Concurso Media Rumo" />
+                    android:title="Sorteio Media Rumo" />
 
         <item
             android:id="@+id/nav_mercado"

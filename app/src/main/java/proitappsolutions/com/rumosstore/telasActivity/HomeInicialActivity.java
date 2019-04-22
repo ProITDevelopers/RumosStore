@@ -1,11 +1,10 @@
-package proitappsolutions.com.rumosstore.telasIniciais;
+package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,16 +24,15 @@ import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
+import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
 import proitappsolutions.com.rumosstore.fragmentos.FragQuiosque;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
-import proitappsolutions.com.rumosstore.modelo.EmSessao;
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,17 +40,13 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private TextView txtName;
     private TextView txtEmail;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_inicial);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Rumos Store");
+        toolbar.setTitle("Rumo Store");
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -121,19 +115,14 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.rumos_store, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             logOut();
             return true;
@@ -148,6 +137,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
+        //nav_meu_perfil
 
         if (id == R.id.nav_home) {
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
@@ -156,7 +146,16 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_quiosque) {
+        } else if (id == R.id.nav_meu_perfil) {
+
+            FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragMeuPerfil);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }else if (id == R.id.nav_quiosque) {
 
             FragQuiosque fragQuiosque = new FragQuiosque();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -166,7 +165,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         }
-
 
         else if (id == R.id.nav_concurso) {
 
@@ -210,7 +208,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }else if (id == R.id.nav_instagram) {
             openInstagram(Common.SOCIAL_INSTAGRAM);
         }  else if (id == R.id.nav_facebook) {
-
             openFbUrl(Common.SOCIAL_FACEBOOK);
         }
 

@@ -9,4 +9,5 @@
     <color name="black">#000000</color>
     <color name="statuscolor">#6c5642</color>
     <color name="colorExemplo">#beffffff</color>
+    <color name="corPercentagem">#b6b629</color>
 </resources>

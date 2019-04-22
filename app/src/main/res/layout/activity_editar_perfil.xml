@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/relativeLayoutEditarPerfil">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/relLayoutBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/colorBotaoLogin"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="@string/txtPerfil"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#6c5642"/>
+
+                    <FrameLayout android:id="@+id/my_ph"
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_imagem_perfilEditar"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_avatar"
+                            app:civ_border_color="@android:color/white"
+                            app:civ_border_width="3dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_alignParentTop="true"/>
+
+                        <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_photo_camera_24dp" />
+                    </FrameLayout>
+
+
+                    <TextView
+                        android:id="@+id/txtNameEditar"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hit_nomeUser"
+                        android:textColor="@android:color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/txtEmailEditar"
+                        android:textColor="@android:color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hit_emailUser"
+                        android:layout_marginBottom="@dimen/nav_item_baixo"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingLeft="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="#6c5642"
+                            android:text="@string/txtInfo"/>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
+
+                            <Button
+                                android:id="@+id/btnCancelarEdicao"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="@dimen/margem_cima"
+                                android:background="@drawable/ic_cancelar_24dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtProvinciaEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editTelefoneEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtTelefE"
+                                    android:inputType="number"
+                                    android:maxLength="9"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtCidadeEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editCidadeEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtProvinciaE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtMunicipioEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editMunicipioEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtMunicipioE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtBairroEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editBairroEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtBairroE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtRuaEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editRuaEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtRuaE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtGeneroEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editGeneroEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtGeneroE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:layout_height="wrap_content"
+                                android:theme="@style/MyEditTextTheme"
+                                android:id="@+id/txtDataNascEditar">
+
+                                <android.support.v7.widget.AppCompatEditText
+                                    android:id="@+id/editDataNascEditar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/txtDataNascE"
+                                    android:inputType="text"
+                                    android:theme="@style/MyEditTextTheme"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnSalvarDados"
+                        android:layout_width="270dp"
+                        android:layout_marginTop="33dp"
+                        android:layout_gravity="center"
+                        android:text="@string/hit_btn_salvar_dados"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/borda_arredondada_login"
+                        android:layout_height="44dp" />
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/relLayoutBar"
+            android:layout_alignParentBottom="true">
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

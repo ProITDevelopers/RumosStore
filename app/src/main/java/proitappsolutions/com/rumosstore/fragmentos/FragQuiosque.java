@@ -73,9 +73,6 @@ public class FragQuiosque extends Fragment {
 
         initData();
 
-
-
-
         mTitle = (TextSwitcher)view.findViewById(R.id.title);
         mTitle.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -230,8 +227,6 @@ public class FragQuiosque extends Fragment {
             coverFlow2.scrollToPosition(vanguardaList.size());
             coverFlow3.scrollToPosition(rumoList.size());
         }
-
-
 
         return view;
 

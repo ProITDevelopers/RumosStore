@@ -2,19 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="proitappsolutions.com.rumosstore">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher_media_rumo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_media_rumo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".revistas.RevistaDetalheActivity"></activity>
+        <activity android:name=".revistas.RevistaDetalheActivity" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -31,7 +32,7 @@
             android:name=".RegistroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".telasIniciais.HomeInicialActivity"
+            android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

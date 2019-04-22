@@ -1,17 +1,27 @@
 package proitappsolutions.com.rumosstore.Adapter;
 
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.CustomizarResultadoXml;
@@ -24,6 +34,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public TextView txtTitulo,txtDataPublicacao;
     //public TextView txtConteudo;
     public ImageView imgPublicacao;
+    public ProgressBar progress_bar;
     private ItemClickListener itemClickListener;
 
     public FeedViewHolder(View itemView){
@@ -32,6 +43,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
         txtTitulo = itemView.findViewById(R.id.titulo);
         txtDataPublicacao = itemView.findViewById(R.id.dataPublicacao);
+        progress_bar = itemView.findViewById(R.id.progress_bar);
         //txtConteudo = itemView.findViewById(R.id.conteudo);
         imgPublicacao = itemView.findViewById(R.id.imgPublicacao);
 
@@ -94,8 +106,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
 
         Glide
                 .with(mContext)
-                .load(resultadoXml.comecar())
-                .into(feedViewHolder.imgPublicacao);
+                .load(resultadoXml.comecar()).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                feedViewHolder.progress_bar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                feedViewHolder.progress_bar.setVisibility(View.GONE);
+                return false;
+            }
+        }).into(feedViewHolder.imgPublicacao);
+
 
         feedViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
