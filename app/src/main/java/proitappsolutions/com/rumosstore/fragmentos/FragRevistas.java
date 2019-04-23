@@ -25,6 +25,7 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.testeRealmDB.RevistasAdapter;
 
 public class FragRevistas extends Fragment {
 
@@ -33,11 +34,7 @@ public class FragRevistas extends Fragment {
     private FeatureCoverFlow coverFlow2;
     private FeatureCoverFlow coverFlow3;
 
-    /*
-    private KiosqueAdapter movieAdapter;
-    private VanguardaAdapter movieAdapter2;
-    private RumoAdapter movieAdapter3;
-*/
+    private RevistasAdapter revistasAdapter;
 
     private TextSwitcher mTitle;
     private TextSwitcher mTitle2;
@@ -45,11 +42,6 @@ public class FragRevistas extends Fragment {
     private View view;
 
 
-    /*
-    public static RealmResults<Kiosque> mercadoList;
-    public static RealmResults<Vangarda> vanguardaList;
-    public static RealmResults<Rumo> rumoList;
-*/
     public FragRevistas() {}
 
 
@@ -59,7 +51,7 @@ public class FragRevistas extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frag_quiosque, container, false);
+        view = inflater.inflate(R.layout.frag_revistas, container, false);
 
         progressBar = view.findViewById(R.id.progress);
 
@@ -82,19 +74,15 @@ public class FragRevistas extends Fragment {
         mTitle.setInAnimation(in);
         mTitle.setOutAnimation(out);
 
-
-        //
-        /*
-        movieAdapter = new KiosqueAdapter(mercadoList,getContext());
-
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasMercadoList(),getContext());
         coverFlow = (FeatureCoverFlow)view.findViewById(R.id.coverflow);
-        coverFlow.setAdapter(movieAdapter);
+        coverFlow.setAdapter(revistasAdapter);
 
 
         coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle.setText((position + 1)+" de "+mercadoList.size());
+                mTitle.setText((position + 1)+" de "+AppDatabase.getRevistasMercadoList().size());
             }
 
             @Override
@@ -107,17 +95,17 @@ public class FragRevistas extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (i<mercadoList.size()){
-                    mTitle.setText(mercadoList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","mercado");
+                if (i<AppDatabase.getRevistasMercadoList().size()){
+                    mTitle.setText(AppDatabase.getRevistasMercadoList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","mercado");
 //                    startActivity(intent);
                 }
             }
         });
 
-        //=========================================================================================
+        //===========================================VANGUARDA==============================================
         //=========================================================================================
 
         mTitle2 = (TextSwitcher)view.findViewById(R.id.title2);
@@ -133,16 +121,16 @@ public class FragRevistas extends Fragment {
         mTitle2.setInAnimation(in);
         mTitle2.setOutAnimation(out);
 
-        movieAdapter2 = new VanguardaAdapter(vanguardaList,getContext());
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasVanguardaList(),getContext());
 
         coverFlow2 = (FeatureCoverFlow)view.findViewById(R.id.coverflow2);
-        coverFlow2.setAdapter(movieAdapter2);
+        coverFlow2.setAdapter(revistasAdapter);
 
 
         coverFlow2.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle2.setText((position + 1)+" de "+vanguardaList.size());
+                mTitle2.setText((position + 1)+" de "+AppDatabase.getRevistasVanguardaList().size());
             }
 
             @Override
@@ -156,11 +144,11 @@ public class FragRevistas extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if (i<vanguardaList.size()){
-                    mTitle2.setText(vanguardaList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","vanguarda");
+                if (i<AppDatabase.getRevistasVanguardaList().size()){
+                    mTitle2.setText(AppDatabase.getRevistasVanguardaList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","vanguarda");
 //                    startActivity(intent);
                 }
 
@@ -168,7 +156,7 @@ public class FragRevistas extends Fragment {
         });
 
 
-        //=========================================================================================
+        //==============================================RUMO===========================================
         //=========================================================================================
 
         mTitle3 = (TextSwitcher)view.findViewById(R.id.title3);
@@ -184,17 +172,15 @@ public class FragRevistas extends Fragment {
         mTitle3.setInAnimation(in);
         mTitle3.setOutAnimation(out);
 
-        movieAdapter3 = new RumoAdapter(rumoList,getContext());
-
-
+        revistasAdapter = new RevistasAdapter(AppDatabase.getRevistasRumoList(),getContext());
         coverFlow3 = (FeatureCoverFlow)view.findViewById(R.id.coverflow3);
-        coverFlow3.setAdapter(movieAdapter3);
+        coverFlow3.setAdapter(revistasAdapter);
 
 
         coverFlow3.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
             @Override
             public void onScrolledToPosition(int position) {
-                mTitle3.setText((position + 1)+" de "+rumoList.size());
+                mTitle3.setText((position + 1)+" de "+AppDatabase.getRevistasRumoList().size());
             }
 
             @Override
@@ -207,36 +193,28 @@ public class FragRevistas extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (i<rumoList.size()){
-                    mTitle3.setText(rumoList.get(i).getName());
-//                    Intent intent = new Intent(getContext(), RevistaDetalheActivity.class);
-//                    intent.putExtra("movie_index",i);
-//                    intent.putExtra("type","rumo");
+                if (i<AppDatabase.getRevistasRumoList().size()){
+                    mTitle3.setText(AppDatabase.getRevistasRumoList().get(i).getRevistaNome());
+//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
+//                    intent.putExtra("index",i);
+//                    intent.putExtra("categoria","rumo");
 //                    startActivity(intent);
                 }
             }
         });
 
-        if (mercadoList.size()>0 && vanguardaList.size()>0 && rumoList.size()>0){
-            coverFlow.scrollToPosition(mercadoList.size());
-            coverFlow2.scrollToPosition(vanguardaList.size());
-            coverFlow3.scrollToPosition(rumoList.size());
+        if (AppDatabase.getRevistasRumoList().size()>0 && AppDatabase.getRevistasRumoList().size()>0 && AppDatabase.getRevistasRumoList().size()>0){
+            coverFlow.scrollToPosition(AppDatabase.getRevistasMercadoList().size());
+            coverFlow2.scrollToPosition(AppDatabase.getRevistasVanguardaList().size());
+            coverFlow3.scrollToPosition(AppDatabase.getRevistasRumoList().size());
         }
 
-        */
 
         return view;
 
     }
 
-    /*
-    private void initData() {
-        mercadoList = AppDatabase.getMercadoList();
-        vanguardaList = AppDatabase.getVanguardaList();
-        rumoList = AppDatabase.getRumoList();
 
-    }
-*/
 
 
 
