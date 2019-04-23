@@ -154,7 +154,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btnTentarDeNovo = findViewById(R.id.btnRecarregar);
         btnTentarDeNovo.setText("Voltar");
 
-        //loader = findViewById(R.id.loader);
     }
 
     @Override
@@ -170,8 +169,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intentRegistrar);
                 break;
 
-//            case R.id.btnLogFb:
-//                break;
         }
 
     }

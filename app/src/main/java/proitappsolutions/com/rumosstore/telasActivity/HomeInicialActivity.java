@@ -60,7 +60,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
 
-
+        //carregar dados do User
         loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

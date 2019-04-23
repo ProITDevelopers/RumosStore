@@ -58,6 +58,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         relativeLayoutEditarPerfil = view.findViewById(R.id.relativeLayoutEditarPerfil);
         relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
 
+        //carregar dados do User
         loaduserProfile(AppDatabase.getUser());
 
         //editarPerfil layout
