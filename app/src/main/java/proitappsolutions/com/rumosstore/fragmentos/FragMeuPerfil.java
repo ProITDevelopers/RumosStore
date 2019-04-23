@@ -15,8 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.Usuario;
 
 public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
@@ -54,6 +58,8 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         relativeLayoutEditarPerfil = view.findViewById(R.id.relativeLayoutEditarPerfil);
         relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
 
+        loaduserProfile(AppDatabase.getUser());
+
         //editarPerfil layout
         editTelefoneEditar = relativeLayoutEditarPerfil.findViewById(R.id.editTelefoneEditar);
         editCidadeEditar = relativeLayoutEditarPerfil.findViewById(R.id.editCidadeEditar);
@@ -70,6 +76,32 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         btnSalvarDados.setOnClickListener(FragMeuPerfil.this);
 
         return view;
+
+    }
+
+    private void loaduserProfile(Usuario usuario){
+
+        if (usuario !=null){
+
+            if (usuario.getUsuarioLoginFrom().equals("userApi")){
+                txtName.setText(usuario.getUsuarioNome());
+                txtEmail.setText(usuario.getUsuarioEmail());
+            } else {
+
+                Picasso.with(getContext())
+                        .load(usuario.getUsuarioPic())
+                        .placeholder(R.drawable.ic_avatar)
+                        .into(iv_imagem_perfil);
+
+                txtName.setText(usuario.getUsuarioNome());
+                txtEmail.setText(usuario.getUsuarioEmail());
+
+            }
+
+
+        }
+
+
 
     }
 

@@ -85,8 +85,13 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btnLogFb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginButton.performClick();
-                btnLogFb.setEnabled(false);
+                if (Common.isConnected(10000)) {
+                    loginButton.performClick();
+                    btnLogFb.setEnabled(false);
+                }else{
+                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -130,6 +135,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void inicializar() {
+        loader = findViewById(R.id.loader);
         editTextEmailLogin = findViewById(R.id.editTextEmaiLogin);
         editTextPasslLogin= findViewById(R.id.editTextPasslLogin);
         btnLogFb = findViewById(R.id.btnLogFb);
@@ -283,6 +289,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
 
                     Common.mCurrentUser = new Usuario(id,email,name,image_url);
+                    Common.mCurrentUser.setUsuarioLoginFrom("userFacebook");
 
                     AppDatabase.saveUser(Common.mCurrentUser);
                     AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
