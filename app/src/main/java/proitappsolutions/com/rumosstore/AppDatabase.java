@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import proitappsolutions.com.rumosstore.testeRealmDB.CartItemRevistas;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class AppDatabase {
@@ -52,65 +51,6 @@ public class AppDatabase {
     }
     //==========================================================================//
     //==========================================================================//
-
-    public static float getCartPrice(RealmResults<CartItemRevistas> cartItems) {
-        float price = 0f;
-        for (CartItemRevistas item : cartItems) {
-            price += item.revistas.getRevistaPreco() * item.quantity;
-        }
-        return price;
-    }
-
-
-    /**
-     * Adding product to cart
-     * Will create a new cart entry if there is no cart created yet
-     * Will increase the product quantity count if the item exists already
-     */
-
-    public static void addRevistaItemToCart(Revistas revistas) {
-        initNewCartRevistas(revistas);
-    }
-
-    private static void initNewCartRevistas(Revistas revistas) {
-        Realm.getDefaultInstance().executeTransaction(realm -> {
-            CartItemRevistas cartItem = realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", revistas.getRevistaID()).findFirst();
-            if (cartItem == null) {
-                CartItemRevistas ci = new CartItemRevistas();
-                ci.revistas = revistas;
-                ci.quantity = 1;
-                realm.copyToRealmOrUpdate(ci);
-            } else {
-                cartItem.quantity += 1;
-                realm.copyToRealmOrUpdate(cartItem);
-            }
-        });
-    }
-
-    public static void removeRevistaCartItem(Revistas revistas) {
-        Realm.getDefaultInstance().executeTransaction(realm -> {
-            CartItemRevistas cartItem = realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", revistas.getRevistaID()).findFirst();
-            if (cartItem != null) {
-                if (cartItem.quantity == 1) {
-                    cartItem.deleteFromRealm();
-                } else {
-                    cartItem.quantity -= 1;
-                    realm.copyToRealmOrUpdate(cartItem);
-                }
-            }
-        });
-    }
-
-    public static void removeCartRevistaItem(CartItemRevistas cartItem) {
-        Realm.getDefaultInstance().executeTransaction(realm -> realm.where(CartItemRevistas.class).equalTo("revistas.revistaID", cartItem.revistas.getRevistaID()).findAll().deleteAllFromRealm());
-    }
-
-
-
-
-    public static void clearRevistaCart() {
-        Realm.getDefaultInstance().executeTransactionAsync(realm -> realm.delete(CartItemRevistas.class));
-    }
 
 
 

@@ -13,18 +13,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import proitappsolutions.com.rumosstore.AppDatabase;
-import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.testeRealmDB.RevistaViewActivity;
 import proitappsolutions.com.rumosstore.testeRealmDB.RevistasAdapter;
 
 public class FragRevistas extends Fragment {
@@ -97,10 +93,9 @@ public class FragRevistas extends Fragment {
 
                 if (i<AppDatabase.getRevistasMercadoList().size()){
                     mTitle.setText(AppDatabase.getRevistasMercadoList().get(i).getRevistaNome());
-//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
-//                    intent.putExtra("index",i);
-//                    intent.putExtra("categoria","mercado");
-//                    startActivity(intent);
+                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
+                    intent.putExtra("ViewType",AppDatabase.getRevistasMercadoList().get(i).getRevistaPDFLink());
+                    startActivity(intent);
                 }
             }
         });
@@ -146,10 +141,9 @@ public class FragRevistas extends Fragment {
 
                 if (i<AppDatabase.getRevistasVanguardaList().size()){
                     mTitle2.setText(AppDatabase.getRevistasVanguardaList().get(i).getRevistaNome());
-//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
-//                    intent.putExtra("index",i);
-//                    intent.putExtra("categoria","vanguarda");
-//                    startActivity(intent);
+                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
+                    intent.putExtra("ViewType",AppDatabase.getRevistasVanguardaList().get(i).getRevistaPDFLink());
+                    startActivity(intent);
                 }
 
             }
@@ -195,10 +189,9 @@ public class FragRevistas extends Fragment {
 
                 if (i<AppDatabase.getRevistasRumoList().size()){
                     mTitle3.setText(AppDatabase.getRevistasRumoList().get(i).getRevistaNome());
-//                    Intent intent = new Intent(getContext(), RevistasDetalheActivity.class);
-//                    intent.putExtra("index",i);
-//                    intent.putExtra("categoria","rumo");
-//                    startActivity(intent);
+                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
+                    intent.putExtra("ViewType",AppDatabase.getRevistasRumoList().get(i).getRevistaPDFLink());
+                    startActivity(intent);
                 }
             }
         });

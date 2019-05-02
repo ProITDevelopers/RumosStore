@@ -11,12 +11,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.login.LoginManager;
+
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -93,25 +94,17 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         if (usuario !=null){
 
-            if (usuario.getUsuarioLoginFrom().equals("userApi")){
-                txtName.setText(usuario.getUsuarioNome());
-                txtEmail.setText(usuario.getUsuarioEmail());
-            } else {
+            txtName.setText(usuario.getUsuarioNome());
+            txtEmail.setText(usuario.getUsuarioEmail());
 
+            if (usuario.getUsuarioPic()!=null || !TextUtils.isEmpty(usuario.getUsuarioPic())){
                 Picasso.with(HomeInicialActivity.this)
                         .load(usuario.getUsuarioPic())
                         .placeholder(R.drawable.ic_avatar)
                         .into(circleImageView);
-
-                txtName.setText(usuario.getUsuarioNome());
-                txtEmail.setText(usuario.getUsuarioEmail());
-
             }
 
-
         }
-
-
 
     }
 
@@ -145,6 +138,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_home) {
+            toolbar.setTitle("Rumo Store");
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -152,6 +146,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }else if (id == R.id.nav_meu_perfil) {
+            toolbar.setTitle("Perfil");
             FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -160,6 +155,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_quiosque) {
+            toolbar.setTitle("Quiosque");
             FragRevistas fragRevistas = new FragRevistas();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -168,7 +164,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_concurso) {
-
+            toolbar.setTitle("Sorteio Media Rumo");
             FragConcurso fragConcurso = new FragConcurso();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -177,7 +173,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_mercado) {
-
+            toolbar.setTitle("Rumo Store");
             FragMercado fragMercado = new FragMercado();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -186,7 +182,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_vanguarda) {
-
+            toolbar.setTitle("Rumo Store");
             FragVanguarda fragVanguarda = new FragVanguarda();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -195,7 +191,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_rumo) {
-
+            toolbar.setTitle("Rumo Store");
             FragMediaRumo fragMediaRumo = new FragMediaRumo();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -220,7 +216,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     }
 
     private void logOut(){
-        LoginManager.getInstance().logOut();
+
         AppDatabase.clearData();
         AppPref.getInstance().clearData();
 

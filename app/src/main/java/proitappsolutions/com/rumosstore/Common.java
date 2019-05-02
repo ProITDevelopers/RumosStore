@@ -17,8 +17,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.realm.RealmResults;
-import proitappsolutions.com.rumosstore.testeRealmDB.CartItemRevistas;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,27 +85,21 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
         if (usuario !=null){
 
-            if (usuario.getUsuarioLoginFrom().equals("userApi")){
-                txtName.setText(usuario.getUsuarioNome());
-                txtEmail.setText(usuario.getUsuarioEmail());
-            } else {
+            txtName.setText(usuario.getUsuarioNome());
+            txtEmail.setText(usuario.getUsuarioEmail());
 
+            if (usuario.getUsuarioPic()!=null || !TextUtils.isEmpty(usuario.getUsuarioPic())){
                 Picasso.with(getContext())
                         .load(usuario.getUsuarioPic())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
-
-                txtName.setText(usuario.getUsuarioNome());
-                txtEmail.setText(usuario.getUsuarioEmail());
-
             }
-
 
         }
 
-
-
     }
+
+
 
     @Override
     public void onClick(View view) {

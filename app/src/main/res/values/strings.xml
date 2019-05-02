@@ -11,8 +11,6 @@
     <string name="hit_btn_registrar">REGISTRAR</string>
     <string name="hit_btn_registrate">NÃO TEM UMA CONTA ? REGISTRA-SE AQUI</string>
     <string name="navigation_drawer_abre"> </string>
-    <string name="facebook_app_id">587866601707572</string>
-    <string name="fb_login_protocol_scheme">fb587866601707572</string>
     <string name="lbl_view_cart">VIEW CART</string>
     <string name="cart_info_bar_data">%d Items | Kz%s</string>
     <string name="lbl_item_price_quantity">%s x %d</string>

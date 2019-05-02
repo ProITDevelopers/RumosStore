@@ -15,25 +15,20 @@ public class Usuario extends RealmObject {
     @SerializedName("usuarioPic")
     private String usuarioPic;
     public String usuarioToken;
-    public String usuarioLoginFrom;
+
 
 
 
 
     public Usuario() {}
 
-    public Usuario(String usuarioId, String usuarioEmail, String usuarioNome, String usuarioPic) {
+    public Usuario(String usuarioId, String usuarioEmail, String usuarioNome) {
         this.usuarioId = usuarioId;
         this.usuarioEmail = usuarioEmail;
         this.usuarioNome = usuarioNome;
-        this.usuarioPic = usuarioPic;
     }
 
-    public Usuario(String usuarioNome, String usuarioEmail, String usuarioLoginFrom) {
-        this.usuarioNome = usuarioNome;
-        this.usuarioEmail = usuarioEmail;
-        this.usuarioLoginFrom = usuarioLoginFrom;
-    }
+
 
     public String getUsuarioId() {
         return usuarioId;
@@ -67,11 +62,5 @@ public class Usuario extends RealmObject {
         this.usuarioPic = usuarioPic;
     }
 
-    public String getUsuarioLoginFrom() {
-        return usuarioLoginFrom;
-    }
 
-    public void setUsuarioLoginFrom(String usuarioLoginFrom) {
-        this.usuarioLoginFrom = usuarioLoginFrom;
-    }
 }

@@ -3,7 +3,6 @@ package proitappsolutions.com.rumosstore;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.facebook.AccessToken;
 import com.google.gson.Gson;
 
 public class AppPref {

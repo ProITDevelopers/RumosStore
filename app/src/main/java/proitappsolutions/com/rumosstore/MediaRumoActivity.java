@@ -21,16 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.wang.avi.AVLoadingIndicatorView;
+
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,12 +49,8 @@ import retrofit2.Response;
 public class MediaRumoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmailLogin,editTextPasslLogin;
-    private ImageView btnLogFb;
     private Button btnEntrar,btnRegistrate;
-    private LoginButton loginButton;
-    private AVLoadingIndicatorView loader;
-    private CallbackManager callbackManager;
-    private AccessToken accessToken;
+
     private ProgressDialog progressDialog;
     private RelativeLayout errorLayout;
     private RelativeLayout relativeLayout;
@@ -78,67 +66,14 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         inicializar();
 
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
-
-        btnLogFb.setEnabled(true);
-        btnLogFb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Common.isConnected(10000)) {
-                    loginButton.performClick();
-                    btnLogFb.setEnabled(false);
-                }else{
-                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessToken = loginResult.getAccessToken();
-
-                btnLogFb.setEnabled(false);
-                loader.setVisibility(View.VISIBLE);
-
-                if (!Common.isConnected(10000)) {
-                    Toast.makeText(MediaRumoActivity.this, "Verifique a sua ligação à internet", Toast.LENGTH_SHORT).show();
-                    loader.setVisibility(View.INVISIBLE);
-                    LoginManager.getInstance().logOut();
-
-                    btnLogFb.setEnabled(true);
-
-                } else{
-                    loaduserProfile(accessToken);
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                loader.setVisibility(View.INVISIBLE);
-                btnLogFb.setEnabled(true);
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                loader.setVisibility(View.INVISIBLE);
-                btnLogFb.setEnabled(true);
-
-            }
-        });
 
         verifConecxao();
     }
 
     private void inicializar() {
-        loader = findViewById(R.id.loader);
+
         editTextEmailLogin = findViewById(R.id.editTextEmaiLogin);
         editTextPasslLogin= findViewById(R.id.editTextPasslLogin);
-        btnLogFb = findViewById(R.id.btnLogFb);
         btnEntrar= findViewById(R.id.btnEntrar);
         btnRegistrate = findViewById(R.id.btnRegistrate);
         btnEntrar.setOnClickListener(MediaRumoActivity.this);
@@ -147,7 +82,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-        loginButton = findViewById(R.id.loginBtn);
+
 
         errorLayout = findViewById(R.id.erroLayout);
         relativeLayout = findViewById(R.id.relativeLayout);
@@ -196,7 +131,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 
-                    Common.mCurrentUser = new Usuario(data.getEmSessao().getNome(),data.getEmSessao().getEmail(),"userApi");
+                    Common.mCurrentUser = new Usuario("usuarioId",data.getEmSessao().getEmail(),data.getEmSessao().getNome());
                     AppDatabase.saveUser(Common.mCurrentUser);
                     AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     launchHomeScreen();
@@ -262,50 +197,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    private void loaduserProfile(AccessToken newAccessToken){
-
-        loader.setVisibility(View.VISIBLE);
-
-        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-
-                try {
-                    String first_name = object.getString("first_name");
-                    String last_name = object.getString("last_name");
-                    String email = object.getString("email");
-                    String id = object.getString("id");
-                    String name = first_name + " "+last_name;
-
-                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
-
-                    Common.mCurrentUser = new Usuario(id,email,name,image_url);
-                    Common.mCurrentUser.setUsuarioLoginFrom("userFacebook");
-
-                    AppDatabase.saveUser(Common.mCurrentUser);
-                    AppPref.getInstance().saveAuthToken(newAccessToken.getToken());
-                    launchHomeScreen();
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,email,id");
-        request.setParameters(parameters);
-        request.executeAsync();
-
-    }
 
     private void launchHomeScreen() {
         Intent intent = new Intent(MediaRumoActivity.this, MainActivity.class);

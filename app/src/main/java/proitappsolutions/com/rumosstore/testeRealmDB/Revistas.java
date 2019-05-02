@@ -12,16 +12,17 @@ public class Revistas extends RealmObject {
     private String revistaNome;
     @SerializedName("revistaLink")
     private String revistaLink;
-    private float revistaPreco;
+    @SerializedName("revistaPDFLink")
+    private String revistaPDFLink;
     private String revistaCategoria;
 
     public Revistas() {}
 
-    public Revistas(int revistaID, String revistaNome, String revistaLink, float revistaPreco, String revistaCategoria) {
+    public Revistas(int revistaID, String revistaNome, String revistaLink, String revistaPDFLink, String revistaCategoria) {
         this.revistaID = revistaID;
         this.revistaNome = revistaNome;
         this.revistaLink = revistaLink;
-        this.revistaPreco = revistaPreco;
+        this.revistaPDFLink = revistaPDFLink;
         this.revistaCategoria = revistaCategoria;
     }
 
@@ -49,12 +50,12 @@ public class Revistas extends RealmObject {
         this.revistaLink = revistaLink;
     }
 
-    public float getRevistaPreco() {
-        return revistaPreco;
+    public String getRevistaPDFLink() {
+        return revistaPDFLink;
     }
 
-    public void setRevistaPreco(float revistaPreco) {
-        this.revistaPreco = revistaPreco;
+    public void setRevistaPDFLink(String revistaPDFLink) {
+        this.revistaPDFLink = revistaPDFLink;
     }
 
     public String getRevistaCategoria() {

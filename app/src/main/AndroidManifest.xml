@@ -4,8 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -15,10 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_media_rumo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".testeRealmDB.ShoppingCartActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".testeRealmDB.RevistasDetalheActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".testeRealmDB.RevistaViewActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -37,15 +37,6 @@
         <activity
             android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
     </application>
 
 </manifest>
