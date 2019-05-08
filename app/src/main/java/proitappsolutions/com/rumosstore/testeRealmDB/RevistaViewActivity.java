@@ -3,16 +3,16 @@ package proitappsolutions.com.rumosstore.testeRealmDB;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
@@ -27,6 +27,7 @@ import com.krishna.fileloader.request.FileLoadRequest;
 
 import java.io.File;
 
+
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
@@ -35,6 +36,7 @@ public class RevistaViewActivity extends AppCompatActivity {
     private PDFView pdfView;
     private ProgressBar progressBar;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,12 @@ public class RevistaViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
 
         if (getIntent() != null){
             String viewType = getIntent().getStringExtra("ViewType");
             if (viewType != null || !TextUtils.isEmpty(viewType)){
-
 
                     progressBar.setVisibility(View.VISIBLE);
 
@@ -76,7 +76,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             .enableSwipe(true)
                                             .swipeHorizontal(false)
                                             .enableDoubletap(true) // Double tap to zoom
-                                            .onDraw(new OnDrawListener() {
+                                            .onDraw(new ViewTreeObserver.OnDrawListener() {
                                                 @Override
                                                 public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
                                                     // Code here if you want to do something

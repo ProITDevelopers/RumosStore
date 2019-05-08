@@ -125,9 +125,9 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                 //response.body()==null
                 if (response.isSuccessful()){
-
                     data = response.body();
                     progressDialog.dismiss();
+                    Log.d("autenticacaoVerif",data.getEmSessao().getId());
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 

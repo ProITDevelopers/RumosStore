@@ -16,10 +16,6 @@ public class Usuario extends RealmObject {
     private String usuarioPic;
     public String usuarioToken;
 
-
-
-
-
     public Usuario() {}
 
     public Usuario(String usuarioId, String usuarioEmail, String usuarioNome) {
@@ -61,6 +57,4 @@ public class Usuario extends RealmObject {
     public void setUsuarioPic(String usuarioPic) {
         this.usuarioPic = usuarioPic;
     }
-
-
 }

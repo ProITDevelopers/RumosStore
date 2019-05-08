@@ -119,6 +119,9 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
             case R.id.btnSalvarDados:
                 verificarCampos();
                 break;
+            case R.id.iv_imagem_perfil:
+                //
+                break;
         }
     }
 

@@ -96,10 +96,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     private boolean verificarCampo() {
 
-        nome = editTextNomeRegistro.getText().toString();
-        email = editTextEmailRegistro.getText().toString();
-        senha = editTextPassRegistro.getText().toString();
-        senhaConf = editTextPassRegistro2.getText().toString();
+        nome = editTextNomeRegistro.getText().toString().trim();
+        email = editTextEmailRegistro.getText().toString().trim();
+        senha = editTextPassRegistro.getText().toString().trim();
+        senhaConf = editTextPassRegistro2.getText().toString().trim();
 
 
 
@@ -113,7 +113,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if (MetodosComuns.validarEmail(email)){
+        if (!MetodosComuns.validarEmail(email)){
             editTextEmailRegistro.setError("Preencha o campo com um email.");
             return false;
         }
@@ -137,9 +137,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             editTextPassRegistro2.setError("As senhas devem ser iguais.");
             return false;
         }
-
         return true;
-
     }
 
     private void registrarUsuario(){

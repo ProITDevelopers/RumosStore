@@ -8,8 +8,16 @@ public class EmSessao {
     private String nome;
     @SerializedName("email")
     private String email;
+    @SerializedName("id")
+    private String id;
 
     public EmSessao() {
+    }
+
+    public EmSessao(String nome, String email, String id) {
+        this.nome = nome;
+        this.email = email;
+        this.id = id;
     }
 
     public EmSessao(String nome, String email) {
@@ -31,5 +39,13 @@ public class EmSessao {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
