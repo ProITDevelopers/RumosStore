@@ -54,7 +54,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null);
+        navigationView.setItemIconTintList(null); 
         View headerView = navigationView.getHeaderView(0);
 
         circleImageView = (CircleImageView) headerView.findViewById(R.id.iv_imagem_perfil);
