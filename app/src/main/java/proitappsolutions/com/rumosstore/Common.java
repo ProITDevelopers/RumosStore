@@ -32,9 +32,6 @@ public class Common {
     public static String SOCIAL_INSTAGRAM = "revistarumo";
 
 
-
-
-
     public static void changeStatusBarColor(Activity activity, int color) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
