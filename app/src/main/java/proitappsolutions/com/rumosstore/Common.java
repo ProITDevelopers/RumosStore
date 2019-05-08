@@ -24,8 +24,6 @@ public class Common {
 
     public static List<Revistas> revistasArrayList = new ArrayList<>();
 
-    //
-
     public static final int GALLERY_PICK = 1;
 
     public static final String PAYPAL_CLIENT_ID = "AcWb_OrCdYDpYwI0UL_jQ3Az-dj0akEzIxFLj8yVWCDP9gW8d36a38sfyPHhDC4DNZjZ5ORtzj6rXPUh";
