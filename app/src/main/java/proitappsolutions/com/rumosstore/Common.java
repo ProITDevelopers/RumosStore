@@ -21,14 +21,13 @@ import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {
 
-
     public static List<Revistas> revistasArrayList = new ArrayList<>();
-    
+
     public static Usuario mCurrentUser;
 
     public static final String DB_REALM = "rumos_store_db";
 
-    //Your social Page ID or Username here. Not links....
+    //Your social Page ID or Username here.
     public static String SOCIAL_FACEBOOK = "Media-Rumo";
     public static String SOCIAL_INSTAGRAM = "revistarumo";
 
