@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -17,8 +16,9 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_media_rumo_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".testeRealmDB.RevistaViewActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".testeRealmDB.RevistaViewActivity" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -37,6 +37,7 @@
         <activity
             android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".telasActivity.DetalheNoticiaActivity"></activity>
     </application>
 
 </manifest>
