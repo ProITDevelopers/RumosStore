@@ -14,13 +14,11 @@ public class Usuario extends RealmObject {
     private String usuarioNome;
     @SerializedName("usuarioPic")
     private String usuarioPic;
-    public String usuarioToken;
-
-
-
+    
 
 
     public Usuario() {}
+
 
     public Usuario(String usuarioId, String usuarioEmail, String usuarioNome) {
         this.usuarioId = usuarioId;
