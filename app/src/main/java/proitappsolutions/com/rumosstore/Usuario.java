@@ -14,7 +14,7 @@ public class Usuario extends RealmObject {
     private String usuarioNome;
     @SerializedName("usuarioPic")
     private String usuarioPic;
-    
+
 
 
     public Usuario() {}
