@@ -49,7 +49,7 @@ public class FragHomeInicial extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         errorLayout = view.findViewById(R.id.erroLayout);
         linearLayout = view.findViewById(R.id.linearLayout);
-        btnTentarDeNovo = view.findViewById(R.id.btnRecarregar);
+        btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);

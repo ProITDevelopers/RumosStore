@@ -49,7 +49,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         errorLayout = findViewById(R.id.erroLayout);
         relLativeLayout = findViewById(R.id.relLativeLayout);
-        btnTentarDeNovo = findViewById(R.id.btnRecarregar);
+        btnTentarDeNovo = findViewById(R.id.btn);
         btnTentarDeNovo.setText("Voltar");
         editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
         editTextEmailRegistro = findViewById(R.id.editTextEmailRegistro);

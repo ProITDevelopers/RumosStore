@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.CustomizarResultadoXml;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
 import proitappsolutions.com.rumosstore.rssFeed.rssInterface.ItemClickListener;
+import proitappsolutions.com.rumosstore.telasActivity.DetalheNoticiaActivity;
 
 class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
 
@@ -120,13 +122,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
             }
         }).into(feedViewHolder.imgPublicacao);
 
-
         feedViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 if (!isLongClick){
-                    Intent browserItent = new Intent(Intent.ACTION_VIEW, Uri.parse(rssObjecto.getItems().get(i).getLink()));
-                    mContext.startActivity(browserItent);
+                    Intent intent = new Intent(mContext,DetalheNoticiaActivity.class);
+                    intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
+                    intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
+                    intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
+                    /*if (resultadoXmlConteudo.conteudo().get(i).length() != 0){
+                        Log.i("xxx","entrou");
+                        intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(i));
+                    }*/
+                    mContext.startActivity(intent);
                 }
             }
         });

@@ -86,7 +86,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         errorLayout = findViewById(R.id.erroLayout);
         relativeLayout = findViewById(R.id.relativeLayout);
-        btnTentarDeNovo = findViewById(R.id.btnRecarregar);
+        btnTentarDeNovo = findViewById(R.id.btn);
         btnTentarDeNovo.setText("Voltar");
 
     }
@@ -131,7 +131,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 
-                    Common.mCurrentUser = new Usuario("usuarioId",data.getEmSessao().getEmail(),data.getEmSessao().getNome());
+                    Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
                     AppDatabase.saveUser(Common.mCurrentUser);
                     AppPref.getInstance().saveAuthToken("ksaksnaksa");
                     launchHomeScreen();

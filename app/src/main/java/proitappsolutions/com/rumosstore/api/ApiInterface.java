@@ -31,30 +31,10 @@ public interface ApiInterface {
             @Path("id") String id,
             @Field("provincia") String cidade,
             @Field("municipio") String municipio,
-            @Field("bairro") String bairro,
             @Field("rua") String rua,
             @Field("sexo") String sexo,
             @Field("dataNascimento") String dataNascimento,
             @Field("telefone") String telefone
     );
-
-    /*
-    @Multipart
-    @POST("/cja")
-    Call<ResponseBody> registrarUsuario(
-            @Part("nomeProprio") RequestBody nomeProprio,
-            @Part("apelido") RequestBody apelido,
-            @Part("dataNascimento") RequestBody dataNascimento,
-            @Part("bi") RequestBody bi,
-            @Part("genero") RequestBody genero,
-            @Part("telemovel") RequestBody telemovel,
-            @Part("cidade") RequestBody cidade,
-            @Part("rua") RequestBody rua,
-            @Part("email") RequestBody email,
-            @Part MultipartBody.Part imagem
-    ); **/
-
-
-
 
 }

@@ -272,5 +272,7 @@
 
     <include layout="@layout/activity_editar_perfil" />
 
+    <include layout="@layout/activity_sem_internet" />
+
 
 </RelativeLayout>

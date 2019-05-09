@@ -46,9 +46,9 @@ public class CustomizarResultadoXml {
             temp = temp.substring(0,index);
             Log.d("conteudo","CORTANDO " + temp);
             resultado.add(temp);
+            resultado.add(".");
             Log.d("resultadoConteudo","CORTANDO " + resultado);
         }
-
         return resultado;
     }
 }

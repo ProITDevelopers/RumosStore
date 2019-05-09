@@ -47,7 +47,7 @@ public class FragConcurso extends Fragment {
 
         coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
         errorLayout = view.findViewById(R.id.erroLayout);
-        btnTentarDeNovo = view.findViewById(R.id.btnRecarregar);
+        btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
 

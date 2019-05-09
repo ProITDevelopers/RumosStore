@@ -27,14 +27,14 @@
             android:text="A Conexão à Internet talvez esteja inativa."/>
 
         <TextView
-        android:id="@+id/btnRecarregar"
+        android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:padding="10dp"
-        android:text="Recarregar"/>
+        android:text="Voltar"/>
 
     </LinearLayout>
 

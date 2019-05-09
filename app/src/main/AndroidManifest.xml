@@ -37,7 +37,7 @@
         <activity
             android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.DetalheNoticiaActivity"></activity>
+        <activity android:name=".telasActivity.DetalheNoticiaActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

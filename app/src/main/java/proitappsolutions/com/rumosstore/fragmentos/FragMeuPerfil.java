@@ -1,38 +1,56 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
+import proitappsolutions.com.rumosstore.api.ApiClient;
+import proitappsolutions.com.rumosstore.api.ApiInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
-    private TextView txtName,txtEmail,numeroTelef,valorProvincia,valorMunicipio,valorBairro,
+    private TextView txtName,txtEmail,numeroTelef,valorProvincia,valorMunicipio,
             valorRua,valorGenero,valorDataNasc,txtNameEditar,txtEmailEditar;
     private CircleImageView iv_imagem_perfil,iv_imagem_perfilEditar;
     private Button btnEditarPerfil,btnCancelarEdicao,btnSalvarDados;
     private RelativeLayout relativeLayoutMeuPerfil,relativeLayoutEditarPerfil;
-    private String telefone,cidade,municipio,bairro,rua,genero,dataNasc;
+    private String telefone,cidade,municipio,rua,genero,dataNasc;
     private AppCompatEditText editTelefoneEditar,editCidadeEditar,editMunicipioEditar,
-            editBairroEditar,editRuaEditar,editGeneroEditar,editDataNascEditar;
+            editRuaEditar,editGeneroEditar,editDataNascEditar;
+    private ProgressDialog progressDialog;
+    private String id;
+    private RelativeLayout erroLayout;
+    private TextView btnVoltar;
 
     public FragMeuPerfil() {
     }
@@ -49,7 +67,6 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         numeroTelef = view.findViewById(R.id.numeroTelef);
         valorProvincia = view.findViewById(R.id.valorProvincia);
         valorMunicipio = view.findViewById(R.id.valorMunicipio);
-        valorBairro = view.findViewById(R.id.valorBairro);
         valorRua = view.findViewById(R.id.valorRua);
         valorGenero = view.findViewById(R.id.valorGenero);
         valorDataNasc = view.findViewById(R.id.valorDataNasc);
@@ -58,15 +75,18 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         relativeLayoutMeuPerfil = view.findViewById(R.id.relativeLayoutMeuPerfil);
         relativeLayoutEditarPerfil = view.findViewById(R.id.relativeLayoutEditarPerfil);
         relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
-
-        //carregar dados do User
-        loaduserProfile(AppDatabase.getUser());
+        erroLayout = view.findViewById(R.id.erroLayout);
+        btnVoltar = view.findViewById(R.id.btn);
+        btnVoltar.setText("Voltar");
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
 
         //editarPerfil layout
+        txtNameEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtNameEditar);
+        txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
         editTelefoneEditar = relativeLayoutEditarPerfil.findViewById(R.id.editTelefoneEditar);
         editCidadeEditar = relativeLayoutEditarPerfil.findViewById(R.id.editCidadeEditar);
         editMunicipioEditar = relativeLayoutEditarPerfil.findViewById(R.id.editMunicipioEditar);
-        editBairroEditar = relativeLayoutEditarPerfil.findViewById(R.id.editBairroEditar);
         editRuaEditar = relativeLayoutEditarPerfil.findViewById(R.id.editRuaEditar);
         editGeneroEditar = relativeLayoutEditarPerfil.findViewById(R.id.editGeneroEditar);
         editDataNascEditar = relativeLayoutEditarPerfil.findViewById(R.id.editDataNascEditar);
@@ -76,6 +96,9 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         btnEditarPerfil.setOnClickListener(FragMeuPerfil.this);
         btnCancelarEdicao.setOnClickListener(FragMeuPerfil.this);
         btnSalvarDados.setOnClickListener(FragMeuPerfil.this);
+
+        //carregar dados do User
+        loaduserProfile(AppDatabase.getUser());
 
         return view;
 
@@ -87,6 +110,9 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
             txtName.setText(usuario.getUsuarioNome());
             txtEmail.setText(usuario.getUsuarioEmail());
+            txtNameEditar.setText(usuario.getUsuarioNome());
+            txtEmailEditar.setText(usuario.getUsuarioEmail());
+            id = usuario.getUsuarioId();
 
             if (usuario.getUsuarioPic()!=null || !TextUtils.isEmpty(usuario.getUsuarioPic())){
                 Picasso.with(getContext())
@@ -117,7 +143,9 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
                 btnEditarPerfil.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnSalvarDados:
-                verificarCampos();
+                if (verificarCampos()){
+                    alterarDados();
+                }
                 break;
             case R.id.iv_imagem_perfil:
                 //
@@ -135,7 +163,6 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         telefone = editTelefoneEditar.getText().toString().trim();
         cidade = editCidadeEditar.getText().toString().trim();
         municipio = editMunicipioEditar.getText().toString().trim();
-        bairro = editBairroEditar.getText().toString().trim();
         rua = editRuaEditar.getText().toString().trim();
         genero = editGeneroEditar.getText().toString().trim();
         dataNasc = editDataNascEditar.getText().toString().trim();
@@ -151,11 +178,6 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         }
 
         if (municipio.isEmpty()){
-            editCidadeEditar.setError("Preencha o campo.");
-            return false;
-        }
-
-        if (bairro.isEmpty()){
             editCidadeEditar.setError("Preencha o campo.");
             return false;
         }
@@ -182,6 +204,79 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         }
 
         return true;
+    }
+
+    private void alterarDados() {
+
+        progressDialog.setMessage("Aguarde...!");
+        progressDialog.show();
+        erroLayout.setVisibility(View.GONE);
+        relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<Void> call = apiInterface.atualizarDados(id, cidade,municipio,rua,genero,dataNasc,telefone);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()){
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(),"Os dados foram alterados com sucesso.",Toast.LENGTH_SHORT).show();
+                }else {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(),"Algum problema ocorreu. Tente novamente!",Toast.LENGTH_SHORT).show();
+                    try {
+                        Log.d("sbaksanR", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                verifConecxao();
+                progressDialog.dismiss();
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(getContext(),
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Log.d("errordaboy",t.getMessage());
+                        Toast.makeText(getContext(),
+                                "Algum problema aconteceu. Tente novamente.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void verifConecxao(){
+        ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            mostarMsnErro();
+        }else{
+
+        }
+    }
+
+    private void mostarMsnErro(){
+
+        if (erroLayout.getVisibility() == View.GONE){
+            erroLayout.setVisibility(View.VISIBLE);
+            relativeLayoutEditarPerfil.setVisibility(View.GONE);
+        }
+
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
+                erroLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
 }
