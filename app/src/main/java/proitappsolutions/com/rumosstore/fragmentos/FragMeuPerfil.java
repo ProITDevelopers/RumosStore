@@ -1,15 +1,23 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,7 +33,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import proitappsolutions.com.rumosstore.AppDatabase;
@@ -39,6 +51,7 @@ import retrofit2.Response;
 
 public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
+    private static final int TIRAR_FOTO_CAMARA =  1;
     private TextView txtName,txtEmail,numeroTelef,valorProvincia,valorMunicipio,
             valorRua,valorGenero,valorDataNasc,txtNameEditar,txtEmailEditar;
     private CircleImageView iv_imagem_perfil,iv_imagem_perfilEditar;
@@ -51,6 +64,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
     private String id;
     private RelativeLayout erroLayout;
     private TextView btnVoltar;
+    private String caminhoParaFile;
 
     public FragMeuPerfil() {
     }
@@ -60,7 +74,6 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_meu_perfil, container, false);
-
         iv_imagem_perfil = view.findViewById(R.id.iv_imagem_perfil);
         txtName = view.findViewById(R.id.txtName);
         txtEmail = view.findViewById(R.id.txtEmail);
@@ -82,6 +95,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         progressDialog.setCancelable(false);
 
         //editarPerfil layout
+        iv_imagem_perfilEditar = relativeLayoutEditarPerfil.findViewById(R.id.iv_imagem_perfilEditar);
         txtNameEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtNameEditar);
         txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
         editTelefoneEditar = relativeLayoutEditarPerfil.findViewById(R.id.editTelefoneEditar);
@@ -93,6 +107,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         btnSalvarDados = relativeLayoutEditarPerfil.findViewById(R.id.btnSalvarDados);
 
         //clique
+        iv_imagem_perfilEditar.setOnClickListener(FragMeuPerfil.this);
         btnEditarPerfil.setOnClickListener(FragMeuPerfil.this);
         btnCancelarEdicao.setOnClickListener(FragMeuPerfil.this);
         btnSalvarDados.setOnClickListener(FragMeuPerfil.this);
@@ -147,10 +162,31 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
                     alterarDados();
                 }
                 break;
-            case R.id.iv_imagem_perfil:
-                //
+            case R.id.iv_imagem_perfilEditar:
+                pegarFoto();
                 break;
         }
+    }
+
+    private void pegarFoto() {
+
+        if (Build.VERSION.SDK_INT >= 23){
+            requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+        }
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,TIRAR_FOTO_CAMARA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==TIRAR_FOTO_CAMARA){
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            iv_imagem_perfilEditar.setImageBitmap(bitmap);
+        }
+
     }
 
     public static void esconderTeclado(Activity activity) {
