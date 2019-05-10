@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
+
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,7 +37,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
     private ProgressBar progressBar;
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
 
 
     @Override
