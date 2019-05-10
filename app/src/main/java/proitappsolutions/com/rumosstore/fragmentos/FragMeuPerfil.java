@@ -112,7 +112,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         btnCancelarEdicao.setOnClickListener(FragMeuPerfil.this);
         btnSalvarDados.setOnClickListener(FragMeuPerfil.this);
 
-        //carregar dados do User
+        //carregar dados do Usuario
         loaduserProfile(AppDatabase.getUser());
 
         return view;
@@ -249,7 +249,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         erroLayout.setVisibility(View.GONE);
         relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<Void> call = apiInterface.atualizarDados(id, cidade,municipio,rua,genero,dataNasc,telefone);
+        Call<Void> call = apiInterface.atualizarDados(id,cidade,municipio,rua,genero,dataNasc,telefone);
 
         call.enqueue(new Callback<Void>() {
             @Override
