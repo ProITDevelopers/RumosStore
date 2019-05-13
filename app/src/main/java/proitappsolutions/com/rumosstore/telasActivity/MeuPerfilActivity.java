@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,12 +30,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.util.List;
 
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.R;
@@ -66,6 +74,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Uri selectedImage;
     private Bitmap bitmapImg;
     private String postPath;
+    final int CROP_PIC = 55;
     private Intent CropIntent;
     private Toolbar toolbar_meu_perfil;
     private Toolbar toolbar_editPerfil;
@@ -194,7 +203,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btnCamara:
                 caixa_dialogo_foto.dismiss();
-                pegarFotoCamara();
+                //pegarFotoCamara();
                 break;
             case R.id.btnGaleria:
                 caixa_dialogo_foto.dismiss();
@@ -236,52 +245,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             startActivityForResult(intent, TIRAR_FOTO_CAMARA);
         }
 
-        @Override
-        public void onActivityResult ( int requestCode, int resultCode, Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
-
-            if (requestCode == ESCOLHER_FOTO_GALERIA && resultCode == RESULT_OK && data != null) {
-                selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
-                cortarImagemCrop(selectedImage);
-            }
-
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    String selectedFilePath = resultUri.getPath();
-                    iv_imagem_perfilEditar.setImageURI(resultUri);
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                    Toast.makeText(MeuPerfilActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.i("ressssErro", error.getMessage());
-                }
-            }
-
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                Log.i("ressss", "entroueeeeeee");
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
-                        iv_imagem_perfilEditar.setImageBitmap(bitmap);
-                        imagem_editar_foto.setVisibility(View.GONE);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                Log.i("resss", "erro" + requestCode + "" + CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
-            }
-
-            if (requestCode == TIRAR_FOTO_CAMARA && data != null) {
-                selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
-                cortarImagemCrop(selectedImage);
-            }
-        }
-
         private void cortarImagemCrop (Uri imagemUri){
-
             CropImage.activity(imagemUri)
                     .setCropShape(CropImageView.CropShape.OVAL)
                     .setGuidelines(CropImageView.Guidelines.ON)
@@ -292,6 +256,49 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
+
+    @Override
+    public void onActivityResult ( int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ESCOLHER_FOTO_GALERIA && resultCode == RESULT_OK && data != null) {
+            selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
+            cortarImagemCrop(selectedImage);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            Log.i("ressssErroResult", result.getUri().toString());
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                String selectedFilePath = resultUri.getPath();
+                iv_imagem_perfilEditar.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Toast.makeText(MeuPerfilActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.i("ressssErro", error.getMessage());
+            }
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Log.i("ressss", "entroueeeeeee");
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
+                    iv_imagem_perfilEditar.setImageBitmap(bitmap);
+                    imagem_editar_foto.setVisibility(View.GONE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (requestCode == TIRAR_FOTO_CAMARA &&  resultCode == RESULT_OK  && data != null){
+            selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
+            cortarImagemCrop(selectedImage);
+        }
+    }
 
         private boolean verificaUriFoto(){
             return selectedImage != null;

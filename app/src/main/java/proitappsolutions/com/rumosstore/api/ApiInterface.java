@@ -1,13 +1,18 @@
 package proitappsolutions.com.rumosstore.api;
 
+import java.util.List;
+
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
+import proitappsolutions.com.rumosstore.modelo.DataDados;
+import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -24,6 +29,9 @@ public interface ApiInterface {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @GET("https://console.proitappsolutions.com/v1/app/user/{id}")
+    Call<DataUserApi> getUsuarioDados(@Path("id") String id);
 
     @FormUrlEncoded
     @PUT("/v1/app/{id}") //verificar rota

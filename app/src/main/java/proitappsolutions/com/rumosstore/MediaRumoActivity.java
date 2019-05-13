@@ -42,7 +42,9 @@ import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
+import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -56,6 +58,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private RelativeLayout relativeLayout;
     private TextView btnTentarDeNovo;
     public Data data = new Data();
+    public DataUserApi dataUserApi  = new DataUserApi();
     public EmSessao emSessao = new EmSessao();
 
     @Override
@@ -131,10 +134,76 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
                     Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
 
-                    Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
-                    AppDatabase.saveUser(Common.mCurrentUser);
-                    AppPref.getInstance().saveAuthToken("ksaksnaksa");
-                    launchHomeScreen();
+                    retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(data.getEmSessao().getId());
+
+                    callApiDados.enqueue(new Callback<DataUserApi>() {
+                        @Override
+                        public void onResponse(Call<DataUserApi> call, Response<DataUserApi> response) {
+                            if (response.isSuccessful()){
+                                dataUserApi = response.body();
+
+                                Usuario usuario = new Usuario();
+
+                                if (dataUserApi.getDataDados().getId_utilizador() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getId_utilizador());
+
+                                if (dataUserApi.getDataDados().getNomeCliente() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getNomeCliente());
+
+                                if (dataUserApi.getDataDados().getEmail() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getEmail());
+
+                                if (dataUserApi.getDataDados().getFoto() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getFoto());
+
+                                if (dataUserApi.getDataDados().getSexo() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getSexo());
+
+                                if (dataUserApi.getDataDados().getTelefone() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getTelefone());
+
+                                if (dataUserApi.getDataDados().getDataNascimento() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getDataNascimento());
+
+                                if (dataUserApi.getDataDados().getProvincia() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getProvincia());
+
+                                if (dataUserApi.getDataDados().getMunicipio() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getMunicipio());
+
+                                if (dataUserApi.getDataDados().getRua() != null )
+                                    usuario.setFoto(dataUserApi.getDataDados().getRua());
+
+                                Common.mCurrentUser = usuario;
+                                AppDatabase.saveUser(Common.mCurrentUser);
+                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
+
+                                if (dataUserApi.getDataDados().getFoto() == null ||
+                                        dataUserApi.getDataDados().getSexo() == null ||
+                                        dataUserApi.getDataDados().getTelefone() == null ||
+                                        dataUserApi.getDataDados().getDataNascimento() == null ||
+                                        dataUserApi.getDataDados().getProvincia() == null ||
+                                        dataUserApi.getDataDados().getMunicipio() == null ||
+                                        dataUserApi.getDataDados().getRua() == null){
+
+                                }
+
+                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getDataNascimento());
+                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getSexo());
+                                Log.d("autenticacaoVerif", "" + dataUserApi.getDataDados().getFoto());
+
+                                Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
+                                AppDatabase.saveUser(Common.mCurrentUser);
+                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
+                                launchHomeScreen();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<DataUserApi> call, Throwable t) {
+
+                        }
+                    });
                 }else {
                     progressDialog.dismiss();
                     Snackbar
