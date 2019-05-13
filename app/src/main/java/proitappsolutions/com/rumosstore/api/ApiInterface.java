@@ -4,6 +4,8 @@ import java.util.List;
 
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
+import proitappsolutions.com.rumosstore.modelo.DataDados;
+import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
@@ -28,6 +30,9 @@ public interface ApiInterface {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @GET("https://console.proitappsolutions.com/v1/app/user/{id}")
+    Call<DataUserApi> getUsuarioDados(@Path("id") String id);
 
     @FormUrlEncoded
     @PUT("/v1/app/{id}") //verificar rota

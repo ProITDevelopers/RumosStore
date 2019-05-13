@@ -44,7 +44,8 @@
         <activity
             android:name=".telasActivity.DetalheNoticiaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.MeuPerfilActivity"></activity>
+        <activity android:name=".telasActivity.MeuPerfilActivity" android:screenOrientation="portrait" />
+        <activity android:name=".telasActivity.ImagemPegarActivity" ></activity>
     </application>
 
 </manifest>

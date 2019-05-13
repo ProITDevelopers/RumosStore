@@ -36,4 +36,12 @@
     <string name="dialogo_escolher_foto_titulo">Escolher Fotografía do Perfil</string>
     <string name="dialogo_escolher_foto_opc_camera">Câmera</string>
     <string name="dialogo_escolher_foto_opc_galeria">Galeria</string>
+    <string name="mensagem_imagem_intent_nula">A opção de selecionar a imagens está em falta!</string>
+    <string name="trocar_img">Trocar imagem de perfil</string>
+    <string name="tirar_foto">Tirar Foto</string>
+    <string name="tirar_galeria">Escolher foto da galeria</string>
+    <string name="dialog_titulo">Conceder permissões</string>
+    <string name="ir_para_config">Vá para as Configurações</string>
+    <string name="dialog_permissao">
+Este aplicativo precisa de permissão para usar esse recurso. Você pode concedê-los nas configurações do aplicativo.</string>
 </resources>
