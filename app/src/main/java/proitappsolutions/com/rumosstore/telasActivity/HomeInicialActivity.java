@@ -90,6 +90,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
+    @Override
+    public void onBackPressed() {
+        toolbar.setTitle("Rumo Store");
+        super.onBackPressed();
+    }
+
     private void loaduserProfile(Usuario usuario){
 
         if (usuario !=null){

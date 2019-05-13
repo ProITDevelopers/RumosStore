@@ -2,7 +2,6 @@ package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
+
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,7 +36,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
     private ProgressBar progressBar;
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
 
 
     @Override
