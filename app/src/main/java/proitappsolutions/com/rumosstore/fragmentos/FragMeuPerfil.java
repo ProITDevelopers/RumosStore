@@ -276,7 +276,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
                 }
             }
         }else {
-            Log.i("ressss","erro" +  requestCode + "" + CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            Log.i("resss","erro" +  requestCode + "" + CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
         }
 
         if (requestCode==TIRAR_FOTO_CAMARA && data != null){
