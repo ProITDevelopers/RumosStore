@@ -141,7 +141,7 @@
 
                         </LinearLayout>
 
-                        <EditText
+                        <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                             android:id="@+id/editTextPassRegistro"
                             android:layout_width="230dp"
                             android:background="@drawable/borda_lateral"
@@ -152,7 +152,22 @@
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_senha"
                             android:paddingLeft="10dp"
-                            android:inputType="textPassword" />
+                            android:inputType="textPassword"
+                            app:tint_color="@android:color/white"
+                            />
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/editTextPassRegistro"-->
+                            <!--android:layout_width="230dp"-->
+                            <!--android:background="@drawable/borda_lateral"-->
+                            <!--android:layout_height="44dp"-->
+                            <!--android:textColorHint="@color/colorExemplo"-->
+                            <!--android:textCursorDrawable="@drawable/cor_cursor"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:layout_marginLeft="4dp"-->
+                            <!--android:hint="@string/hit_senha"-->
+                            <!--android:paddingLeft="10dp"-->
+                            <!--android:inputType="textPassword" />-->
 
                     </LinearLayout>
 
@@ -179,7 +194,7 @@
 
                         </LinearLayout>
 
-                        <EditText
+                        <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                             android:id="@+id/editTextPassRegistro2"
                             android:layout_width="230dp"
                             android:background="@drawable/borda_lateral"
@@ -193,7 +208,25 @@
                             android:paddingEnd="10dp"
                             android:inputType="textPassword"
                             android:paddingStart="10dp"
-                            android:layout_marginStart="4dp" />
+                            android:layout_marginStart="4dp"
+                            app:tint_color="@android:color/white"
+                            />
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/editTextPassRegistro2"-->
+                            <!--android:layout_width="230dp"-->
+                            <!--android:background="@drawable/borda_lateral"-->
+                            <!--android:layout_height="44dp"-->
+                            <!--android:textCursorDrawable="@drawable/cor_cursor"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textColorHint="@color/colorExemplo"-->
+                            <!--android:layout_marginLeft="4dp"-->
+                            <!--android:hint="@string/hit_senha_conf"-->
+                            <!--android:paddingLeft="10dp"-->
+                            <!--android:paddingEnd="10dp"-->
+                            <!--android:inputType="textPassword"-->
+                            <!--android:paddingStart="10dp"-->
+                            <!--android:layout_marginStart="4dp" />-->
 
                     </LinearLayout>
 

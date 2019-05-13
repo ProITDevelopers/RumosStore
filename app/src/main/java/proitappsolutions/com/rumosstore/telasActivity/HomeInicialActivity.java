@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.realm.Realm;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
@@ -43,6 +44,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private TextView txtEmail;
     private Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rumo Store");
         setSupportActionBar(toolbar);
+
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -110,7 +114,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                         .into(circleImageView);
             }
 
+        } else {
+            logOut();
         }
+
 
     }
 
@@ -268,4 +275,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
     }
+
+
 }

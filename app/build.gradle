@@ -44,12 +44,7 @@ dependencies {
     //
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-//    implementation 'com.google.code.gson:gson:2.8.0 '
-    implementation 'com.google.code.gson:gson:2.8.5'
 
-    //imagem
-//    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
     //retrofit
     //implementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -68,13 +63,14 @@ dependencies {
     //lib para girar imagem em dispositivos sansungs
     implementation 'com.android.support:exifinterface:28.0.0'
 
-    //facebook login
-    implementation 'com.facebook.android:facebook-login:4.41.0'
+    //showPassword
+    implementation 'com.github.scottyab:showhidepasswordedittext:0.8'
 
-    //realm-db , Gson, Picasso
+    //realm-db, Gson, Picasso, Glide, coverflow
     implementation "io.realm:android-adapters:2.1.1"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.github.moondroid.coverflow:library:1.0'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.github.florent37:diagonallayout:1.0.9'
