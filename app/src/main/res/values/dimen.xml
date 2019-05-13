@@ -7,7 +7,7 @@
     <dimen name="margem_cima">5dp</dimen>
     <dimen name="txtTamanho">16sp</dimen>
     <dimen name="txtTamanho1">14sp</dimen>
-
+    <dimen name="paddingBtnFotos">4dp</dimen>
     <dimen name="activity_margin_half">8dp</dimen>
     <dimen name="cart_info_data">16sp</dimen>
 

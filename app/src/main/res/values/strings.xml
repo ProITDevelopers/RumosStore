@@ -33,4 +33,7 @@
     <string name="txtDataNascE">Data Nascimento</string>
     <string name="txtDataNasc">Data Nascimento - </string>
     <string name="hit_btn_salvar_dados">Salvar Dados</string>
+    <string name="dialogo_escolher_foto_titulo">Escolher Fotografía do Perfil</string>
+    <string name="dialogo_escolher_foto_opc_camera">Câmera</string>
+    <string name="dialogo_escolher_foto_opc_galeria">Galeria</string>
 </resources>

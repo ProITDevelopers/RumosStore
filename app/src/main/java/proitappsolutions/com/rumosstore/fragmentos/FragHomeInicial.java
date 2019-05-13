@@ -92,12 +92,15 @@ public class FragHomeInicial extends Fragment {
     }
 
     private void verifConecxao() {
-        ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            mostarMsnErro();
-        }else{
-            carregarRss();
+
+        if (getActivity() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostarMsnErro();
+            }else{
+                carregarRss();
+            }
         }
     }
 

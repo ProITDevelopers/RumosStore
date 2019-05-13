@@ -62,9 +62,7 @@ public class FragConcurso extends Fragment {
 
     private void verifConecxao() {
         if (Common.isConnected(10000)){
-
             carregarWebView();
-
         } else {
             mostarMsnErro();
             progressBar.setVisibility(ProgressBar.INVISIBLE);
