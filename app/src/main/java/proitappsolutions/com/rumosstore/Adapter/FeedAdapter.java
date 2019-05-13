@@ -130,10 +130,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
                     intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
                     intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
                     intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
-                    /*if (resultadoXmlConteudo.conteudo().get(i).length() != 0){
-                        Log.i("xxx","entrou");
-                        intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(i));
-                    }*/
+                    intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(0));
                     mContext.startActivity(intent);
                 }
             }

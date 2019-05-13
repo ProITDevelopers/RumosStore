@@ -41,7 +41,10 @@
         <activity
             android:name=".telasActivity.HomeInicialActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.DetalheNoticiaActivity" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".telasActivity.DetalheNoticiaActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".telasActivity.MeuPerfilActivity"></activity>
     </application>
 
 </manifest>

@@ -152,13 +152,15 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }else if (id == R.id.nav_meu_perfil) {
-            toolbar.setTitle("Perfil");
+            Intent intent = new Intent(HomeInicialActivity.this,MeuPerfilActivity.class);
+            startActivity(intent);
+            /*toolbar.setTitle("Perfil");
             FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragMeuPerfil);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commit();*/
 
         } else if (id == R.id.nav_quiosque) {
             toolbar.setTitle("Quiosque");
