@@ -35,6 +35,7 @@ import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
 import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
 import proitappsolutions.com.rumosstore.fragmentos.FragRevistas;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
+import proitappsolutions.com.rumosstore.testeRealmDB.FragTeste;
 
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -218,7 +219,14 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             openInstagram(Common.SOCIAL_INSTAGRAM);
         }  else if (id == R.id.nav_facebook) {
 
-            openFbUrl(Common.SOCIAL_FACEBOOK);
+            FragTeste fragTeste = new FragTeste();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragTeste);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+//            openFbUrl(Common.SOCIAL_FACEBOOK);
 
         }  else if (id == R.id.nav_share) {
 

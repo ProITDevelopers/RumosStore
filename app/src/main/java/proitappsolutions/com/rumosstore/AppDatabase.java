@@ -26,7 +26,7 @@ public class AppDatabase {
 
     //==========================================================================//
     //==========================================================================//
-    public static void saveResvistasList(final List<Revistas> revistasList) {
+    public static void saveRevistasList(final List<Revistas> revistasList) {
         Realm.getDefaultInstance().executeTransactionAsync(realm -> {
             for (Revistas revistas : revistasList) {
                 realm.copyToRealmOrUpdate(revistas);
@@ -39,15 +39,15 @@ public class AppDatabase {
     }
 
     public static RealmResults<Revistas> getRevistasMercadoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "mercado").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "mercado").findAll();
     }
 
     public static RealmResults<Revistas> getRevistasVanguardaList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "vanguarda").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "vanguarda").findAll();
     }
 
     public static RealmResults<Revistas> getRevistasRumoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("revistaCategoria", "rumo").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "rumo").findAll();
     }
     //==========================================================================//
     //==========================================================================//

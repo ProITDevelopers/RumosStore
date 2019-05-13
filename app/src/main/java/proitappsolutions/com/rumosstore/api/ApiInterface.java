@@ -1,13 +1,17 @@
 package proitappsolutions.com.rumosstore.api;
 
+import java.util.List;
+
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -36,5 +40,8 @@ public interface ApiInterface {
             @Field("dataNascimento") String dataNascimento,
             @Field("telefone") String telefone
     );
+
+    @GET("/v1/app/artigo")
+    Call<List<Revistas>> getRevistas();
 
 }

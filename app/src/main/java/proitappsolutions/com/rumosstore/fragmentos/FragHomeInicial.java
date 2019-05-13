@@ -23,12 +23,21 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import proitappsolutions.com.rumosstore.Adapter.FeedAdapter;
+import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.api.ApiClient;
+import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.communs.HTTPDataHandler;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragHomeInicial extends Fragment {
 
@@ -100,6 +109,7 @@ public class FragHomeInicial extends Fragment {
                 mostarMsnErro();
             }else{
                 carregarRss();
+//                carregarRevistas();
             }
         }
     }
@@ -120,5 +130,32 @@ public class FragHomeInicial extends Fragment {
             }
         });
     }
+
+//    private void carregarRevistas() {
+//        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+//        Call<List<Revistas>> revistas = apiInterface.getRevistas();
+//        revistas.enqueue(new Callback<List<Revistas>>() {
+//            @Override
+//            public void onResponse(Call<List<Revistas>> call, Response<List<Revistas>> response) {
+//
+//
+//
+//                if (!response.isSuccessful()) {
+//                    Toast.makeText(getContext(), "Not Successful", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                AppDatabase.saveRevistasList(response.body());
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Revistas>> call, Throwable t) {
+//                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 }

@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_margin="11dp"
         android:orientation="vertical"
         android:weightSum="3"
@@ -145,5 +146,7 @@
         android:visibility="invisible"
         app:indicatorColor="@color/colormedia"
         app:indicatorName="BallPulseIndicator" />
+
+    <include layout="@layout/activity_sem_internet" />
 
 </RelativeLayout>
