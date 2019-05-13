@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
+
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -33,7 +35,9 @@ import retrofit2.Response;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText editTextNomeRegistro,editTextEmailRegistro,editTextPassRegistro,editTextPassRegistro2;
+    private EditText editTextNomeRegistro,editTextEmailRegistro;
+//    private EditText editTextPassRegistro,editTextPassRegistro2;
+    private ShowHidePasswordEditText editTextPassRegistro,editTextPassRegistro2;
     private Button btnRegistrar,btnLoginInicial;
     private String nome,email,senha,senhaConf;
     private ProgressDialog progressDialog;

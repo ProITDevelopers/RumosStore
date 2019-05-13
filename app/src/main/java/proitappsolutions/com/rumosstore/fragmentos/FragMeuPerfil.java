@@ -62,7 +62,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
@@ -170,6 +170,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
             }
 
         }
+
 
     }
 

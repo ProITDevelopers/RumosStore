@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +48,9 @@ import retrofit2.Response;
 
 public class MediaRumoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText editTextEmailLogin,editTextPasslLogin;
+    private EditText editTextEmailLogin;
+//    private EditText editTextPasslLogin;
+    private ShowHidePasswordEditText editTextPasslLogin;
     private Button btnEntrar,btnRegistrate;
 
     private ProgressDialog progressDialog;
