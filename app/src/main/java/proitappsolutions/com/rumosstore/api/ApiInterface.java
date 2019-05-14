@@ -32,7 +32,7 @@ public interface ApiInterface {
     @Multipart
     @PUT("/v1/app/image/{id}")
     Call<ResponseBody> enviarFoto(
-            @Part("id") RequestBody id,
+            @Path("id") int id,
             @Part MultipartBody.Part imagem
     );
 

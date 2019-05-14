@@ -31,9 +31,6 @@ public class Usuario extends RealmObject {
         this.rua = rua;
     }
 
-
-
-
     //---------------------------------------------------
 
 

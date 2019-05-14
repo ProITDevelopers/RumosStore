@@ -83,6 +83,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Intent CropIntent;
     private Toolbar toolbar_meu_perfil;
     private Toolbar toolbar_editPerfil;
+    ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +203,13 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
+            }
+
+            if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
+                Picasso.with(MeuPerfilActivity.this)
+                        .load(usuario.getFoto())
+                        .placeholder(R.drawable.ic_avatar)
+                        .into(iv_imagem_perfilEditar);
             }
 
         }
@@ -330,6 +338,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     iv_imagem_perfilEditar.setImageBitmap(bitmap);
                     imagem_editar_foto.setVisibility(View.GONE);
                     postPath = selectedImage.getPath();
+                    salvarFoto();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -394,26 +403,15 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             return true;
         }
 
-        private void alterarDados () {
-
-            progressDialog.setMessage("Aguarde...!");
-            progressDialog.show();
-            erroLayout.setVisibility(View.GONE);
-
+        private void salvarFoto(){
             File file = new File(postPath);
-
-            relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
-            ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-            Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
-
             RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)),file);
-            RequestBody id1 = RequestBody.create(MultipartBody.FORM,id);
-
             MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem",file.getName(),filepart);
 
             if (verificaUriFoto()){
                 progressDialog.setMessage("Salvando a foto de perfil.");
-                Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(id1,file1);
+                progressDialog.show();
+                Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(Integer.valueOf(id),file1);
 
                 enviarFoto.enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -424,12 +422,18 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                                     "CERTO",
                                     Toast.LENGTH_SHORT).show();
                             Log.d("sbaksan", response.code() + "");*/
+                            Log.d("sbaksan", response.code() + " dbsbfksbfks");
                         } else {
                             progressDialog.dismiss();
                             /*Toast.makeText(MeuPerfilActivity.this,
                                     "errado",
                                     Toast.LENGTH_SHORT).show();*/
-                            Log.d("sbaksan", response.message());
+                            try {
+                                Log.d("sbaksanR", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("sbaksan", response.code() + " dbsbfksbfks");
                         }
                     }
 
@@ -444,7 +448,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                                         Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Log.d("errordaboy", t.getMessage());
+                                Log.d("errordaboy", t.getMessage() + "fdbfjsbfkbs" + "FAILURE");
                                 Toast.makeText(MeuPerfilActivity.this,
                                         "Algum problema aconteceu. Tente novamente.",
                                         Toast.LENGTH_SHORT).show();
@@ -453,6 +457,17 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
             }
+
+        }
+
+        private void alterarDados () {
+
+            progressDialog.setMessage("Aguarde...!");
+            progressDialog.show();
+            erroLayout.setVisibility(View.GONE);
+
+            relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
+            Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
 
             //------------------------
             call.enqueue(new Callback<Void>() {
@@ -483,7 +498,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                                     Toast.LENGTH_SHORT).show();
                             break;
                         default:
-                            Log.d("errordaboy", t.getMessage());
+                            Log.d("errordaboy", t.getMessage() + "SALVAR DADOS TXT");
                             Toast.makeText(MeuPerfilActivity.this,
                                     "Algum problema aconteceu. Tente novamente.",
                                     Toast.LENGTH_SHORT).show();
