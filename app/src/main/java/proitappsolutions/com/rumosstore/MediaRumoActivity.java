@@ -44,6 +44,7 @@ import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
+import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -131,10 +132,9 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 //response.body()==null
                 if (response.isSuccessful()){
                     data = response.body();
-                    progressDialog.dismiss();
-                    Log.d("autenticacaoVerif",data.getEmSessao().getId());
+                    /*Log.d("autenticacaoVerif",data.getEmSessao().getId());
                     Log.d("autenticacaoVerif",data.getEmSessao().getNome());
-                    Log.d("autenticacaoVerif",data.getEmSessao().getEmail());
+                    Log.d("autenticacaoVerif",data.getEmSessao().getEmail());*/
 
                     retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(data.getEmSessao().getId());
 
@@ -142,39 +142,45 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void onResponse(Call<DataUserApi> call, Response<DataUserApi> response) {
                             if (response.isSuccessful()){
+                                progressDialog.dismiss();
                                 dataUserApi = response.body();
-
                                 Usuario usuario = new Usuario();
 
                                 if (dataUserApi.getDataDados().getId_utilizador() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getId_utilizador());
+                                    usuario.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
                                 if (dataUserApi.getDataDados().getNomeCliente() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getNomeCliente());
+                                    usuario.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
 
                                 if (dataUserApi.getDataDados().getEmail() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getEmail());
+                                    usuario.setEmail(dataUserApi.getDataDados().getEmail());
 
                                 if (dataUserApi.getDataDados().getFoto() != null )
                                     usuario.setFoto(dataUserApi.getDataDados().getFoto());
 
                                 if (dataUserApi.getDataDados().getSexo() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getSexo());
+                                    usuario.setSexo(dataUserApi.getDataDados().getSexo());
 
                                 if (dataUserApi.getDataDados().getTelefone() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getTelefone());
+                                    usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
 
+                                String resultado = dataUserApi.getDataDados().getDataNascimento();
+                                String[] partes = resultado.split("-");
+                                String ano = partes[0];
+                                String mes = partes[1];
+                                String dia = partes[2];
+                                Log.i("snaksnas", ano + mes + dia);
                                 if (dataUserApi.getDataDados().getDataNascimento() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getDataNascimento());
+                                    usuario.setDataNascimento(ano+"-"+mes+"-"+dia.substring(0,2));
 
                                 if (dataUserApi.getDataDados().getProvincia() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getProvincia());
+                                    usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
 
                                 if (dataUserApi.getDataDados().getMunicipio() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getMunicipio());
+                                    usuario.setMunicipio(dataUserApi.getDataDados().getMunicipio());
 
                                 if (dataUserApi.getDataDados().getRua() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getRua());
+                                    usuario.setRua(dataUserApi.getDataDados().getRua());
 
                                 Common.mCurrentUser = usuario;
                                 AppDatabase.saveUser(Common.mCurrentUser);
@@ -188,22 +194,34 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                         dataUserApi.getDataDados().getMunicipio() == null ||
                                         dataUserApi.getDataDados().getRua() == null){
 
+                                    Intent intent = new Intent(MediaRumoActivity.this, MeuPerfilActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    Toast.makeText(MediaRumoActivity.this,"Por favor termina de editar o perfil.",Toast.LENGTH_SHORT).show();
+                                }else {
+                                    launchHomeScreen();
+                                    /*Log.d("autenticacaoVerif",dataUserApi.getDataDados().getDataNascimento());
+                                    Log.d("autenticacaoVerif",dataUserApi.getDataDados().getSexo());
+                                    Log.d("autenticacaoVerif", "" + dataUserApi.getDataDados().getFoto());*/
                                 }
-
-                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getDataNascimento());
-                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getSexo());
-                                Log.d("autenticacaoVerif", "" + dataUserApi.getDataDados().getFoto());
-
-                                Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
-                                AppDatabase.saveUser(Common.mCurrentUser);
-                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
-                                launchHomeScreen();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<DataUserApi> call, Throwable t) {
-
+                            verifConecxao();
+                            switch (t.getMessage()){
+                                case "timeout":
+                                    Toast.makeText(MediaRumoActivity.this,
+                                            "Impossivel se comunicar. Internet lenta.",
+                                            Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(MediaRumoActivity.this,
+                                            "Algum problema aconteceu. Tente novamente.",
+                                            Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
                         }
                     });
                 }else {
@@ -263,7 +281,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         }
 
         editTextEmailLogin.onEditorAction(EditorInfo.IME_ACTION_DONE);
-        editTextPasslLogin.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        //editTextPasslLogin.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
 
         return true;
     }

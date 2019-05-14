@@ -39,11 +39,16 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
@@ -148,18 +153,53 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         loaduserProfile(AppDatabase.getUser());
     }
 
+    /*AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||
+                        AppDatabase.getUser().getTelefone() == null || AppDatabase.getUser().getDataNascimento() == null ||
+                        AppDatabase.getUser().getProvincia() == null || AppDatabase.getUser().getMunicipio() == null ||
+                        AppDatabase.getUser().getRua() == null){*/
+
     private void loaduserProfile(Usuario usuario) {
 
         if (usuario != null) {
-            txtName.setText(usuario.getUsuarioNome());
-            txtEmail.setText(usuario.getUsuarioEmail());
-            txtNameEditar.setText(usuario.getUsuarioNome());
-            txtEmailEditar.setText(usuario.getUsuarioEmail());
-            id = usuario.getUsuarioId();
+            txtName.setText(usuario.getNomeCliente());
+            txtEmail.setText(usuario.getEmail());
+            txtNameEditar.setText(usuario.getNomeCliente());
+            txtEmailEditar.setText(usuario.getEmail());
+            id = usuario.getId_utilizador();
 
-            if (usuario.getUsuarioPic() != null || !TextUtils.isEmpty(usuario.getUsuarioPic())) {
+            iv_imagem_perfilEditar = relativeLayoutEditarPerfil.findViewById(R.id.iv_imagem_perfilEditar);
+            imagem_editar_foto = relativeLayoutEditarPerfil.findViewById(R.id.imagem_editar_foto);
+            txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
+
+            //--
+            if (usuario.getTelefone() != null){
+                numeroTelef.setText(usuario.getTelefone());
+                editTelefoneEditar.setText(usuario.getTelefone());
+            }
+            if (usuario.getProvincia() != null){
+                valorProvincia.setText(usuario.getProvincia());
+                editCidadeEditar.setText(usuario.getProvincia());
+            }
+            if (usuario.getMunicipio() != null){
+                valorMunicipio.setText(usuario.getMunicipio());
+                editMunicipioEditar.setText(usuario.getMunicipio());
+            }
+            if (usuario.getRua() != null){
+                valorRua.setText(usuario.getRua());
+                editRuaEditar.setText(usuario.getRua());
+            }
+            if (usuario.getSexo() != null){
+                valorGenero.setText(usuario.getSexo());
+                editGeneroEditar.setText(usuario.getSexo());
+            }
+            if (usuario.getDataNascimento() != null) {
+                valorDataNasc.setText(usuario.getDataNascimento());
+                editDataNascEditar.setText(usuario.getDataNascimento());
+            }
+
+            if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
                 Picasso.with(MeuPerfilActivity.this)
-                        .load(usuario.getUsuarioPic())
+                        .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
             }
@@ -266,7 +306,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             cortarImagemCrop(selectedImage);
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+       /* if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             Log.i("ressssErroResult", result.getUri().toString());
             if (resultCode == RESULT_OK) {
@@ -278,16 +318,18 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(MeuPerfilActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                 Log.i("ressssErro", error.getMessage());
             }
-        }
+        }*/
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             Log.i("ressss", "entroueeeeeee");
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK && data !=null) {
+                Uri selectedImage = result.getUri();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
                     iv_imagem_perfilEditar.setImageBitmap(bitmap);
                     imagem_editar_foto.setVisibility(View.GONE);
+                    postPath = selectedImage.getPath();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -357,10 +399,62 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             progressDialog.setMessage("Aguarde...!");
             progressDialog.show();
             erroLayout.setVisibility(View.GONE);
+
+            File file = new File(postPath);
+
             relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
             ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
             Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
 
+            RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)),file);
+            RequestBody id1 = RequestBody.create(MultipartBody.FORM,id);
+
+            MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem",file.getName(),filepart);
+
+            if (verificaUriFoto()){
+                progressDialog.setMessage("Salvando a foto de perfil.");
+                Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(id1,file1);
+
+                enviarFoto.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            /*Toast.makeText(MeuPerfilActivity.this,
+                                    "CERTO",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.d("sbaksan", response.code() + "");*/
+                        } else {
+                            progressDialog.dismiss();
+                            /*Toast.makeText(MeuPerfilActivity.this,
+                                    "errado",
+                                    Toast.LENGTH_SHORT).show();*/
+                            Log.d("sbaksan", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        verifConecxao();
+                        progressDialog.dismiss();
+                        switch (t.getMessage()) {
+                            case "timeout":
+                                Toast.makeText(MeuPerfilActivity.this,
+                                        "Impossivel se comunicar. Internet lenta.",
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Log.d("errordaboy", t.getMessage());
+                                Toast.makeText(MeuPerfilActivity.this,
+                                        "Algum problema aconteceu. Tente novamente.",
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+            }
+
+            //------------------------
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -427,8 +521,11 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(MeuPerfilActivity.this,HomeInicialActivity.class);
+            startActivity(intent);
             finish();
+        }
         return super.onOptionsItemSelected(item);
     }}
 

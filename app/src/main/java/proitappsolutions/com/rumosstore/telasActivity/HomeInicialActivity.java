@@ -104,12 +104,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         if (usuario !=null){
 
-            txtName.setText(usuario.getUsuarioNome());
-            txtEmail.setText(usuario.getUsuarioEmail());
+            txtName.setText(usuario.getNomeCliente());
+            txtEmail.setText(usuario.getEmail());
 
-            if (usuario.getUsuarioPic()!=null || !TextUtils.isEmpty(usuario.getUsuarioPic())){
+            if (usuario.getFoto()!=null || !TextUtils.isEmpty(usuario.getFoto())){
                 Picasso.with(HomeInicialActivity.this)
-                        .load(usuario.getUsuarioPic())
+                        .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(circleImageView);
             }
