@@ -51,8 +51,8 @@ public class RevistasAdapter extends BaseAdapter {
             //Set Data
             Revistas revistas = revistasList.get(i);
 
-            Picasso.with(mContext).load(revistas.getRevistaLink()).placeholder(R.drawable.revista_placeholder).into(image);
-            name.setText(revistas.getRevistaNome());
+            Picasso.with(mContext).load(revistas.getFotoJornal()).placeholder(R.drawable.revista_placeholder).into(image);
+            name.setText(revistas.getNome());
         }
 
         return rowView;

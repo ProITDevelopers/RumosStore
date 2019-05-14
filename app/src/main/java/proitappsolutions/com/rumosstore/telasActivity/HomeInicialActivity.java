@@ -1,7 +1,10 @@
 package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -21,20 +24,24 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.realm.Realm;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
+import proitappsolutions.com.rumosstore.api.ApiClient;
+import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
-import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
 import proitappsolutions.com.rumosstore.fragmentos.FragRevistas;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
+import proitappsolutions.com.rumosstore.modelo.DataUserApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +50,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private TextView txtName;
     private TextView txtEmail;
     private Toolbar toolbar;
+    public DataUserApi dataUserApi  = new DataUserApi();
 
 
     @Override
@@ -66,7 +74,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
 
         //carregar dados do Usuario
-        loaduserProfile(AppDatabase.getUser());
+        verifConecxao();
+//        loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,7 +97,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         toggle.syncState();
 
         if (savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragConcurso()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -120,6 +130,79 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
 
     }
+
+    private void verifConecxao() {
+        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            loaduserProfile(AppDatabase.getUser());
+        }else{
+            carregarDadosdoUserApi(AppDatabase.getUser());
+        }
+
+    }
+
+
+    private void carregarDadosdoUserApi(Usuario usuario) {
+
+
+            ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+            retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(usuario.getId_utilizador());
+
+            callApiDados.enqueue(new Callback<DataUserApi>() {
+                @Override
+                public void onResponse(Call<DataUserApi> call, Response<DataUserApi> response) {
+                    if (response.isSuccessful()){
+                        dataUserApi = response.body();
+
+                        Usuario usuario = new Usuario();
+
+                        if (dataUserApi.getDataDados().getId_utilizador() != null )
+                            usuario.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
+
+                        if (dataUserApi.getDataDados().getNomeCliente() != null )
+                            usuario.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
+
+                        if (dataUserApi.getDataDados().getEmail() != null )
+                            usuario.setEmail(dataUserApi.getDataDados().getEmail());
+
+                        if (dataUserApi.getDataDados().getFoto() != null )
+                            usuario.setFoto(dataUserApi.getDataDados().getFoto());
+
+                        if (dataUserApi.getDataDados().getSexo() != null )
+                            usuario.setSexo(dataUserApi.getDataDados().getSexo());
+
+                        if (dataUserApi.getDataDados().getTelefone() != null )
+                            usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
+
+                        if (dataUserApi.getDataDados().getDataNascimento() != null )
+                            usuario.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
+
+                        if (dataUserApi.getDataDados().getProvincia() != null )
+                            usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
+
+                        if (dataUserApi.getDataDados().getMunicipio() != null )
+                            usuario.setMunicipio(dataUserApi.getDataDados().getMunicipio());
+
+                        if (dataUserApi.getDataDados().getRua() != null )
+                            usuario.setRua(dataUserApi.getDataDados().getRua());
+
+                        Common.mCurrentUser = usuario;
+                        AppDatabase.saveUser(Common.mCurrentUser);
+
+                        loaduserProfile(Common.mCurrentUser);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DataUserApi> call, Throwable t) {
+
+                }
+            });
+        }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -234,7 +317,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         AppDatabase.clearData();
         AppPref.getInstance().clearData();
-
 
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

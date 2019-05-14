@@ -11,6 +11,7 @@ import proitappsolutions.com.rumosstore.modelo.DataDados;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -56,5 +57,8 @@ public interface ApiInterface {
             @Field("dataNascimento") String dataNascimento,
             @Field("telefone") String telefone
     );
+
+    @GET("/v1/app/artigo")
+    Call<List<Revistas>> getRevistas();
 
 }

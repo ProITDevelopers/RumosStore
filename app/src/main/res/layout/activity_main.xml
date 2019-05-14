@@ -7,6 +7,26 @@
     android:background="@drawable/splash"
     tools:context=".MainActivity">
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="81dp"-->
+                <!--android:layout_height="81dp"-->
+                <!--android:text="Hello World!"-->
+                <!--android:src="@drawable/logo_media_rumo" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +41,8 @@
     </LinearLayout>
 
 
+
+
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/progress"
         android:layout_width="wrap_content"
@@ -30,5 +52,7 @@
         android:layout_marginBottom="@dimen/dimen_30"
         app:indicatorColor="@color/colormedia"
         app:indicatorName="BallPulseIndicator" />
+
+    <!--<include layout="@layout/activity_sem_internet" />-->
 
 </RelativeLayout>
