@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -147,38 +148,38 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                 Usuario usuario = new Usuario();
 
                                 if (dataUserApi.getDataDados().getId_utilizador() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getId_utilizador());
+                                    usuario.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
                                 if (dataUserApi.getDataDados().getNomeCliente() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getNomeCliente());
+                                    usuario.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
 
                                 if (dataUserApi.getDataDados().getEmail() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getEmail());
+                                    usuario.setEmail(dataUserApi.getDataDados().getEmail());
 
                                 if (dataUserApi.getDataDados().getFoto() != null )
                                     usuario.setFoto(dataUserApi.getDataDados().getFoto());
 
                                 if (dataUserApi.getDataDados().getSexo() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getSexo());
+                                    usuario.setSexo(dataUserApi.getDataDados().getSexo());
 
                                 if (dataUserApi.getDataDados().getTelefone() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getTelefone());
+                                    usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
 
                                 if (dataUserApi.getDataDados().getDataNascimento() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getDataNascimento());
+                                    usuario.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
 
                                 if (dataUserApi.getDataDados().getProvincia() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getProvincia());
+                                    usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
 
                                 if (dataUserApi.getDataDados().getMunicipio() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getMunicipio());
+                                    usuario.setMunicipio(dataUserApi.getDataDados().getMunicipio());
 
                                 if (dataUserApi.getDataDados().getRua() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getRua());
+                                    usuario.setRua(dataUserApi.getDataDados().getRua());
 
-                                Common.mCurrentUser = usuario;
-                                AppDatabase.saveUser(Common.mCurrentUser);
-                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
+//                                Common.mCurrentUser = usuario;
+//                                AppDatabase.saveUser(Common.mCurrentUser);
+//                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
 
                                 if (dataUserApi.getDataDados().getFoto() == null ||
                                         dataUserApi.getDataDados().getSexo() == null ||
@@ -190,13 +191,20 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                                 }
 
-                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getDataNascimento());
-                                Log.d("autenticacaoVerif",dataUserApi.getDataDados().getSexo());
+                                Log.d("autenticacaoVerif","" +dataUserApi.getDataDados().getDataNascimento());
+                                Log.d("autenticacaoVerif","" +dataUserApi.getDataDados().getSexo());
                                 Log.d("autenticacaoVerif", "" + dataUserApi.getDataDados().getFoto());
 
-                                Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
+                                usuario.setId_utilizador(data.getEmSessao().getId());
+                                usuario.setEmail(data.getEmSessao().getEmail());
+                                usuario.setNomeCliente(data.getEmSessao().getNome());
+
+                                String token = UUID.randomUUID().toString();
+
+//                                Common.mCurrentUser = new Usuario(data.getEmSessao().getId(),data.getEmSessao().getEmail(),data.getEmSessao().getNome());
+                                Common.mCurrentUser = usuario;
                                 AppDatabase.saveUser(Common.mCurrentUser);
-                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
+                                AppPref.getInstance().saveAuthToken(token);
                                 launchHomeScreen();
                             }
                         }

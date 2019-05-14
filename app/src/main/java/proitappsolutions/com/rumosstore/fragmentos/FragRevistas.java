@@ -56,7 +56,7 @@ public class FragRevistas extends Fragment {
     Animation in,out;
 
     private RelativeLayout errorLayout;
-    private LinearLayout linearLayout;
+    private LinearLayout linearLayout,linearLayoutCarregando;
     private TextView btnTentarDeNovo;
 
 
@@ -79,7 +79,10 @@ public class FragRevistas extends Fragment {
         progressBar = view.findViewById(R.id.progress);
 
         errorLayout = view.findViewById(R.id.erroLayout);
+
         linearLayout = view.findViewById(R.id.linearLayout);
+        linearLayoutCarregando = view.findViewById(R.id.linearLayout2);
+
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
@@ -101,7 +104,7 @@ public class FragRevistas extends Fragment {
             if (netInfo == null){
                 mostarMsnErro();
             }else{
-                carregarLocal();
+                carregarRevistas();
             }
         }
 
@@ -113,18 +116,85 @@ public class FragRevistas extends Fragment {
         if (errorLayout.getVisibility() == View.GONE){
             errorLayout.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
+            linearLayoutCarregando.setVisibility(View.GONE);
         }
 
         btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                linearLayout.setVisibility(View.VISIBLE);
+                linearLayout.setVisibility(View.GONE);
+                linearLayoutCarregando.setVisibility(View.VISIBLE);
                 errorLayout.setVisibility(View.GONE);
                 verifConecxao();
             }
         });
     }
 
+    private void mostarMsnErro2(){
+
+        if (errorLayout.getVisibility() == View.GONE){
+            errorLayout.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
+            linearLayoutCarregando.setVisibility(View.GONE);
+        }
+
+        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayoutCarregando.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.GONE);
+                carregarLocal();
+            }
+        });
+    }
+
+    private void carregarRevistas() {
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<List<Revistas>> revistas = apiInterface.getRevistas();
+        revistas.enqueue(new Callback<List<Revistas>>() {
+            @Override
+            public void onResponse(Call<List<Revistas>> call, Response<List<Revistas>> response) {
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Not Successful", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AppDatabase.saveRevistasList(response.body());
+
+                verifConecxao2();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Revistas>> call, Throwable t) {
+                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+    private void verifConecxao2() {
+
+        if (getContext() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostarMsnErro2();
+            }else{
+                carregarLocal();
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayoutCarregando.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.GONE);
+            }
+        }
+
+
+    }
 
 
     private void initData() {

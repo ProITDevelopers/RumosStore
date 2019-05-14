@@ -151,17 +151,39 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private void loaduserProfile(Usuario usuario) {
 
         if (usuario != null) {
-            txtName.setText(usuario.getUsuarioNome());
-            txtEmail.setText(usuario.getUsuarioEmail());
-            txtNameEditar.setText(usuario.getUsuarioNome());
-            txtEmailEditar.setText(usuario.getUsuarioEmail());
-            id = usuario.getUsuarioId();
+            id = usuario.getId_utilizador();
 
-            if (usuario.getUsuarioPic() != null || !TextUtils.isEmpty(usuario.getUsuarioPic())) {
+            txtName.setText(usuario.getNomeCliente());
+            txtEmail.setText(usuario.getEmail());
+            txtNameEditar.setText(usuario.getNomeCliente());
+            txtEmailEditar.setText(usuario.getEmail());
+
+            //Visualizar valores do usuario
+            numeroTelef.setText(usuario.getTelefone());
+            valorProvincia.setText(usuario.getProvincia());
+            valorMunicipio.setText(usuario.getMunicipio());
+            valorRua.setText(usuario.getRua());
+            valorGenero.setText(usuario.getSexo());
+            valorDataNasc.setText(usuario.getDataNascimento());
+
+            //Visualizar valores ao editar INFO do usuario
+            editTelefoneEditar.setText(usuario.getTelefone());
+            editCidadeEditar.setText(usuario.getProvincia());
+            editMunicipioEditar.setText(usuario.getMunicipio());
+            editRuaEditar.setText(usuario.getRua());
+            editGeneroEditar.setText(usuario.getSexo());
+            editDataNascEditar.setText(usuario.getDataNascimento());
+
+            if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
                 Picasso.with(MeuPerfilActivity.this)
-                        .load(usuario.getUsuarioPic())
+                        .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
+
+                Picasso.with(MeuPerfilActivity.this)
+                        .load(usuario.getFoto())
+                        .placeholder(R.drawable.ic_avatar)
+                        .into(iv_imagem_perfilEditar);
             }
 
         }

@@ -156,15 +156,15 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
     private void loaduserProfile(Usuario usuario){
 
         if (usuario !=null){
-            txtName.setText(usuario.getUsuarioNome());
-            txtEmail.setText(usuario.getUsuarioEmail());
-            txtNameEditar.setText(usuario.getUsuarioNome());
-            txtEmailEditar.setText(usuario.getUsuarioEmail());
-            id = usuario.getUsuarioId();
+            txtName.setText(usuario.getNomeCliente());
+            txtEmail.setText(usuario.getEmail());
+            txtNameEditar.setText(usuario.getNomeCliente());
+            txtEmailEditar.setText(usuario.getEmail());
+            id = usuario.getId_utilizador();
 
-            if (usuario.getUsuarioPic()!=null || !TextUtils.isEmpty(usuario.getUsuarioPic())){
+            if (usuario.getFoto()!=null || !TextUtils.isEmpty(usuario.getFoto())){
                 Picasso.with(getContext())
-                        .load(usuario.getUsuarioPic())
+                        .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
             }

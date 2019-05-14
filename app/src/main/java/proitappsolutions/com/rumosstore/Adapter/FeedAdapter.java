@@ -106,35 +106,39 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
         feedViewHolder.txtDataPublicacao.setText(rssObjecto.getItems().get(i).getPubDate());
         //feedViewHolder.txtConteudo.setText(resultadoXmlConteudo.conteudo().get(resultadoXmlConteudo.conteudo().size()-1));
 
-        Glide
-                .with(mContext)
-                .load(resultadoXml.comecar()).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                feedViewHolder.progress_bar.setVisibility(View.GONE);
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                feedViewHolder.progress_bar.setVisibility(View.GONE);
-                return false;
-            }
-        }).into(feedViewHolder.imgPublicacao);
-
-        feedViewHolder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                if (!isLongClick){
-                    Intent intent = new Intent(mContext,DetalheNoticiaActivity.class);
-                    intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
-                    intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
-                    intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
-                    intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(0));
-                    mContext.startActivity(intent);
+        try {
+            Glide
+                    .with(mContext)
+                    .load(resultadoXml.comecar()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    feedViewHolder.progress_bar.setVisibility(View.GONE);
+                    return false;
                 }
-            }
-        });
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    feedViewHolder.progress_bar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(feedViewHolder.imgPublicacao);
+
+            feedViewHolder.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, int position, boolean isLongClick) {
+                    if (!isLongClick){
+                        Intent intent = new Intent(mContext,DetalheNoticiaActivity.class);
+                        intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
+                        intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
+                        intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
+                        intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(0));
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

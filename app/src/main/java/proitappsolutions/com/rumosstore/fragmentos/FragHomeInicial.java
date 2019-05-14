@@ -1,6 +1,5 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,32 +11,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import proitappsolutions.com.rumosstore.Adapter.FeedAdapter;
-import proitappsolutions.com.rumosstore.AppDatabase;
-import proitappsolutions.com.rumosstore.Common;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.api.ApiClient;
-import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.communs.HTTPDataHandler;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
-import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FragHomeInicial extends Fragment {
 
@@ -48,7 +33,7 @@ public class FragHomeInicial extends Fragment {
     private TextView btnTentarDeNovo;
 
     private final String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
-    private final String RSS_PARA_JSON_API = " https://api.rss2json.com/v1/api.json?rss_url=";
+    private final String RSS_PARA_JSON_API = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     @Nullable
     @Override
@@ -109,7 +94,6 @@ public class FragHomeInicial extends Fragment {
                 mostarMsnErro();
             }else{
                 carregarRss();
-//                carregarRevistas();
             }
         }
     }
@@ -131,31 +115,5 @@ public class FragHomeInicial extends Fragment {
         });
     }
 
-//    private void carregarRevistas() {
-//        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-//        Call<List<Revistas>> revistas = apiInterface.getRevistas();
-//        revistas.enqueue(new Callback<List<Revistas>>() {
-//            @Override
-//            public void onResponse(Call<List<Revistas>> call, Response<List<Revistas>> response) {
-//
-//
-//
-//                if (!response.isSuccessful()) {
-//                    Toast.makeText(getContext(), "Not Successful", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                AppDatabase.saveRevistasList(response.body());
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Revistas>> call, Throwable t) {
-//                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
 }
