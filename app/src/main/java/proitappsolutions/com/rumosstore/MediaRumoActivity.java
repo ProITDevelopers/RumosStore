@@ -45,6 +45,7 @@ import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
+import proitappsolutions.com.rumosstore.telasActivitysSenha.OpcaoRecSenhaActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +55,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private EditText editTextEmailLogin;
 //    private EditText editTextPasslLogin;
     private ShowHidePasswordEditText editTextPasslLogin;
-    private Button btnEntrar,btnRegistrate;
+    private Button btnEntrar,btnRegistrate,btn_alterar_senha;
 
     private ProgressDialog progressDialog;
     private RelativeLayout errorLayout;
@@ -82,8 +83,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         editTextPasslLogin= findViewById(R.id.editTextPasslLogin);
         btnEntrar= findViewById(R.id.btnEntrar);
         btnRegistrate = findViewById(R.id.btnRegistrate);
+        btn_alterar_senha = findViewById(R.id.btn_alterar_senha);
         btnEntrar.setOnClickListener(MediaRumoActivity.this);
         btnRegistrate.setOnClickListener(MediaRumoActivity.this);
+        btn_alterar_senha.setOnClickListener(MediaRumoActivity.this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -108,6 +111,11 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnRegistrate:
                 Intent intentRegistrar = new Intent(MediaRumoActivity.this,RegistroActivity.class);
                 startActivity(intentRegistrar);
+                break;
+
+            case R.id.btn_alterar_senha:
+                Intent intentAtualizarSenha = new Intent(MediaRumoActivity.this,OpcaoRecSenhaActivity.class);
+                startActivity(intentAtualizarSenha);
                 break;
 
         }

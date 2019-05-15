@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnCancelar_dialog"
+            android:layout_width="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="15dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_cancelar_24dp"
+            android:layout_marginEnd="5dp"
+            android:padding="8dp"
+            android:drawableStart="@drawable/ic_cancelar_24dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/diagolo_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorCima"
+        android:text="Pretende cancelar ?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/txtTamanho1"
+        android:paddingBottom="20dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="4dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|end">
+
+        <Button
+            android:id="@+id/btnSim"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBotaoLogin"
+            android:text="Sim"
+            android:textSize="@dimen/txtTamanho1"
+            android:layout_marginEnd="5dp"
+            android:padding="@dimen/paddingBtnFotos" />
+
+        <Button
+            android:id="@+id/btnNao"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="@dimen/paddingBtnFotos"
+            android:background="@color/colorBotaoLogin"
+            android:text="Não"
+            android:textSize="@dimen/txtTamanho1"
+            android:layout_marginStart="5dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

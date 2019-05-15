@@ -173,6 +173,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
                 } else {
                     Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);

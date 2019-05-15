@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".telasActivitysSenha.RecuperarSenhaEmailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/relLayoutBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar_redif_senha_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@color/colorBotaoLogin" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/txt_cor_redif"
+                        android:text="@string/hit_recuperar_senha"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/txt_cor_redif"
+                        android:text="@string/hit_redif_senha"
+                        android:textSize="@dimen/txtTamanho"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="270dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/borda_arredondada"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/MyEditTextTheme"
+                            android:id="@+id/hint_email">
+
+                            <android.support.v7.widget.AppCompatEditText
+                                android:id="@+id/editEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hit_btn_entrar_email"
+                                android:inputType="textCapSentences"
+                                android:theme="@style/MyEditTextTheme"/>
+
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="270dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/borda_arredondada"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_email_redif"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_marginRight="5dp"
+                            android:text="@string/hit_btn_receber_cod"
+                            android:textColor="@android:color/white"
+                            android:background="@drawable/borda_arredondada_login"
+                            android:layout_height="44dp"
+                            android:layout_marginEnd="5dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/relLayoutBar"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/btnRegistrate"
+                android:layout_marginTop="@dimen/margem_cima"
+                android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/hit_btn_registrate"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/activity_sem_internet" />
+
+</RelativeLayout>

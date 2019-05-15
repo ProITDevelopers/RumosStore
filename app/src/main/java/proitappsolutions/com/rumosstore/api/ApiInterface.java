@@ -6,10 +6,12 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.modelo.Autenticacao;
+import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
 import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.DataDados;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.EmSessao;
+import proitappsolutions.com.rumosstore.modelo.RecuperarSenha;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 import retrofit2.Call;
@@ -28,6 +30,19 @@ public interface ApiInterface {
 
     @POST("/v1/app/")
     Call<Void> registrarCliente(@Body UsuarioApi usuarioApi);
+
+    @FormUrlEncoded
+    @POST("/v1/app/send-email")
+    Call<RecuperarSenha> enviarEmail(@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("/v1/app/verify")
+    Call<CodConfirmacaoResult> enviarConfirCodigo(@Field("id") String id, @Field("resetPass") String resetPass);
+
+    @POST("/v1/app/setPassword")
+    @FormUrlEncoded
+    Call<Void> enviarNovaSenha(@Header("Authorization") String tokenAuth,
+                                         @Field("novasenha") String novasenha );
 
     @Multipart
     @PUT("/v1/app/image/{id}")

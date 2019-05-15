@@ -112,7 +112,7 @@
                             android:textCursorDrawable="@drawable/cor_cursor"
                             android:textColor="@android:color/white"
                             android:layout_marginLeft="4dp"
-                            android:hint="@string/hit_email"
+                            android:hint="@string/hit_btn_entrar_email"
                             android:paddingLeft="10dp"
                             android:inputType="textEmailAddress" />
 
