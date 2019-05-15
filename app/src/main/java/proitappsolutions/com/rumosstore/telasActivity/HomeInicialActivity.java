@@ -106,8 +106,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public void onBackPressed() {
-        toolbar.setTitle("Rumo Store");
-        super.onBackPressed();
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            this.moveTaskToBack(true);
+        }
     }
 
     private void loaduserProfile(Usuario usuario){
@@ -127,8 +131,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         } else {
             logOut();
         }
-
-
     }
 
     private void verifConecxao() {
@@ -142,9 +144,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
-
     private void carregarDadosdoUserApi(Usuario usuario) {
-
 
             ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
             retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(usuario.getId_utilizador());
@@ -202,8 +202,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             });
         }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -218,13 +216,14 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            logOut();
-            return true;
+        switch (id){
+            case R.id.action_alterar_senha:
+                break;
+
+            case R.id.action_logout:
+                logOut();
+                break;
         }
-
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -239,18 +238,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragHomeInicial);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }else if (id == R.id.nav_meu_perfil) {
             Intent intent = new Intent(HomeInicialActivity.this,MeuPerfilActivity.class);
             startActivity(intent);
-            /*toolbar.setTitle("Perfil");
-            FragMeuPerfil fragMeuPerfil = new FragMeuPerfil();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragMeuPerfil);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
 
         } else if (id == R.id.nav_quiosque) {
             toolbar.setTitle("Quiosque");
@@ -258,7 +249,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragRevistas);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_concurso) {
@@ -267,34 +257,30 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragConcurso);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_mercado) {
-            toolbar.setTitle("Rumo Store");
+            toolbar.setTitle("Mercado");
             FragMercado fragMercado = new FragMercado();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragMercado);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_vanguarda) {
-            toolbar.setTitle("Rumo Store");
+            toolbar.setTitle("Vanguarda");
             FragVanguarda fragVanguarda = new FragVanguarda();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragVanguarda);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_rumo) {
-            toolbar.setTitle("Rumo Store");
+            toolbar.setTitle("Media Rumo");
             FragMediaRumo fragMediaRumo = new FragMediaRumo();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragMediaRumo);
-            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_instagram) {
@@ -357,6 +343,5 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
     }
-
 
 }

@@ -132,12 +132,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 //response.body()==null
                 if (response.isSuccessful()){
                     data = response.body();
-                    /*Log.d("autenticacaoVerif",data.getEmSessao().getId());
-                    Log.d("autenticacaoVerif",data.getEmSessao().getNome());
-                    Log.d("autenticacaoVerif",data.getEmSessao().getEmail());*/
-
                     retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(data.getEmSessao().getId());
-
                     callApiDados.enqueue(new Callback<DataUserApi>() {
                         @Override
                         public void onResponse(Call<DataUserApi> call, Response<DataUserApi> response) {
@@ -164,14 +159,16 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                 if (dataUserApi.getDataDados().getTelefone() != null )
                                     usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
 
-                                String resultado = dataUserApi.getDataDados().getDataNascimento();
-                                String[] partes = resultado.split("-");
-                                String ano = partes[0];
-                                String mes = partes[1];
-                                String dia = partes[2];
-                                Log.i("snaksnas", ano + mes + dia);
-                                if (dataUserApi.getDataDados().getDataNascimento() != null )
+                                if (dataUserApi.getDataDados().getDataNascimento() != null ){
+                                    String resultado = dataUserApi.getDataDados().getDataNascimento();
+                                    String[] partes = resultado.split("-");
+                                    String ano = partes[0];
+                                    String mes = partes[1];
+                                    String dia = partes[2];
+                                    Log.d("snansa",ano + "---" + mes + "---" + dia.substring(0,2));
                                     usuario.setDataNascimento(ano+"-"+mes+"-"+dia.substring(0,2));
+                                    Log.d("snansa",usuario.getDataNascimento());
+                                }
 
                                 if (dataUserApi.getDataDados().getProvincia() != null )
                                     usuario.setProvincia(dataUserApi.getDataDados().getProvincia());

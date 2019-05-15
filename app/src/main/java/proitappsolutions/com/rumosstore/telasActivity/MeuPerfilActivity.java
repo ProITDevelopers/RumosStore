@@ -194,6 +194,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 editGeneroEditar.setText(usuario.getSexo());
             }
             if (usuario.getDataNascimento() != null) {
+                Log.d("PERFIL",usuario.getDataNascimento());
                 valorDataNasc.setText(usuario.getDataNascimento());
                 editDataNascEditar.setText(usuario.getDataNascimento());
             }
@@ -475,7 +476,10 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         progressDialog.dismiss();
+                        Intent intent = new Intent(MeuPerfilActivity.this,HomeInicialActivity.class);
                         Toast.makeText(MeuPerfilActivity.this, "Os dados foram alterados com sucesso.", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        finish();
                     } else {
                         progressDialog.dismiss();
                         Toast.makeText(MeuPerfilActivity.this, "Algum problema ocorreu. Tente novamente!", Toast.LENGTH_SHORT).show();
