@@ -2,16 +2,22 @@ package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
@@ -24,9 +30,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +49,11 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,16 +64,25 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.AppDatabase;
+import proitappsolutions.com.rumosstore.MainActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.communs.RotateBitmap;
 import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MeuPerfilActivity extends AppCompatActivity implements View.OnClickListener {
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_ASPECT_RATIO_X;
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_ASPECT_RATIO_Y;
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_BITMAP_MAX_HEIGHT;
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_BITMAP_MAX_WIDTH;
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_LOCK_ASPECT_RATIO;
+import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT;
+
+public class MeuPerfilActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     private static final int TIRAR_FOTO_CAMARA = 1, ESCOLHER_FOTO_GALERIA = 1995, PERMISSAO_FOTO = 3;
     private TextView txtName, txtEmail, numeroTelef, valorProvincia, valorMunicipio,
@@ -70,8 +92,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Button btnEditarPerfil, btnCancelarEdicao, btnSalvarDados, btnCamara, btnGaleria, btnCancelar_dialog;
     private RelativeLayout relativeLayoutMeuPerfil, relativeLayoutEditarPerfil;
     private String telefone, cidade, municipio, rua, genero, dataNasc;
+    private Spinner editGeneroEditar;
     private AppCompatEditText editTelefoneEditar, editCidadeEditar, editMunicipioEditar,
-            editRuaEditar, editGeneroEditar, editDataNascEditar;
+            editRuaEditar, editDataNascEditar;
     private ProgressDialog progressDialog;
     private String id;
     private RelativeLayout erroLayout;
@@ -84,6 +107,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Intent CropIntent;
     private Toolbar toolbar_meu_perfil;
     private Toolbar toolbar_editPerfil;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private byte[] mUploadBytes;
+    private String valorGeneroItem;
     ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
 
     @Override
@@ -142,12 +168,46 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         editDataNascEditar = relativeLayoutEditarPerfil.findViewById(R.id.editDataNascEditar);
         btnSalvarDados = relativeLayoutEditarPerfil.findViewById(R.id.btnSalvarDados);
 
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.genero, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editGeneroEditar.setAdapter(adapter);
+
+        editDataNascEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int ano = cal.get(Calendar.YEAR);
+                int mes = cal.get(Calendar.MONTH);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        MeuPerfilActivity.this,
+                        R.style.DialogTheme,
+                        mDateSetListener,
+                        ano,mes,dia);
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int ano, int mes, int dia) {
+                mes = mes + 1;
+
+                String date = dia + "-" + mes + "-" + ano;
+                editDataNascEditar.setText(date);
+            }
+        };
+
         //clique
         iv_imagem_perfilEditar.setOnClickListener(MeuPerfilActivity.this);
         btnEditarPerfil.setOnClickListener(MeuPerfilActivity.this);
         btnCancelarEdicao.setOnClickListener(MeuPerfilActivity.this);
         btnSalvarDados.setOnClickListener(MeuPerfilActivity.this);
         btnCamara.setOnClickListener(MeuPerfilActivity.this);
+        editGeneroEditar.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) MeuPerfilActivity.this);
         btnGaleria.setOnClickListener(MeuPerfilActivity.this);
         btnCancelar_dialog.setOnClickListener(MeuPerfilActivity.this);
 
@@ -192,12 +252,24 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             }
             if (usuario.getSexo() != null){
                 valorGenero.setText(usuario.getSexo());
-                editGeneroEditar.setText(usuario.getSexo());
+                String genero = usuario.getSexo().toUpperCase();
+                if (genero.equals("MASCULINO")){
+                    editGeneroEditar.setSelection(1);
+                }else {
+                    editGeneroEditar.setSelection(0);
+                }
             }
             if (usuario.getDataNascimento() != null) {
                 Log.d("PERFIL",usuario.getDataNascimento());
-                valorDataNasc.setText(usuario.getDataNascimento());
-                editDataNascEditar.setText(usuario.getDataNascimento());
+                String resultado = usuario.getDataNascimento();
+                String[] partes = resultado.split("-");
+                String ano = partes[0];
+                String mes = partes[1];
+                String dia = partes[2];
+                Log.d("snansa",ano + "---" + mes + "---" + dia.substring(0,2));
+                Log.d("snansa",usuario.getDataNascimento());
+                editDataNascEditar.setText(dia.substring(0,2)+"-"+mes+"-"+ano);
+                valorDataNasc.setText(dia.substring(0,2)+"-"+mes+"-"+ano);
             }
 
             if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
@@ -238,7 +310,11 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }
-                //esconderTeclado((Activity) view.getContext());
+                View viewAtual = this.getCurrentFocus();
+                if (viewAtual != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 relativeLayoutEditarPerfil.setVisibility(View.GONE);
                 relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
                 btnEditarPerfil.setVisibility(View.VISIBLE);
@@ -253,7 +329,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btnCamara:
                 caixa_dialogo_foto.dismiss();
-                //pegarFotoCamara();
+                pegarFotoCamara();
                 break;
             case R.id.btnGaleria:
                 caixa_dialogo_foto.dismiss();
@@ -297,8 +373,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
         private void cortarImagemCrop (Uri imagemUri){
             CropImage.activity(imagemUri)
-                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .setActivityTitle("RUMOSTORE")
                     .setGuidelines(CropImageView.Guidelines.ON)
+                    .setCropShape(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? CropImageView.CropShape.RECTANGLE : CropImageView.CropShape.OVAL)
                     .start(MeuPerfilActivity.this);
         }
 
@@ -312,6 +389,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ESCOLHER_FOTO_GALERIA && resultCode == RESULT_OK && data != null) {
+            Log.i("escolherFoto", "entroueeeeeee");
             selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
             cortarImagemCrop(selectedImage);
         }
@@ -340,20 +418,109 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     iv_imagem_perfilEditar.setImageBitmap(bitmap);
                     imagem_editar_foto.setVisibility(View.GONE);
                     postPath = selectedImage.getPath();
+                    Log.i("ressss", "entroueeeeeeeSalvando");
                     salvarFoto();
                 } catch (IOException e) {
+                    Log.i("ressss", "entroueeeeeeeSalvandoTRY");
                     e.printStackTrace();
                 }
+            }else {
+                Log.i("ressss", "resultFalhou");
             }
+        }else {
+            Log.i("ressss", "erorr");
         }
 
         if (requestCode == TIRAR_FOTO_CAMARA &&  resultCode == RESULT_OK  && data != null){
-            selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
-            cortarImagemCrop(selectedImage);
+
+            //selectedImage = data.getData();
+            Bitmap bitmap1 = (Bitmap) data.getExtras().get("data");
+            Log.i("urirranadka",data.getExtras().get("data") + "algumacoisa");
+            //try {
+                // You can update this bitmap to your server
+                //bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                Bitmap fotoReduzida = reduzirImagem(bitmap1,300);
+                Log.i("urirranadka",bitmap1.getWidth() + "algumacoisa");
+                iv_imagem_perfilEditar.setImageBitmap(fotoReduzida);
+                imagem_editar_foto.setVisibility(View.GONE);
+
+                Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
+                selectedImage = tempUri;
+                //Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
+                /*File foto = salvarBitmap(fotoReduzida,tempUri.getPath());
+                postPath = foto.getPath();*/
+                salvarFotoComprimida(selectedImage,fotoReduzida);
+                //salvarFoto();
+            /*} catch (IOException e) {
+                e.printStackTrace();
+                Log.i("urirranadka",selectedImage + "nadaaa");
+            }*/
+
         }
     }
 
-        private boolean verificaUriFoto(){
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    private File salvarBitmap(Bitmap bitmap, String path) {
+        File file = null;
+        if (bitmap != null) {
+            file = new File(path);
+            try {
+                FileOutputStream outputStream = null;
+                try {
+                    outputStream = new FileOutputStream(path); //here is set your file path where you want to save or also here you can set file object directly
+
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream); // bitmap is your Bitmap instance, if you want to compress it you can compress reduce percentage
+                    // PNG is a lossless format, the compression factor (100) is ignored
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (outputStream != null) {
+                            outputStream.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 10, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "foto_mediaRumo", null);
+        return Uri.parse(path);
+    }
+
+
+    public Bitmap reduzirImagem(Bitmap image, int maxSize) {
+        int width = 10;
+        int height = 10;
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+
+    }
+
+
+    private boolean verificaUriFoto(){
             return selectedImage != null;
         }
 
@@ -363,8 +530,16 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             cidade = editCidadeEditar.getText().toString().trim();
             municipio = editMunicipioEditar.getText().toString().trim();
             rua = editRuaEditar.getText().toString().trim();
-            genero = editGeneroEditar.getText().toString().trim();
+            genero = valorGeneroItem;
             dataNasc = editDataNascEditar.getText().toString().trim();
+            Log.i("datanasccc",dataNasc);
+            String resultado = dataNasc;
+            String[] partes = resultado.split("-");
+            String dia = partes[0];
+            String mes = partes[1];
+            String ano = partes[2];
+            dataNasc = ano+"-"+mes+"-"+dia;
+            Log.d("snansaVxxxx",ano + "---" + mes + "---" + dia+ "----------------:>" + dataNasc);
 
             if (telefone.isEmpty()) {
                 editTelefoneEditar.setError("Preencha o campo.");
@@ -391,11 +566,11 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 return false;
             }
 
-            if (!genero.matches("Masculino|Feminino|masculino|feminino")) {
+            /*if (!genero.matches("Masculino|Feminino|masculino|feminino")) {
                 editGeneroEditar.requestFocus();
                 editGeneroEditar.setError("Preencha com Masculino ou Feminino");
                 return false;
-            }
+            }*/
 
             if (dataNasc.isEmpty()) {
                 editCidadeEditar.setError("Preencha o campo.");
@@ -420,11 +595,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             progressDialog.dismiss();
-                            /*Toast.makeText(MeuPerfilActivity.this,
-                                    "CERTO",
+                            Toast.makeText(MeuPerfilActivity.this,
+                                    "Foto atualizada com sucesso.!",
                                     Toast.LENGTH_SHORT).show();
-                            Log.d("sbaksan", response.code() + "");*/
-                            Log.d("sbaksan", response.code() + " dbsbfksbfks");
                         } else {
                             progressDialog.dismiss();
                             /*Toast.makeText(MeuPerfilActivity.this,
@@ -539,6 +712,87 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 }
             });
         }
+
+        //------------------------------------------------------------------------
+        private class BackgroundImageResize extends AsyncTask<Uri,Integer,byte[]> {
+
+            Bitmap mBitmap;
+
+            public BackgroundImageResize(Bitmap bitmap){
+                if (bitmap != null){
+                    this.mBitmap=bitmap;
+                }
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Toast.makeText(MeuPerfilActivity.this,"Comprimindo a imagem",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected byte[] doInBackground(Uri... uris) {
+                Log.d("TAGdadakdnak","doInBackground: started");
+                if (mBitmap ==null){
+                    try {
+                        //MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),uris[0]);
+                        RotateBitmap rotateBitmap = new RotateBitmap();
+                        mBitmap = rotateBitmap.HandleSamplingAndRotationBitmap(MeuPerfilActivity.this,uris[0]);
+                    }catch (IOException e){
+                        Log.e("TAGBIGMAT","doInBackground: IOException: " + e.getMessage());
+                    }
+                }else {
+                    Log.d("TAGEROOO","doInBackground: mwgabytes before compression: nagaaaa " );
+                }
+                byte[] bytes = null;
+                Log.d("TAGEROOO","doInBackground: mwgabytes before compression: " + mBitmap.getByteCount() / 1000000);
+                bytes = getBytesFromBitmap(mBitmap,50);
+                Log.d("TAG","doInBackground: mwgabytes before compression: " + bytes.length / 1000000);
+                return bytes;
+            }
+
+            @Override
+            protected void onPostExecute(byte[] bytes) {
+                super.onPostExecute(bytes);
+                mUploadBytes = bytes;
+
+                //SALVAR FOTOOOOOO
+                Bitmap imagemComprimida = BitmapFactory.decodeByteArray(mUploadBytes, 0, mUploadBytes.length);
+                progressDialog.dismiss();
+                Uri tempUri = getImageUri(getApplicationContext(), imagemComprimida);
+                selectedImage = tempUri;
+                //Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
+                File foto = salvarBitmap(imagemComprimida,tempUri.getPath());
+                postPath = foto.getPath();
+                //execute the upload task
+                salvarFoto();
+            }
+        }
+        //------------------------------------------------------------------------
+
+    private void salvarFotoComprimida(Uri imagePath,Bitmap bitmap) {
+        Log.d("TAG","uploadNewPhoto: uploading a new image uri to storage.");
+        BackgroundImageResize resize = new BackgroundImageResize(bitmap);
+        resize.execute(imagePath);
+
+    }
+
+    public static byte[] getBytesFromBitmap(Bitmap bitmap,int quality){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,quality,stream);
+        return stream.toByteArray();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        valorGeneroItem = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

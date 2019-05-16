@@ -56,7 +56,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //image crop para cortar imagem
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     implementation 'org.apache.commons:commons-io:1.3.2'
 
     //lib para girar imagem em dispositivos sansungs
@@ -64,6 +64,9 @@ dependencies {
 
     //showPassword
     implementation 'com.github.scottyab:showhidepasswordedittext:0.8'
+
+    //filiutili
+    implementation 'commons-io:commons-io:2.4'
 
     //realm-db, Gson, Picasso, Glide, coverflow
     implementation "io.realm:android-adapters:2.1.1"

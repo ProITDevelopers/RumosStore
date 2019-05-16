@@ -46,6 +46,7 @@
             android:id="@+id/btnCamara"
             android:layout_width="0dp"
             android:layout_weight="50"
+            android:visibility="gone"
             android:layout_marginRight="5dp"
             android:layout_height="wrap_content"
             android:background="@color/colorBotaoLogin"

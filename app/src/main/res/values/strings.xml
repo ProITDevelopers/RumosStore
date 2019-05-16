@@ -57,4 +57,10 @@
     <string name="ir_para_config">Vá para as Configurações</string>
     <string name="dialog_permissao">
 Este aplicativo precisa de permissão para usar esse recurso. Você pode concedê-los nas configurações do aplicativo.</string>
+
+    <string-array name="genero">
+        <item>Feminino</item>
+        <item>Masculino</item>
+    </string-array>
+
 </resources>

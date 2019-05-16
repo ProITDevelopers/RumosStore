@@ -23,7 +23,7 @@
             <ImageView
                 android:id="@+id/imgPublicacao"
                 android:layout_width="100dp"
-                android:src="@drawable/media_m"
+                android:src="@drawable/img_media_rumo"
                 android:layout_height="90dp" />
 
             <ProgressBar

@@ -19,4 +19,8 @@
         <item name="colorControlHighlight">#FFFFFF</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorBotaoLogin</item>
+    </style>
+
 </resources>
