@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
+
     //retrofit
     //implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -80,7 +81,7 @@ dependencies {
     //PDF VIEWER
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'com.github.kk121:File-Loader:1.2'
-
+    
     //----------------------------------------------------------------
     //Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'

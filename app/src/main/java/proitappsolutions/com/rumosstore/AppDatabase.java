@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -26,10 +27,10 @@ public class AppDatabase {
 
     //==========================================================================//
     //==========================================================================//
-    public static void saveRevistasList(final List<Revistas> revistasList) {
+    public static void saveRevistasList(List<Revistas> revistas) {
         Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-            for (Revistas revistas : revistasList) {
-                realm.copyToRealmOrUpdate(revistas);
+            for (Revistas revista : revistas) {
+                realm.copyToRealmOrUpdate(revista);
             }
         });
     }
@@ -39,15 +40,15 @@ public class AppDatabase {
     }
 
     public static RealmResults<Revistas> getRevistasMercadoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "mercado").or().equalTo("categoria", "Mercado").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "mercado").findAll();
     }
 
     public static RealmResults<Revistas> getRevistasVanguardaList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "vanguarda").or().equalTo("categoria", "Vanguarda").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "vanguarda").findAll();
     }
 
     public static RealmResults<Revistas> getRevistasRumoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "rumo").or().equalTo("categoria", "Rumo").findAll();
+        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "rumo").findAll();
     }
     //==========================================================================//
     //==========================================================================//

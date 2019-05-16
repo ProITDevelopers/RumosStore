@@ -9,11 +9,11 @@ import proitappsolutions.com.rumosstore.modelo.Data;
 public class Usuario extends RealmObject {
 
     @PrimaryKey
-    private String id_utilizador;
-    private String nomeCliente,email;
+    public String id_utilizador;
+    public String nomeCliente,email;
     @SerializedName("foto")
-    private String foto;
-    private String sexo,telefone,dataNascimento,provincia,municipio,rua;
+    public String foto;
+    public String sexo,telefone,dataNascimento,provincia,municipio,rua;
 
     public Usuario() {}
 

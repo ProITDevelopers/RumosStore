@@ -8,13 +8,13 @@ import io.realm.annotations.PrimaryKey;
 public class Revistas extends RealmObject {
 
     @PrimaryKey
-    private int id_jornal;
-    private String nome;
+    public int id_jornal;
+    public String nome;
     @SerializedName("fotoJornal")
-    private String fotoJornal;
+    public String fotoJornal;
     @SerializedName("link")
-    private String link;
-    private String categoria;
+    public String link;
+    public String categoria;
 
     public Revistas() {}
 
