@@ -48,10 +48,20 @@
             android:name=".telasActivity.MeuPerfilActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".telasActivity.ImagemPegarActivity" />
-        <activity android:name=".telasActivitysSenha.OpcaoRecSenhaActivity" android:screenOrientation="portrait" />
-        <activity android:name=".telasActivitysSenha.RecuperarSenhaEmailActivity" android:screenOrientation="portrait" />
-        <activity android:name=".telasActivitysSenha.EnviarCodConfActivity" android:screenOrientation="portrait" />
-        <activity android:name=".telasActivitysSenha.RedifinirSenhaActivity" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".telasActivitysSenha.OpcaoRecSenhaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".telasActivitysSenha.RecuperarSenhaEmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".telasActivitysSenha.EnviarCodConfActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".telasActivitysSenha.RedifinirSenhaActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".telasActivitysSenha.RecuperarSenhaTelefoneActivity" android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -65,6 +65,7 @@ class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         try {
             itemClickListener.onClick(view,getAdapterPosition(),false);
         }catch (Exception e){
+            progress_bar.setVisibility(View.GONE);
             Log.i("falhaClick",e.getMessage());
         }
 
@@ -132,7 +133,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
                 public void onClick(View view, int position, boolean isLongClick) {
                     if (!isLongClick){
                         Intent intent = new Intent(mContext,DetalheNoticiaActivity.class);
-                        //intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
+                        intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
                         intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
                         intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
                         intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(0));
@@ -141,6 +142,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
                 }
             });
         } catch (IndexOutOfBoundsException e) {
+            feedViewHolder.progress_bar.setVisibility(View.GONE);
             e.printStackTrace();
         }
     }

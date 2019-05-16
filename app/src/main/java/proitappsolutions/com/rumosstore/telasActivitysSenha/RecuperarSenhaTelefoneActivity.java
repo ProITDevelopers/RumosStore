@@ -18,24 +18,20 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import okhttp3.ResponseBody;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.RecuperarSenha;
-import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RecuperarSenhaEmailActivity extends AppCompatActivity {
+public class RecuperarSenhaTelefoneActivity extends AppCompatActivity {
 
-    private String TAG = "RecuperarSenhaEmailActivity" ;
-    private AppCompatEditText editEmail;
-    private Button btn_email_redif;
-    private String email;
+    private AppCompatEditText editTelef;
+    private Button btn_telef_redif;
+    private String telefone;
     private ProgressDialog progressDialog;
     private RelativeLayout errorLayout;
     private RelativeLayout relativeLayout;
@@ -44,16 +40,16 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recuperar_senha_email);
+        setContentView(R.layout.activity_recuperar_senha_telefone);
 
-        android.support.v7.widget.Toolbar toolbar_redif_senha = findViewById(R.id.toolbar_redif_senha_email);
-        toolbar_redif_senha.setTitle("");
-        setSupportActionBar(toolbar_redif_senha);
+        android.support.v7.widget.Toolbar toolbar_redif_senha_telef = findViewById(R.id.toolbar_redif_senha_telef);
+        toolbar_redif_senha_telef.setTitle("");
+        setSupportActionBar(toolbar_redif_senha_telef);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editEmail = findViewById(R.id.editEmail);
-        btn_email_redif = findViewById(R.id.btn_email_redif);
+        editTelef = findViewById(R.id.editTelef);
+        btn_telef_redif = findViewById(R.id.btn_telef_redif);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
@@ -63,45 +59,45 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
         btnTentarDeNovo.setText("Voltar");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
 
-        btn_email_redif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (verificarEmail()){
-                    mandarEmailResetSenha();
-                }
+    btn_telef_redif.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+               if (verificarCampo()){
+                   mandarTeledResetSenha();
             }
-        });
+        }
+    });
     }
 
-    private void mandarEmailResetSenha() {
+    private void mandarTeledResetSenha() {
 
         errorLayout.setVisibility(View.GONE);
 
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<RecuperarSenha> enviarEmailReset = apiInterface.enviarEmail(email);
-        progressDialog.setMessage("A enviar o e-mail..");
+        Call<RecuperarSenha> enviarEmailReset = apiInterface.enviarTelefone(telefone);
+        progressDialog.setMessage("A enviar o código para " + telefone);
         progressDialog.show();
         enviarEmailReset.enqueue(new Callback<RecuperarSenha>() {
             @Override
             public void onResponse(Call<RecuperarSenha> call, Response<RecuperarSenha> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    Intent intent = new Intent(RecuperarSenhaEmailActivity.this,EnviarCodConfActivity.class);
-                    intent.putExtra("email",email);
+                    Intent intent = new Intent(RecuperarSenhaTelefoneActivity.this,EnviarCodConfActivity.class);
+                    intent.putExtra("telefone",telefone);
                     try {
                         intent.putExtra("id",response.body().getId());
                     }catch (Exception e){
-                        Log.i(TAG,e.getMessage());
+                        Log.i("erroFalha",e.getMessage());
                     }
                     startActivity(intent);
                     finish();
                     Log.i("skansaksas",response.body().getId() + "sucess");
                 }else {
-                    editEmail.setError("E-mail não encontrado.");
-                        Log.i("skansaksas",response.code() + "error");
-                        Log.i("skansaksas",response.code() + email);
+                    editTelef.setError("Número não encontrado.");
+                    Log.i("skansaksas",response.code() + "error");
+                    Log.i("skansaksas",response.code() + telefone);
                     try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
+                        Log.i("skansaksas",response.errorBody().string() + telefone);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -116,12 +112,12 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
                 verifConecxao();
                 switch (t.getMessage()){
                     case "timeout":
-                        Toast.makeText(RecuperarSenhaEmailActivity.this,
+                        Toast.makeText(RecuperarSenhaTelefoneActivity.this,
                                 "Impossivel se comunicar. Internet lenta.",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(RecuperarSenhaEmailActivity.this,
+                        Toast.makeText(RecuperarSenhaTelefoneActivity.this,
                                 "Algum problema aconteceu. Tente novamente.",
                                 Toast.LENGTH_SHORT).show();
                         break;
@@ -156,14 +152,14 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
         });
     }
 
-    private Boolean verificarEmail(){
+    private Boolean verificarCampo(){
 
-        if (editEmail.getText() != null)
-        email = editEmail.getText().toString().trim();
+        if (editTelef.getText() != null)
+            telefone = editTelef.getText().toString().trim();
 
-        if (!MetodosComuns.validarEmail(email)){
-            editEmail.requestFocus();
-            editEmail.setError("Preencha o campo com um email.");
+        if (telefone.length()!=9){
+            editTelef.requestFocus();
+            editTelef.setError("Preencha o campo com 9 dígitos.");
             return false;
         }
 
@@ -184,3 +180,4 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+

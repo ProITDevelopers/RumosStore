@@ -42,6 +42,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -237,7 +238,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }
-                esconderTeclado((Activity) view.getContext());
+                //esconderTeclado((Activity) view.getContext());
                 relativeLayoutEditarPerfil.setVisibility(View.GONE);
                 relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
                 btnEditarPerfil.setVisibility(View.VISIBLE);
@@ -303,7 +304,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
         public static void esconderTeclado (Activity activity){
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(), 0);
         }
 
     @Override

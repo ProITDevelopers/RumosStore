@@ -70,6 +70,9 @@ public class RedifinirSenhaActivity extends AppCompatActivity implements View.On
         caixa_dialogo_cancelar.setCancelable(false);
 
         btnCancelar_dialog = caixa_dialogo_cancelar.findViewById(R.id.btnCancelar_dialog);
+        btnSim = caixa_dialogo_cancelar.findViewById(R.id.btnSim);
+        btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
+        btnCancelar_dialog.setOnClickListener(RedifinirSenhaActivity.this);
         btnSim.setOnClickListener(RedifinirSenhaActivity.this);
         btnNao.setOnClickListener(RedifinirSenhaActivity.this);
 
@@ -84,17 +87,12 @@ public class RedifinirSenhaActivity extends AppCompatActivity implements View.On
         btn_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                caixaDeDialogo();
+                caixa_dialogo_cancelar.show();
             }
         });
         
     }
 
-    private void caixaDeDialogo() {
-
-
-
-    }
 
     private void salvarSenhaNova() {
 
@@ -217,13 +215,26 @@ public class RedifinirSenhaActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        supportFinishAfterTransition();
+
     }
 
 
     @Override
     public void onClick(View view) {
         //configurar onClick
+        switch (view.getId()){
+            case R.id.btnSim:
+                Intent intent = new Intent(RedifinirSenhaActivity.this,MediaRumoActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.btnNao:
+                caixa_dialogo_cancelar.dismiss();
+                break;
+            case R.id.btnCancelar_dialog:
+                caixa_dialogo_cancelar.dismiss();
+                break;
+        }
     }
 }

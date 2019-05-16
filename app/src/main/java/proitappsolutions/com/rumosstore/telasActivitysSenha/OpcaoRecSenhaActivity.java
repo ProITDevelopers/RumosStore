@@ -38,6 +38,8 @@ public class OpcaoRecSenhaActivity extends AppCompatActivity implements View.OnC
                 startActivity(intentRecEmail);
                 break;
             case R.id.btn_telef_redif:
+                Intent intentRecTelef = new Intent(OpcaoRecSenhaActivity.this,RecuperarSenhaTelefoneActivity.class);
+                startActivity(intentRecTelef);
                 break;
 
         }

@@ -18,8 +18,9 @@
     <string name="hit_recuperar_senha">Redifinir Senha</string>
     <string name="hit_receber_cod_confirmacao">Como deseja receber o codigo de confirmação?</string>
     <string name="hit_redif_senha">Insira o seu e-mail para redifinir a sua senha</string>
+    <string name="hit_redif_telef">Insira o seu número do telefone</string>
     <string name="hit_redif_cod">Insira o Seu Código de Confirmação</string>
-    <string name="hit_email_enviado">Enviamos o código de confirmação para este endereço de e-mail</string>
+    <string name="hit_email_enviado">Enviamos o código de confirmação para - </string>
     <string name="hit_nova_senha">Nova Senha</string>
     <string name="hit_conf_senha">Confirmar Senha</string>
     <string name="navigation_drawer_abre"> </string>

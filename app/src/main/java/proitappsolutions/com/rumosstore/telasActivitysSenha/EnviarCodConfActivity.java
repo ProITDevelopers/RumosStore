@@ -36,7 +36,7 @@ public class EnviarCodConfActivity extends AppCompatActivity {
     private String TAG = "EnviarCodConfActivity";
     private EditText editCod1,editCod2,editCod3,editCod4,editCod5,editCod6;
     private TextView tv_email;
-    private String id,email,codigo1,codigo2,codigo3,codigo4,codigo5,codigo6;
+    private String id,email,telefone,codigo1,codigo2,codigo3,codigo4,codigo5,codigo6;
     private Button btn_enviar_cod_reset;
     private ProgressDialog progressDialog;
     private RelativeLayout errorLayout;
@@ -66,7 +66,13 @@ public class EnviarCodConfActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         email = intent.getStringExtra("email");
-        tv_email.setText(email);
+        telefone = intent.getStringExtra("telefone");
+
+        if (email==null){
+            tv_email.setText(email);
+        }else {
+            tv_email.setText(telefone);
+        }
         controleEditText();
 
         btn_enviar_cod_reset.setOnClickListener(new View.OnClickListener() {
