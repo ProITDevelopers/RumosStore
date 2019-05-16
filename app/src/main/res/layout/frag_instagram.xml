@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtLista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <WebView
+        android:id="@+id/webViewInstagram"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </WebView>
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,7 +20,18 @@
         android:gravity="center"
         android:layout_height="match_parent">
 
-
+        <io.netopen.hotbitmapgg.library.view.RingProgressBar
+            android:id="@+id/progressbar_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/media_m"
+            app:max="100"
+            app:ringColor="@android:color/transparent"
+            app:ringProgressColor="@color/colormedia"
+            app:textColor="@color/colorBotaoLogin"
+            app:ringWidth="10dp"
+            style="FILL"
+            app:textSize="16dp"/>
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/progress"
@@ -33,4 +46,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

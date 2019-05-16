@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -36,7 +38,16 @@ public class FragVanguarda extends Fragment {
         webView = view.findViewById(R.id.webViewVanguarda);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
+
         webView.loadUrl("https://www.vanguarda.co.ao/");
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+                super.onReceivedSslError(view, handler, error);
+            }
+        });
+
         webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 if (progress < 100){
@@ -54,10 +65,13 @@ public class FragVanguarda extends Fragment {
                     anelprogressbar.setVisibility(View.GONE);
                 }
             }
+
         });
         
         return view;
 
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;

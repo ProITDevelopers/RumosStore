@@ -1,27 +1,31 @@
 package proitappsolutions.com.rumosstore.telasActivity;
 
-import android.content.ActivityNotFoundException;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import proitappsolutions.com.rumosstore.AppDatabase;
@@ -33,12 +37,16 @@ import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
+import proitappsolutions.com.rumosstore.fragmentos.FragFacebook;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
+import proitappsolutions.com.rumosstore.fragmentos.FragInstagram;
 import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
 import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
 import proitappsolutions.com.rumosstore.fragmentos.FragRevistas;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
+import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistasTeste;
+import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +59,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private TextView txtEmail;
     private Toolbar toolbar;
     public DataUserApi dataUserApi  = new DataUserApi();
+
+    List<Revistas> revistasList;
+
 
 
     @Override
@@ -75,6 +86,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         //carregar dados do Usuario
         verifConecxao();
+//        verifConecxaoRevistas();
 //        loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -221,7 +233,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                 break;
 
             case R.id.action_logout:
-                logOut();
+                showLogOutAlert();
                 break;
         }
 
@@ -245,7 +257,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         } else if (id == R.id.nav_quiosque) {
             toolbar.setTitle("Quiosque");
-            FragRevistas fragRevistas = new FragRevistas();
+//            FragRevistas fragRevistas = new FragRevistas();
+//            android.support.v4.app.FragmentTransaction fragmentTransaction =
+//                    getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.container,fragRevistas);
+//            fragmentTransaction.commit();
+            FragRevistasTeste fragRevistas = new FragRevistasTeste();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragRevistas);
@@ -284,10 +301,22 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         }else if (id == R.id.nav_instagram) {
-            openInstagram(Common.SOCIAL_INSTAGRAM);
-        }  else if (id == R.id.nav_facebook) {
+            toolbar.setTitle("Instagram");
+            FragInstagram fragInstagram = new FragInstagram();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragInstagram);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
-            openFbUrl(Common.SOCIAL_FACEBOOK);
+        }  else if (id == R.id.nav_facebook) {
+            toolbar.setTitle("Facebook");
+            FragFacebook fragFacebook = new FragFacebook();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container,fragFacebook);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }  else if (id == R.id.nav_share) {
 
@@ -299,6 +328,42 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
+
+
+    private void showLogOutAlert() {
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Terminar a sessão");
+        dialog.setMessage("Deseja continuar?");
+
+        //Set button
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+
+                logOut();
+
+            }
+        });
+
+
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+
+
+
+
+        dialog.show();
+    }
+
     private void logOut(){
 
         AppDatabase.clearData();
@@ -308,24 +373,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+
+
     }
 
-    protected void openInstagram(String username) {
-        Uri uri = Uri.parse("http://instagram.com/_u/" + username);
-        Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
-        likeIng.setPackage("com.instagram.android");
-        try {
-            startActivity(likeIng);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://instagram.com/" + username)));
-        }
-    }
-
-    protected void openFbUrl(String username){
-        startActivity(new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://www.facebook.com/" + username)));
-    }
 
     //Sharing the app
     private void shareTheApp() {
@@ -336,12 +387,56 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String postData = "Obtenha " + appName + " app para ter acesso as " + appCategory +" recentes: "+ "https://play.google.com/store/apps/details?id=" + appPackageName;
+        String postData = "Obtenha o aplicativo " + appName + " para ter acesso as " + appCategory +" recentes: "+ "https://play.google.com/store/apps/details?id=" + appPackageName;
 
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Baixar Agora!");
         shareIntent.putExtra(Intent.EXTRA_TEXT, postData);
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
+    }
+
+    private void verifConecxaoRevistas() {
+
+        if (getBaseContext() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo != null){
+                carregarRevistas();
+            }
+
+        }
+
+    }
+
+    private void carregarRevistas() {
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<List<Revistas>> rv = apiInterface.getRevistas();
+        rv.enqueue(new Callback<List<Revistas>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Revistas>> call, @NonNull Response<List<Revistas>> response) {
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), "Bem-vindo "+AppDatabase.getUser().getNomeCliente(), Toast.LENGTH_SHORT).show();
+                } else {
+
+                    revistasList = response.body();
+
+                    AppDatabase.saveRevistasList(revistasList);
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Revistas>> call, Throwable t) {
+
+            }
+        });
+
+
+
     }
 
 }

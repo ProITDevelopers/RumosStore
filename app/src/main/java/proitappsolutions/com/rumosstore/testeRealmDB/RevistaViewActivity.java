@@ -24,6 +24,7 @@ import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 
@@ -35,7 +36,7 @@ import android.support.v7.widget.Toolbar;
 public class RevistaViewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private ProgressBar progressBar;
+    private AVLoadingIndicatorView progressBar;
     private Toolbar toolbar;
 
 
@@ -53,7 +54,7 @@ public class RevistaViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar = (AVLoadingIndicatorView)findViewById(R.id.progress_bar);
 
         if (getIntent() != null){
             String viewType = getIntent().getStringExtra("ViewType");
@@ -87,6 +88,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             @Override
                                             public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
                                                 // Code here if you want to do something
+
                                             }
                                         })
                                         .onPageError(new OnPageErrorListener() {
@@ -99,11 +101,13 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             @Override
                                             public void onPageChanged(int page, int pageCount) {
                                                 // Code here if you want to do something
+
                                             }
                                         })
                                         .onTap(new OnTapListener() {
                                             @Override
                                             public boolean onTap(MotionEvent e) {
+
                                                 return true;
                                             }
                                         })
@@ -111,6 +115,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             @Override
                                             public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
                                                 pdfView.fitToWidth(); //Fixed screen size
+
                                             }
                                         })
                                         .enableAnnotationRendering(true)
