@@ -10,6 +10,7 @@ public class DataDados {
     private String nomeCliente;
     @SerializedName("email")
     private String email;
+
     //--
     @SerializedName("foto")
     private String foto;

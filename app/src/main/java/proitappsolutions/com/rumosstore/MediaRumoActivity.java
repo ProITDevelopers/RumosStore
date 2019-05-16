@@ -140,6 +140,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 //response.body()==null
                 if (response.isSuccessful()){
                     data = response.body();
+                    Log.i("dadoRole",data.getEmSessao().getRole());
                     retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(data.getEmSessao().getId());
                     callApiDados.enqueue(new Callback<DataUserApi>() {
                         @Override
@@ -214,6 +215,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
                         @Override
                         public void onFailure(Call<DataUserApi> call, Throwable t) {
+                            progressDialog.dismiss();
                             verifConecxao();
                             switch (t.getMessage()){
                                 case "timeout":

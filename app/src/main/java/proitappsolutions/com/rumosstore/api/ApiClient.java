@@ -57,9 +57,9 @@ public class ApiClient {
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(100, TimeUnit.SECONDS)
-                    .readTimeout(100,TimeUnit.SECONDS).build();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(90, TimeUnit.SECONDS)
+                    .readTimeout(90, TimeUnit.SECONDS)
+                    .writeTimeout(90, TimeUnit.SECONDS);
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier(new HostnameVerifier() {
                 @Override

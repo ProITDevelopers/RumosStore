@@ -37,6 +37,10 @@ public interface ApiInterface {
     Call<RecuperarSenha> enviarEmail(@Field("email") String email);
 
     @FormUrlEncoded
+    @POST("/v1/app/setSenha/{id}")
+    Call<Void> atualizarSenha(@Path("id") int id,@Field("novasenha") String novasenha,@Field("antigasenha") String antigasenha);
+
+    @FormUrlEncoded
     @POST("/v1/app/send-phone")
     Call<RecuperarSenha> enviarTelefone(@Field("telefone") String telefone);
 
