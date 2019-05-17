@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,7 +38,8 @@ import android.support.v7.widget.Toolbar;
 public class RevistaViewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private AVLoadingIndicatorView progressBar;
+    private LinearLayout progressBar;
+
     private Toolbar toolbar;
 
 
@@ -54,7 +57,8 @@ public class RevistaViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
-        progressBar = (AVLoadingIndicatorView)findViewById(R.id.progress_bar);
+        progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
+
 
         if (getIntent() != null){
             String viewType = getIntent().getStringExtra("ViewType");
@@ -68,9 +72,10 @@ public class RevistaViewActivity extends AppCompatActivity {
                         .asFile(new FileRequestListener<File>() {
                             @Override
                             public void onLoad(FileLoadRequest fileLoadRequest, FileResponse<File> fileResponse) {
-                                progressBar.setVisibility(View.GONE);
 
                                 File pdfFile = fileResponse.getBody();
+
+                                progressBar.setVisibility(View.GONE);
 
                                 pdfView.fromFile(pdfFile)
                                         .password(null) // If have password
@@ -146,5 +151,11 @@ public class RevistaViewActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
     }
 }

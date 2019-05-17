@@ -12,16 +12,41 @@
         android:layout_height="match_parent">
     </com.github.barteksc.pdfviewer.PDFView>
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/progress_bar"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        app:indicatorColor="@color/colormedia"
-        app:indicatorName="BallPulseIndicator" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:id="@+id/linearProgresso"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <io.netopen.hotbitmapgg.library.view.RingProgressBar
+            android:id="@+id/progressbar_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_media_rumo"
+            app:max="100"
+            app:ringColor="@android:color/transparent"
+            app:ringProgressColor="@android:color/transparent"
+            app:textColor="@android:color/black"
+            app:ringWidth="10dp"
+            style="FILL"
+            app:textSize="16dp"/>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_30"
+            app:indicatorColor="@color/colormedia"
+            app:indicatorName="BallPulseIndicator" />
+
+    </LinearLayout>
+
+
 
 
 
