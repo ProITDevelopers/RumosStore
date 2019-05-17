@@ -44,7 +44,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout errorLayout;
     private RelativeLayout relLativeLayout;
     private TextView btnTentarDeNovo;
-    private Erro erro = new Erro();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,6 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.esconderTeclado;
+
 public class RecuperarSenhaTelefoneActivity extends AppCompatActivity {
 
     private AppCompatEditText editTelef;
@@ -82,7 +84,7 @@ public class RecuperarSenhaTelefoneActivity extends AppCompatActivity {
             public void onResponse(Call<RecuperarSenha> call, Response<RecuperarSenha> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    Intent intent = new Intent(RecuperarSenhaTelefoneActivity.this,EnviarCodConfActivity.class);
+                    Intent intent = new Intent(RecuperarSenhaTelefoneActivity.this,EnviarCodConfActivityTelefone.class);
                     intent.putExtra("telefone",telefone);
                     try {
                         intent.putExtra("id",response.body().getId());
@@ -131,6 +133,7 @@ public class RecuperarSenhaTelefoneActivity extends AppCompatActivity {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
+            esconderTeclado(RecuperarSenhaTelefoneActivity.this);
             mostarMsnErro();
         }else{
         }

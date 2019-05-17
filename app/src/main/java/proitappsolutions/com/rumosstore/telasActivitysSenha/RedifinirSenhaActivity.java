@@ -31,6 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.esconderTeclado;
+
 public class RedifinirSenhaActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ShowHidePasswordEditText edtSenhaNova,edtConfSenha;
@@ -191,6 +193,7 @@ public class RedifinirSenhaActivity extends AppCompatActivity implements View.On
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
+            esconderTeclado(RedifinirSenhaActivity.this);
             mostarMsnErro();
         }else{
         }

@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.RegistroActivity;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
@@ -32,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnviarCodConfActivity extends AppCompatActivity {
+public class EnviarCodConfActivityTelefone extends AppCompatActivity {
 
     private String TAG = "EnviarCodConfActivity";
     private EditText editCod1,editCod2,editCod3,editCod4,editCod5,editCod6;
@@ -63,15 +61,15 @@ public class EnviarCodConfActivity extends AppCompatActivity {
         btnTentarDeNovo = findViewById(R.id.btn);
         btnTentarDeNovo.setText("Voltar");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
-        progressDialog = new ProgressDialog(EnviarCodConfActivity.this);
+        progressDialog = new ProgressDialog(EnviarCodConfActivityTelefone.this);
         progressDialog.setCancelable(false);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        email = intent.getStringExtra("email");
-        //telefone = intent.getStringExtra("telefone");
+        //email = intent.getStringExtra("email");
+        telefone = intent.getStringExtra("telefone");
 
         //if (email==null){
-        tv_email.setText(email);
+        tv_email.setText(telefone);
         //}else {
           //  tv_email.setText(telefone);
         //}
@@ -88,31 +86,32 @@ public class EnviarCodConfActivity extends AppCompatActivity {
         receberDeNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mandarEmailResetSenha();
+                mandarTeledResetSenha();
             }
         });
     }
 
-    private void mandarEmailResetSenha() {
+    private void mandarTeledResetSenha() {
 
         errorLayout.setVisibility(View.GONE);
 
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<RecuperarSenha> enviarEmailReset = apiInterface.enviarEmail(email);
-        progressDialog.setMessage("A enviar o e-mail..");
+        Call<RecuperarSenha> enviarEmailReset = apiInterface.enviarTelefone(telefone);
+        progressDialog.setMessage("A enviar o código para " + telefone);
         progressDialog.show();
         enviarEmailReset.enqueue(new Callback<RecuperarSenha>() {
             @Override
             public void onResponse(Call<RecuperarSenha> call, Response<RecuperarSenha> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    Toast.makeText(EnviarCodConfActivity.this,"O código foi reenviado.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnviarCodConfActivityTelefone.this,"O código foi reenviado.",Toast.LENGTH_SHORT).show();
+                    Log.i("skansaksas",response.body().getId() + "sucess");
                 }else {
-                    Toast.makeText(EnviarCodConfActivity.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnviarCodConfActivityTelefone.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
                     Log.i("skansaksas",response.code() + "error");
-                    Log.i("skansaksas",response.code() + email);
+                    Log.i("skansaksas",response.code() + telefone);
                     try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
+                        Log.i("skansaksas",response.errorBody().string() + telefone);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -127,12 +126,12 @@ public class EnviarCodConfActivity extends AppCompatActivity {
                 verifConecxao();
                 switch (t.getMessage()){
                     case "timeout":
-                        Toast.makeText(EnviarCodConfActivity.this,
+                        Toast.makeText(EnviarCodConfActivityTelefone.this,
                                 "Impossivel se comunicar. Internet lenta.",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(EnviarCodConfActivity.this,
+                        Toast.makeText(EnviarCodConfActivityTelefone.this,
                                 "Algum problema aconteceu. Tente novamente.",
                                 Toast.LENGTH_SHORT).show();
                         break;
@@ -155,7 +154,7 @@ public class EnviarCodConfActivity extends AppCompatActivity {
             public void onResponse(Call<CodConfirmacaoResult> call, Response<CodConfirmacaoResult> response) {
                 if (!response.isSuccessful()){
                     try {
-                        Toast.makeText(EnviarCodConfActivity.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EnviarCodConfActivityTelefone.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
                         //response.body().
                         Log.i(TAG,"certo" + response.errorBody().string());
                         //erro = response.errorBody().string();
@@ -166,7 +165,7 @@ public class EnviarCodConfActivity extends AppCompatActivity {
 
                 }else {
                     if (response.body() != null){
-                        Intent intent = new Intent(EnviarCodConfActivity.this,RedifinirSenhaActivity.class);
+                        Intent intent = new Intent(EnviarCodConfActivityTelefone.this,RedifinirSenhaActivity.class);
                         intent.putExtra("token",response.body().getToken());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -182,16 +181,17 @@ public class EnviarCodConfActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CodConfirmacaoResult> call, Throwable t) {
                 progressDialog.dismiss();
+
                 Log.i("skansaksas",t.getMessage() + "failed");
                 verifConecxao();
                 switch (t.getMessage()){
                     case "timeout":
-                        Toast.makeText(EnviarCodConfActivity.this,
+                        Toast.makeText(EnviarCodConfActivityTelefone.this,
                                 "Impossivel se comunicar. Internet lenta.",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(EnviarCodConfActivity.this,
+                        Toast.makeText(EnviarCodConfActivityTelefone.this,
                                 "Algum problema aconteceu. Tente novamente.",
                                 Toast.LENGTH_SHORT).show();
                         break;

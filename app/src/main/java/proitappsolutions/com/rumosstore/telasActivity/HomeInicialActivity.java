@@ -1,6 +1,7 @@
 package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
 import proitappsolutions.com.rumosstore.fragmentos.FragRevistas;
 import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
+import proitappsolutions.com.rumosstore.telasActivitysSenha.AtualizarSenhaSenhaActivity;
 import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistasTeste;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 import retrofit2.Call;
@@ -52,12 +55,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private CircleImageView circleImageView;
     private TextView txtName;
-    private TextView txtEmail;
+    private TextView txtEmail,diagolo_titulo;
     private Toolbar toolbar;
+    private Button btn_cancelar,btnSim,btnNao,btnCancelar_dialog;
+    private Dialog caixa_dialogo_cancelar;
     public DataUserApi dataUserApi  = new DataUserApi();
 
     List<Revistas> revistasList;
@@ -83,6 +88,19 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         circleImageView = (CircleImageView) headerView.findViewById(R.id.iv_imagem_perfil);
         txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
+
+        caixa_dialogo_cancelar = new Dialog(HomeInicialActivity.this);
+        caixa_dialogo_cancelar.setContentView(R.layout.caixa_de_dialogo_redif_senha);
+        caixa_dialogo_cancelar.setCancelable(false);
+
+        btnCancelar_dialog = caixa_dialogo_cancelar.findViewById(R.id.btnCancelar_dialog);
+        btnSim = caixa_dialogo_cancelar.findViewById(R.id.btnSim);
+        btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
+        diagolo_titulo = caixa_dialogo_cancelar.findViewById(R.id.diagolo_titulo);
+        btnCancelar_dialog.setOnClickListener(HomeInicialActivity.this);
+        diagolo_titulo.setText("Deseja terminar a sessão ?");
+        btnSim.setOnClickListener(HomeInicialActivity.this);
+        btnNao.setOnClickListener(HomeInicialActivity.this);
 
         //carregar dados do Usuario
         verifConecxao();
@@ -223,17 +241,14 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch (id){
             case R.id.action_alterar_senha:
+                Intent atualizarSenhaIntent = new Intent(HomeInicialActivity.this,AtualizarSenhaSenhaActivity.class);
+                startActivity(atualizarSenhaIntent);
                 break;
-
             case R.id.action_logout:
-                showLogOutAlert();
+                caixa_dialogo_cancelar.show();
                 break;
         }
 
@@ -328,9 +343,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
-
-
-    private void showLogOutAlert() {
+    /*private void showLogOutAlert() {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Terminar a sessão");
@@ -348,21 +361,14 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             }
         });
 
-
-
         dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-
-
-
-
-
         dialog.show();
-    }
+    }*/
 
     private void logOut(){
 
@@ -373,7 +379,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-
 
     }
 
@@ -423,10 +428,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
                     AppDatabase.saveRevistasList(revistasList);
                 }
-
-
-
-
             }
 
             @Override
@@ -439,4 +440,19 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnSim:
+                Intent intent = new Intent(HomeInicialActivity.this,HomeInicialActivity.class);
+                logOut();
+                break;
+            case R.id.btnNao:
+                caixa_dialogo_cancelar.dismiss();
+                break;
+            case R.id.btnCancelar_dialog:
+                caixa_dialogo_cancelar.dismiss();
+                break;
+        }
+    }
 }

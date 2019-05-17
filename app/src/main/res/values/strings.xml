@@ -20,9 +20,11 @@
     <string name="hit_redif_senha">Insira o seu e-mail para redifinir a sua senha</string>
     <string name="hit_redif_telef">Insira o seu número do telefone</string>
     <string name="hit_redif_cod">Insira o Seu Código de Confirmação</string>
+    <string name="hit_receber_denovo">Não Recebeu o código ?</string>
     <string name="hit_email_enviado">Enviamos o código de confirmação para - </string>
     <string name="hit_nova_senha">Nova Senha</string>
     <string name="hit_conf_senha">Confirmar Senha</string>
+    <string name="hit_senha_antiga">Senha Antiga</string>
     <string name="navigation_drawer_abre"> </string>
     <string name="lbl_view_cart">VIEW CART</string>
     <string name="cart_info_bar_data">%d Items | Kz%s</string>

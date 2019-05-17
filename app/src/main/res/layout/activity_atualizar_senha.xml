@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".telasActivitysSenha.RecuperarSenhaTelefoneActivity">
+    tools:context=".telasActivitysSenha.AtualizarSenhaSenhaActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content">
 
                     <android.support.v7.widget.Toolbar
-                        android:id="@+id/toolbar_redif_senha_telef"
+                        android:id="@+id/toolbar_redif_senha_email"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@color/colorBotaoLogin" />
@@ -49,37 +49,45 @@
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/txt_cor_redif"
-                        android:text="@string/hit_redif_telef"
-                        android:textSize="@dimen/txtTamanho"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/borda_arredondada"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/hint_edtSenha"
                             android:theme="@style/MyEditTextTheme"
-                            android:id="@+id/hint_email">
+                            app:passwordToggleEnabled="true">
 
-                            <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/editTelef"
+                            <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                                android:id="@+id/edtSenhaNova"
+                                android:textColor="@color/colorBotaoLogin"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/hit_btn_num_telef"
-                                android:maxLength="9"
-                                android:inputType="number"
-                                android:theme="@style/MyEditTextTheme"/>
+                                android:hint="@string/hit_nova_senha"
+                                android:inputType="textPassword" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/hint_edtConf"
+                            android:theme="@style/MyEditTextTheme"
+                            app:passwordToggleEnabled="true">
+
+                            <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                                android:id="@+id/edtSenhaAntiga"
+                                android:textColor="@color/colorBotaoLogin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hit_senha_antiga"
+                                android:inputType="textPassword" />
 
 
                         </android.support.design.widget.TextInputLayout>
@@ -95,14 +103,36 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/btn_telef_redif"
+                            android:id="@+id/btn_redif_senha"
                             android:layout_width="0dp"
                             android:layout_weight="50"
                             android:layout_marginRight="5dp"
-                            android:text="@string/hit_btn_receber_cod"
+                            android:text="Salvar Senha"
                             android:textColor="@android:color/white"
                             android:background="@drawable/borda_arredondada_login"
                             android:layout_height="44dp"
+                            android:layout_marginEnd="5dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="270dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/borda_arredondada"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_cancelar"
+                            android:layout_width="0dp"
+                            android:layout_weight="50"
+                            android:layout_marginRight="5dp"
+                            android:text="Cancelar"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/holo_red_light"
+                            android:background="@android:color/transparent"
+                            android:layout_height="24dp"
                             android:layout_marginEnd="5dp" />
 
                     </LinearLayout>
