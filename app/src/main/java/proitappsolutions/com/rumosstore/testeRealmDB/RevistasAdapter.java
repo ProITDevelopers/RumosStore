@@ -93,8 +93,7 @@ public class RevistasAdapter extends BaseAdapter  {
                         }
                     });
 
-
-//            Picasso.with(mContext).load(revistas.getFotoJornal()).placeholder(R.drawable.revista_placeholder).into(image);
+            
             name.setText(revistas.getNome());
 
             return itemView;
