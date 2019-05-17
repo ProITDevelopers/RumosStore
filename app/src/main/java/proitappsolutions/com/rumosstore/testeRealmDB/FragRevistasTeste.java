@@ -397,7 +397,7 @@ public class FragRevistasTeste extends Fragment {
                 startActivity(intent);
             }
         });
-        
+
 
         linearLayout.setVisibility(View.VISIBLE);
         linearLayoutCarregando.setVisibility(View.GONE);
