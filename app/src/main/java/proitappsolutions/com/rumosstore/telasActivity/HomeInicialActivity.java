@@ -86,14 +86,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
 
         //carregar dados do Usuario
-
         usuario = AppDatabase.getUser();
+        loaduserProfile(usuario);
+        verifConecxao();
 
-        if (usuario!=null){
-            verifConecxao();
-        } else {
-            logOut();
-        }
 
 //        verifConecxaoRevistas();
 //        loaduserProfile(AppDatabase.getUser());
@@ -149,6 +145,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                         .into(circleImageView);
             }
 
+
         } else {
             logOut();
         }
@@ -159,7 +156,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
             loaduserProfile(usuario);
-        }else{
+        } else{
             carregarDadosdoUserApi(usuario);
         }
 
