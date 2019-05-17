@@ -86,22 +86,8 @@ public class RevistasAdapter extends BaseAdapter  {
 
                         @Override
                         public void onError() {
-
-                            Picasso.with(mContext)
-                                    .load(R.drawable.revista_image_error)
-                                    .into(image, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            progress_bar.setVisibility(View.GONE);
-                                        }
-
-                                        @Override
-                                        public void onError() {
-                                            progress_bar.setVisibility(View.GONE);
-
-                                        }
-                                    });
-
+                            progress_bar.setVisibility(View.GONE);
+                            Picasso.with(mContext).load(R.drawable.revista_placeholder).into(image);
 
 
                         }
