@@ -22,9 +22,6 @@ public class AppDatabase {
     public static Usuario getUser() {
         return Realm.getDefaultInstance().where(Usuario.class).findFirst();
     }
-
-
-
     //==========================================================================//
     //==========================================================================//
     public static void saveRevistasList(List<Revistas> revistas) {
@@ -52,10 +49,6 @@ public class AppDatabase {
     }
     //==========================================================================//
     //==========================================================================//
-
-
-
-
     public static void clearData() {
         Realm.getDefaultInstance().executeTransaction(realm -> realm.deleteAll());
     }

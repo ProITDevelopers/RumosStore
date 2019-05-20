@@ -382,7 +382,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
-
     //Sharing the app
     private void shareTheApp() {
 

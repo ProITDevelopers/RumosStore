@@ -25,13 +25,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 if (TextUtils.isEmpty(AppPref.getInstance().getAuthToken())) {
-
                     Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                     return;
-
                 }else if (AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||
                         AppDatabase.getUser().getTelefone() == null || AppDatabase.getUser().getDataNascimento() == null ||
                         AppDatabase.getUser().getProvincia() == null || AppDatabase.getUser().getMunicipio() == null ||
