@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 
 public class AppPref {
-
+//
     private static AppPref singleTonInstance = null;
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
