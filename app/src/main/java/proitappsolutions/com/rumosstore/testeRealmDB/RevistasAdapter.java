@@ -93,12 +93,12 @@ public class RevistasAdapter extends BaseAdapter  {
                         }
                     });
 
-
+//
             name.setText(revistas.getNome());
 
             return itemView;
         }
-
+//
         return rowView;
     }
 
