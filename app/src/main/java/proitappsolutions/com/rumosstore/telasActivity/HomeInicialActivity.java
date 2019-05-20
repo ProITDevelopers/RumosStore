@@ -397,47 +397,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Baixar Agora!");
         shareIntent.putExtra(Intent.EXTRA_TEXT, postData);
         shareIntent.setType("text/plain");
-        startActivity(Intent.createChooser(shareIntent, "Share Post Via"));
-    }
-
-    private void verifConecxaoRevistas() {
-
-        if (getBaseContext() != null){
-            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo != null){
-                carregarRevistas();
-            }
-
-        }
-
-    }
-
-    private void carregarRevistas() {
-        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<List<Revistas>> rv = apiInterface.getRevistas();
-        rv.enqueue(new Callback<List<Revistas>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Revistas>> call, @NonNull Response<List<Revistas>> response) {
-
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "Bem-vindo "+AppDatabase.getUser().getNomeCliente(), Toast.LENGTH_SHORT).show();
-                } else {
-
-                    revistasList = response.body();
-
-                    AppDatabase.saveRevistasList(revistasList);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Revistas>> call, Throwable t) {
-
-            }
-        });
-
-
-
+        startActivity(Intent.createChooser(shareIntent, "Partilhar Link da App"));
     }
 
     @Override

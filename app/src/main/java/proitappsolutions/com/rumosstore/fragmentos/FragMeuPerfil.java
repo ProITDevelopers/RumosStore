@@ -222,16 +222,16 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
 
     private void verificarPermissaoFotoCameraGaleria(){
         if (Build.VERSION.SDK_INT >= 23){
-            requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSAO_FOTO);
+            requestPermissions(new String[]{/*Manifest.permission.CAMERA,*/Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSAO_FOTO);
 
         }else {
         }
 
         if (ContextCompat.checkSelfPermission(view.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(view.getContext(),
+                != PackageManager.PERMISSION_GRANTED /*&& ContextCompat.checkSelfPermission(view.getContext(),
                 Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED*/) {
             //Toast.makeText(view.getContext(),"Precisa aceitar as permissões para escolher uma foto de perfil",Toast.LENGTH_SHORT).show();
         }else {
             caixa_dialogo_foto.show();

@@ -152,10 +152,4 @@ public class RevistaViewActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-    }
 }
