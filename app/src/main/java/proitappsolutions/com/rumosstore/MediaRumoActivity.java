@@ -179,7 +179,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                     Log.d("snansa",usuario.getDataNascimento());
                                     //
                                 }
-//
+// --------------------------------
                                 if (dataUserApi.getDataDados().getProvincia() != null )
                                     usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
 
