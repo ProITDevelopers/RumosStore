@@ -32,10 +32,12 @@ public class RevistasAdapter extends BaseAdapter  {
 
     private List<Revistas> revistasList;
     private Context mContext;
+    private LayoutInflater inflater;
 
     public RevistasAdapter(List<Revistas> revistasList, Context mContext) {
         this.revistasList = revistasList;
         this.mContext = mContext;
+        inflater = LayoutInflater.from(mContext);
     }
 
 
@@ -61,11 +63,10 @@ public class RevistasAdapter extends BaseAdapter  {
         Revistas revistas = revistasList.get(i);
         if (rowView == null){
 
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            View itemView = inflater.inflate(R.layout.layout_item,null);
+            View itemView = inflater.inflate(R.layout.layout_item,viewGroup,false);
             TextView name = (TextView)itemView.findViewById(R.id.label);
             ImageView image = (ImageView)itemView.findViewById(R.id.image);
-            ProgressBar progress_bar = itemView.findViewById(R.id.progress_bar);
+
 
 
 //            rowView = LayoutInflater.from(mContext).inflate(R.layout.layout_item,null);
@@ -75,26 +76,10 @@ public class RevistasAdapter extends BaseAdapter  {
 
             //Set Data
 
-            Picasso.with(mContext)
-                    .load(revistas.getFotoJornal())
-                    .placeholder(R.drawable.revista_placeholder)
-                    .into(image, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            progress_bar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            progress_bar.setVisibility(View.GONE);
-                            Picasso.with(mContext).load(R.drawable.revista_placeholder).into(image);
-
-
-                        }
-                    });
-
-
             name.setText(revistas.getNome());
+            Picasso.with(mContext).load(revistas.getFotoJornal()).resize(210, 300).onlyScaleDown().placeholder(R.drawable.revista_placeholder).error(R.drawable.revista_image_error).into(image);
+
+
 
             return itemView;
         }

@@ -21,12 +21,9 @@ import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {
 
-    public static List<Revistas> revistasArrayList = new ArrayList<>();
-
     public static Usuario mCurrentUser;
 
     public static final String DB_REALM = "rumo_store_db";
-
 
 
     public static void changeStatusBarColor(Activity activity, int color) {
@@ -42,27 +39,4 @@ public class Common {
     }
 
 
-
-
-    public static boolean isConnected(int timeOut) {
-        InetAddress inetAddress = null;
-        try {
-            Future<InetAddress> future = Executors.newSingleThreadExecutor().submit(new Callable<InetAddress>() {
-                @Override
-                public InetAddress call() {
-                    try {
-                        return InetAddress.getByName("google.com");
-                    } catch (UnknownHostException e) {
-                        return null;
-                    }
-                }
-            });
-            inetAddress = future.get(timeOut, TimeUnit.MILLISECONDS);
-            future.cancel(true);
-        } catch (InterruptedException e) {
-        } catch (ExecutionException e) {
-        } catch (TimeoutException e) {
-        }
-        return inetAddress != null && !inetAddress.equals("");
-    }
 }

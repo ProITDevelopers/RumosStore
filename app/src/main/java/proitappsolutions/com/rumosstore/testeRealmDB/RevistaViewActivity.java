@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
@@ -58,6 +59,8 @@ public class RevistaViewActivity extends AppCompatActivity {
 
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
         progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
+
+
 
 
         if (getIntent() != null){
@@ -123,6 +126,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
                                             }
                                         })
+
                                         .enableAnnotationRendering(true)
                                         .invalidPageColor(Color.WHITE)
                                         .load();
@@ -147,15 +151,12 @@ public class RevistaViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+
                 finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
 
-    }
 }

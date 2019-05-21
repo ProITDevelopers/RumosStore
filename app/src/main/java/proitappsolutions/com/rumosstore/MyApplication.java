@@ -2,6 +2,8 @@ package proitappsolutions.com.rumosstore;
 
 import android.app.Application;
 
+import com.krishna.fileloader.FileLoader;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -15,6 +17,12 @@ public class MyApplication extends Application {
         super.onCreate();
 
         mInstance = this;
+
+        try {
+            FileLoader.deleteWith(this).deleteAllFiles();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         initRealm();
@@ -30,7 +38,7 @@ public class MyApplication extends Application {
                 .name(Common.DB_REALM)
                 .build();
         Realm.setDefaultConfiguration(defaultRealmConfiguration);
-//        Realm.compactRealm(defaultRealmConfiguration);
+        Realm.compactRealm(defaultRealmConfiguration);
     }
 
     public static MyApplication getInstance() {
