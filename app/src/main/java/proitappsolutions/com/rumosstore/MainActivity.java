@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.statuscolor));
         setContentView(R.layout.activity_main);
-
+//
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
