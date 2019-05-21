@@ -92,7 +92,6 @@ public class RevistasAdapter extends BaseAdapter  {
 
                         }
                     });
-
 //
             name.setText(revistas.getNome());
 
@@ -101,7 +100,4 @@ public class RevistasAdapter extends BaseAdapter  {
 //
         return rowView;
     }
-
-
-
 }
