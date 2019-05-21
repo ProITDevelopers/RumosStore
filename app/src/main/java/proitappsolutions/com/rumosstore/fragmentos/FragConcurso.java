@@ -1,5 +1,8 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -63,13 +66,18 @@ public class FragConcurso extends Fragment {
     }
 
     private void verifConecxao() {
-        if (Common.isConnected(10000)){
-            carregarWebView();
-        } else {
-            mostarMsnErro();
-            progressBar.setVisibility(ProgressBar.INVISIBLE);
 
+        if (getActivity() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostarMsnErro();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }else{
+                carregarWebView();
+            }
         }
+
     }
 
     private void carregarWebView(){

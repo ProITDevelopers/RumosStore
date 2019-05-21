@@ -61,7 +61,7 @@ public class FragRevistasTeste extends Fragment {
 
     int indexMercado,indexVanguarda,indexRumo=0;
     int firstIndex;
-    int lastIndex;
+
 
     private View view;
 
@@ -92,13 +92,6 @@ public class FragRevistasTeste extends Fragment {
 
         in = AnimationUtils.loadAnimation(getContext(),R.anim.slide_in_top);
         out = AnimationUtils.loadAnimation(getContext(),R.anim.slide_out_bottom);
-
-        mercadoList = new ArrayList<>();
-        vanguardaList = new ArrayList<>();
-        rumoList = new ArrayList<>();
-
-
-
         errorLayout = view.findViewById(R.id.erroLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
@@ -175,7 +168,7 @@ public class FragRevistasTeste extends Fragment {
 
         if (errorLayout.getVisibility() == View.GONE){
             errorLayout.setVisibility(View.VISIBLE);
-            linearLayoutCarregando.setVisibility(View.INVISIBLE);
+            linearLayoutCarregando.setVisibility(View.GONE);
         }
 
         btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +191,7 @@ public class FragRevistasTeste extends Fragment {
             NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
             if (netInfo == null){
                 mostarMsnErro();
+
             } else {
                 carregarRevistas();
             }
@@ -206,15 +200,26 @@ public class FragRevistasTeste extends Fragment {
 
     }
 
+
+
     private void carregarRevistas() {
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<List<Revistas>> rv = apiInterface.getRevistas();
         rv.enqueue(new Callback<List<Revistas>>() {
             @Override
             public void onResponse(@NonNull Call<List<Revistas>> call, @NonNull Response<List<Revistas>> response) {
+                revistasList = new ArrayList<>();
+                mercadoList = new ArrayList<>();
+                vanguardaList = new ArrayList<>();
+                rumoList = new ArrayList<>();
 
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Bem-vindo "+AppDatabase.getUser().getNomeCliente(), Toast.LENGTH_SHORT).show();
+                    progressMercado.setVisibility(View.INVISIBLE);
+                    progressVanguarda.setVisibility(View.INVISIBLE);
+                    progressRumo.setVisibility(View.INVISIBLE);
+                    txtCarregandoMercado.setText("Sem resultados!");
+                    txtCarregandoVanguarda.setText("Sem resultados!");
+                    txtCarregandoRumo.setText("Sem resultados!");
                 } else {
 
                     revistasList = response.body();
@@ -247,7 +252,12 @@ public class FragRevistasTeste extends Fragment {
 
             @Override
             public void onFailure(Call<List<Revistas>> call, Throwable t) {
-                Toast.makeText(getContext(), "Bem-vindo "+AppDatabase.getUser().getNomeCliente(), Toast.LENGTH_SHORT).show();
+                progressMercado.setVisibility(View.INVISIBLE);
+                progressVanguarda.setVisibility(View.INVISIBLE);
+                progressRumo.setVisibility(View.INVISIBLE);
+                txtCarregandoMercado.setText("Sem resultados!");
+                txtCarregandoVanguarda.setText("Sem resultados!");
+                txtCarregandoRumo.setText("Sem resultados!");
             }
         });
 
@@ -318,12 +328,12 @@ public class FragRevistasTeste extends Fragment {
 
 
             firstIndex = mercadoList.indexOf(mercadoList.get(0));
-            lastIndex = mercadoList.lastIndexOf(mercadoList.get(mercadoList.size()-1));
+
 
 
             revistasMercadoAdapter = new RevistasAdapter(mercadoList,getContext());
-            revistasMercadoAdapter.notifyDataSetChanged();
             coverFlow.setAdapter(revistasMercadoAdapter);
+//            revistasMercadoAdapter.notifyDataSetChanged();
 
             coverFlow.scrollToPosition(firstIndex);
 
@@ -379,11 +389,11 @@ public class FragRevistasTeste extends Fragment {
         //=========================================================================================
 
             firstIndex = vanguardaList.indexOf(vanguardaList.get(0));
-            lastIndex = vanguardaList.lastIndexOf(vanguardaList.get(vanguardaList.size()-1));
+
 
             revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,getContext());
-            revistasVanguardaAdapter.notifyDataSetChanged();
             coverFlow2.setAdapter(revistasVanguardaAdapter);
+//            revistasVanguardaAdapter.notifyDataSetChanged();
 
             coverFlow2.scrollToPosition(firstIndex);
 
@@ -435,12 +445,12 @@ public class FragRevistasTeste extends Fragment {
             //=========================================================================================
 
             firstIndex = rumoList.indexOf(rumoList.get(0));
-            lastIndex = rumoList.lastIndexOf(rumoList.get(rumoList.size()-1));
+
 
 
             revistasRumoAdapter = new RevistasAdapter(rumoList,getContext());
-            revistasRumoAdapter.notifyDataSetChanged();
             coverFlow3.setAdapter(revistasRumoAdapter);
+//            revistasRumoAdapter.notifyDataSetChanged();
 
             coverFlow3.scrollToPosition(firstIndex);
             coverFlow3.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
@@ -475,192 +485,13 @@ public class FragRevistasTeste extends Fragment {
             });
 
         cardRumo.setVisibility(View.VISIBLE);
-        linearCarregarRumo.setVisibility(View.INVISIBLE);
+        linearCarregarRumo.setVisibility(View.GONE);
 
 
     }
 
 
-//    private void setRevistasAdapter(List<Revistas> revistasList){
-//
-//        for (int i = 0; i <revistasList.size() ; i++) {
-//            revistas = revistasList.get(i);
-//
-//            if (revistas.getCategoria().equals("mercado") || revistas.getCategoria().equals("Mercado")){
-//                mercadoList.add(revistas);
-//            }
-//
-//            if (revistas.getCategoria().equals("vanguarda") || revistas.getCategoria().equals("Vanguarda")){
-//                vanguardaList.add(revistas);
-//            }
-//
-//            if (revistas.getCategoria().equals("rumo") || revistas.getCategoria().equals("Rumo")){
-//                rumoList.add(revistas);
-//            }
-//
-//        }
-//
-//
-//        if (mercadoList.size()>0 && vanguardaList.size()>0 && rumoList.size()>0){
-//
-//
-//            //===========================================MERCADO==============================================
-//            //===============================================================================================
-//
-//
-//
-//            firstIndex = mercadoList.indexOf(mercadoList.get(0));
-//            lastIndex = mercadoList.lastIndexOf(mercadoList.get(mercadoList.size()-1));
-//
-//
-//            revistasMercadoAdapter = new RevistasAdapter(mercadoList,getContext());
-//            revistasMercadoAdapter.notifyDataSetChanged();
-//            coverFlow.setAdapter(revistasMercadoAdapter);
-//
-//            coverFlow.scrollToPosition(firstIndex);
-//
-//            coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
-//                @Override
-//                public void onScrolledToPosition(int position) {
-//                    indexMercado = position;
-//                    mTitle.setText((position + 1)+" de "+mercadoList.size());
-//                }
-//
-//                @Override
-//                public void onScrolling() {
-//
-//                }
-//            });
-//
-//
-//
-//            coverFlow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-//
-//                    if (i<mercadoList.size()){
-//                        mTitle2.setText(mercadoList.get(i).getNome());
-//                        Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                        intent.putExtra("ViewType",mercadoList.get(i).getLink());
-//                        startActivity(intent);
-//                    }
-//
-//                    if (i>=mercadoList.size()){
-//                        i = indexMercado;
-//                        Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                        intent.putExtra("ViewType",mercadoList.get(i).getLink());
-//                        startActivity(intent);
-//                    }
-//
-//
-//
-//                }
-//            });
-//
-//
-//            //===========================================VANGUARDA==============================================
-//            //=========================================================================================
-//
-//            firstIndex = vanguardaList.indexOf(vanguardaList.get(0));
-//            lastIndex = vanguardaList.lastIndexOf(vanguardaList.get(vanguardaList.size()-1));
-//
-//            revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,getContext());
-//            revistasVanguardaAdapter.notifyDataSetChanged();
-//            coverFlow2.setAdapter(revistasVanguardaAdapter);
-//
-//            coverFlow2.scrollToPosition(firstIndex);
-//
-//            coverFlow2.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
-//                @Override
-//                public void onScrolledToPosition(int position) {
-//                    indexVanguarda = position;
-//                    mTitle2.setText((position + 1)+" de "+vanguardaList.size());
-//                }
-//
-//                @Override
-//                public void onScrolling() {
-//
-//                }
-//            });
-//            coverFlow2.setOnItemClickListener((adapterView, view, i, l) -> {
-//
-//
-//                if (i<vanguardaList.size()){
-//
-//                    mTitle2.setText(vanguardaList.get(i).getNome());
-//                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                    intent.putExtra("ViewType",vanguardaList.get(i).getLink());
-//                    startActivity(intent);
-//
-//                }
-//
-//                if (i>=vanguardaList.size()){
-//
-//                    i = indexVanguarda;
-//
-//                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                    intent.putExtra("ViewType",vanguardaList.get(i).getLink());
-//                    startActivity(intent);
-//                }
-//
-//            });
-//
-//
-//            //==============================================RUMO===========================================
-//            //=========================================================================================
-//
-//            firstIndex = rumoList.indexOf(rumoList.get(0));
-//            lastIndex = rumoList.lastIndexOf(rumoList.get(rumoList.size()-1));
-//
-//
-//            revistasRumoAdapter = new RevistasAdapter(rumoList,getContext());
-//            revistasRumoAdapter.notifyDataSetChanged();
-//            coverFlow3.setAdapter(revistasRumoAdapter);
-//
-//            coverFlow3.scrollToPosition(firstIndex);
-//            coverFlow3.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
-//                @Override
-//                public void onScrolledToPosition(int position) {
-//                    indexRumo = position;
-//                    mTitle3.setText((position + 1)+" de "+rumoList.size());
-//                }
-//
-//                @Override
-//                public void onScrolling() {
-//
-//                }
-//            });
-//            coverFlow3.setOnItemClickListener((adapterView, view, i, l) -> {
-//
-//                if (i<rumoList.size()){
-//                    mTitle3.setText(rumoList.get(i).getNome());
-//                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                    intent.putExtra("ViewType",rumoList.get(i).getLink());
-//                    startActivity(intent);
-//                }
-//
-//                if (i>=rumoList.size()){
-//
-//                    i = indexRumo;
-//
-//                    Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-//                    intent.putExtra("ViewType",vanguardaList.get(i).getLink());
-//                    startActivity(intent);
-//                }
-//            });
-//
-//
-//            linearLayout.setVisibility(View.VISIBLE);
-//            linearLayoutCarregando.setVisibility(View.GONE);
-//
-//        } else {
-//            progressBar.setVisibility(View.INVISIBLE);
-//            txtCarregando.setTextSize(22);
-//            txtCarregando.setText("Sem resultados!");
-//        }
-//
-//
-//    }
+
 
 
 
