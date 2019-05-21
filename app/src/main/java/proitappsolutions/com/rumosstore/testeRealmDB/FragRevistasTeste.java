@@ -324,9 +324,12 @@ public class FragRevistasTeste extends Fragment {
             firstIndex = mercadoList.indexOf(mercadoList.get(0));
 
 
+            if (getContext()!=null){
+                revistasMercadoAdapter = new RevistasAdapter(mercadoList,getContext());
+                coverFlow.setAdapter(revistasMercadoAdapter);
+            }
 
-            revistasMercadoAdapter = new RevistasAdapter(mercadoList,getContext());
-            coverFlow.setAdapter(revistasMercadoAdapter);
+
 //            revistasMercadoAdapter.notifyDataSetChanged();
 
             coverFlow.scrollToPosition(firstIndex);
@@ -385,8 +388,10 @@ public class FragRevistasTeste extends Fragment {
             firstIndex = vanguardaList.indexOf(vanguardaList.get(0));
 
 
-            revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,getContext());
-            coverFlow2.setAdapter(revistasVanguardaAdapter);
+            if (getContext()!=null){
+                revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,getContext());
+                coverFlow2.setAdapter(revistasVanguardaAdapter);
+            }
 //            revistasVanguardaAdapter.notifyDataSetChanged();
 
             coverFlow2.scrollToPosition(firstIndex);
@@ -441,9 +446,12 @@ public class FragRevistasTeste extends Fragment {
             firstIndex = rumoList.indexOf(rumoList.get(0));
 
 
-
+        if (getContext()!=null){
             revistasRumoAdapter = new RevistasAdapter(rumoList,getContext());
             coverFlow3.setAdapter(revistasRumoAdapter);
+        }
+
+
 //            revistasRumoAdapter.notifyDataSetChanged();
 
             coverFlow3.scrollToPosition(firstIndex);
