@@ -65,7 +65,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private Dialog caixa_dialogo_cancelar;
     public DataUserApi dataUserApi  = new DataUserApi();
 
-    List<Revistas> revistasList;
+    Usuario usuario;
 
 
 
@@ -103,9 +103,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         btnNao.setOnClickListener(HomeInicialActivity.this);
 
         //carregar dados do Usuario
+        usuario = AppDatabase.getUser();
+        loaduserProfile(usuario);
         verifConecxao();
-//        verifConecxaoRevistas();
-//        loaduserProfile(AppDatabase.getUser());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -167,9 +167,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
-            loaduserProfile(AppDatabase.getUser());
+            loaduserProfile(usuario);
         }else{
-            carregarDadosdoUserApi(AppDatabase.getUser());
+            carregarDadosdoUserApi(usuario);
         }
 
     }
@@ -219,6 +219,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
                         Common.mCurrentUser = usuario;
                         AppDatabase.saveUser(Common.mCurrentUser);
+                        AppPref.getInstance().saveAuthToken("ksaksnaksa");
 
                         loaduserProfile(Common.mCurrentUser);
 
