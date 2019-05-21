@@ -177,6 +177,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                     Log.d("snansa",ano + "---" + mes + "---" + dia.substring(0,2));
                                     usuario.setDataNascimento(ano+"-"+mes+"-"+dia.substring(0,2));
                                     Log.d("snansa",usuario.getDataNascimento());
+                                    //
                                 }
 
                                 if (dataUserApi.getDataDados().getProvincia() != null )
