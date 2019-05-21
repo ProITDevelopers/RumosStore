@@ -97,7 +97,7 @@ public class RevistasAdapter extends BaseAdapter  {
 
             return itemView;
         }
-//
+////
         return rowView;
     }
 }
