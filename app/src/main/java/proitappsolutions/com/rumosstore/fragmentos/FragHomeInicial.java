@@ -45,7 +45,6 @@ public class FragHomeInicial extends Fragment {
         linearLayout = view.findViewById(R.id.linearLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
-        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
 

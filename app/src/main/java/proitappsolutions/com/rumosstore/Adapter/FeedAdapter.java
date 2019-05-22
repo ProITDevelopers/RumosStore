@@ -149,6 +149,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
 
     @Override
     public int getItemCount() {
-        return rssObjecto.items.size();
+        try {
+            return rssObjecto.items.size();
+        }catch (Exception e){
+            return 0;
+        }
     }
 }
