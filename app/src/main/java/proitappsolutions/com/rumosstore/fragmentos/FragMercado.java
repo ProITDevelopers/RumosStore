@@ -1,6 +1,9 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,18 +32,56 @@ import proitappsolutions.com.rumosstore.R;
 
 public class FragMercado extends Fragment {
 
+    private RelativeLayout coordinatorLayout;
+    private RelativeLayout errorLayout;
+    private TextView btnTentarDeNovo;
+
     private LinearLayout progressBar;
     RingProgressBar anelprogressbar;
+    View view;
+
+    public FragMercado() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_mercado, container, false);
+        view = inflater.inflate(R.layout.frag_mercado, container, false);
+
+        coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
+        errorLayout = view.findViewById(R.id.erroLayout);
+        btnTentarDeNovo = view.findViewById(R.id.btn);
+        btnTentarDeNovo.setText("Tentar de Novo");
+        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
 
         progressBar = view.findViewById(R.id.linearProgresso);
         anelprogressbar = view.findViewById(R.id.progressbar_1);
 
+        verifConecxao();
+
+
+
+        return view;
+
+    }
+
+
+    private void verifConecxao() {
+
+        if (getActivity() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostarMsnErro();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }else{
+                carregarWebView();
+            }
+        }
+
+    }
+
+    private void carregarWebView(){
         WebView webView = new WebView(getContext());
         webView = view.findViewById(R.id.webViewMercado);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -72,9 +114,22 @@ public class FragMercado extends Fragment {
                 }
             }
         });
-
-        return view;
-
     }
 
+    private void mostarMsnErro(){
+
+        if (errorLayout.getVisibility() == View.GONE){
+            errorLayout.setVisibility(View.VISIBLE);
+            coordinatorLayout.setVisibility(View.GONE);
+        }
+
+        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                coordinatorLayout.setVisibility(View.VISIBLE);
+                errorLayout.setVisibility(View.GONE);
+                verifConecxao();
+            }
+        });
+    }
 }

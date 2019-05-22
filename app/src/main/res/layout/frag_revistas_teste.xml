@@ -176,7 +176,7 @@
                     app:reflectionGap="0px"
                     app:rotationThreshold="0.5"
                     app:scalingThreshold="0.5"
-                    app:spacing="0.6" />
+                    app:spacing="0.6"/>
 
             </LinearLayout>
 

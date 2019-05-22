@@ -278,7 +278,7 @@ public class FragRevistasTeste extends Fragment {
             }
 
         }
-
+        revistasList.clear();
 
 
         if (mercadoList!=null){
@@ -307,7 +307,6 @@ public class FragRevistasTeste extends Fragment {
             txtCarregandoRumo.setText("Sem resultados das revista Rumo!");
 
         }
-
 
 
 
