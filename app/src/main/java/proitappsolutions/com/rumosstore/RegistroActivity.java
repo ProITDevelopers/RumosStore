@@ -66,7 +66,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         btnRegistrar.setOnClickListener(RegistroActivity.this);
         btnLoginInicial.setOnClickListener(RegistroActivity.this);
 
-        progressDialog = new ProgressDialog(RegistroActivity.this);
+        progressDialog = new ProgressDialog(RegistroActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
     }

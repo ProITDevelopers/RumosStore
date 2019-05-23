@@ -59,7 +59,7 @@ public class RedifinirSenhaActivity extends AppCompatActivity implements View.On
         edtSenhaNova = findViewById(R.id.edtSenhaNova);
         btn_cancelar = findViewById(R.id.btn_cancelar);
         edtConfSenha = findViewById(R.id.edtConfSenha);
-        progressDialog = new ProgressDialog(RedifinirSenhaActivity.this);
+        progressDialog = new ProgressDialog(RedifinirSenhaActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
         errorLayout = findViewById(R.id.erroLayout);
         relativeLayout = findViewById(R.id.relativeLayout);

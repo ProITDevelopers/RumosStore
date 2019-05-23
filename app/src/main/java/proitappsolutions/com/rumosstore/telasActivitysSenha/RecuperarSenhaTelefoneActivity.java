@@ -52,7 +52,7 @@ public class RecuperarSenhaTelefoneActivity extends AppCompatActivity {
 
         editTelef = findViewById(R.id.editTelef);
         btn_telef_redif = findViewById(R.id.btn_telef_redif);
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
         errorLayout = findViewById(R.id.erroLayout);

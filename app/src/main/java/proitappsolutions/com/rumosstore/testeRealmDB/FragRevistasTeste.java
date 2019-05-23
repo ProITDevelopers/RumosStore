@@ -50,7 +50,7 @@ public class FragRevistasTeste extends Fragment {
     private Animation in,out;
 
     private Revistas revistas;
-    private List<Revistas> revistasList, mercadoList,vanguardaList,rumoList;
+    private List<Revistas> mercadoList,vanguardaList,rumoList;
     private RevistasAdapter revistasMercadoAdapter,revistasVanguardaAdapter,revistasRumoAdapter;
 
     int indexMercado,indexVanguarda,indexRumo=0;
@@ -202,7 +202,7 @@ public class FragRevistasTeste extends Fragment {
         rv.enqueue(new Callback<List<Revistas>>() {
             @Override
             public void onResponse(@NonNull Call<List<Revistas>> call, @NonNull Response<List<Revistas>> response) {
-                revistasList = new ArrayList<>();
+
                 mercadoList = new ArrayList<>();
                 vanguardaList = new ArrayList<>();
                 rumoList = new ArrayList<>();
@@ -216,12 +216,11 @@ public class FragRevistasTeste extends Fragment {
                     txtCarregandoRumo.setText("Sem resultados!");
                 } else {
 
-                    revistasList = response.body();
 
-                    if (revistasList!=null){
 
-                        filtrarRevistas(revistasList);
+                    if (response.body()!=null){
 
+                        filtrarRevistas(response.body());
 
                     } else {
 
@@ -281,29 +280,29 @@ public class FragRevistasTeste extends Fragment {
         revistasList.clear();
 
 
-        if (mercadoList!=null){
+        if (mercadoList.size()>0){
             setMercadoAdapter(mercadoList);
         } else {
             cardMercado.setVisibility(View.INVISIBLE);
-            progressMercado.setVisibility(View.INVISIBLE);
+            progressMercado.setVisibility(View.GONE);
             txtCarregandoMercado.setText("Sem resultados dos jornais Mercado!");
 
         }
 
-        if (vanguardaList!=null){
+        if (vanguardaList.size()>0){
             setVanguardaAdapter(vanguardaList);
         } else {
             cardVanguarda.setVisibility(View.INVISIBLE);
-            progressVanguarda.setVisibility(View.INVISIBLE);
+            progressVanguarda.setVisibility(View.GONE);
             txtCarregandoVanguarda.setText("Sem resultados dos jornais Vanguarda!");
 
         }
 
-        if (rumoList!=null){
+        if (rumoList.size()>0){
             setRumoAdapter(rumoList);
         } else {
             cardRumo.setVisibility(View.INVISIBLE);
-            progressRumo.setVisibility(View.INVISIBLE);
+            progressRumo.setVisibility(View.GONE);
             txtCarregandoRumo.setText("Sem resultados das revista Rumo!");
 
         }
@@ -480,7 +479,7 @@ public class FragRevistasTeste extends Fragment {
                     i = indexRumo;
 
                     Intent intent = new Intent(getContext(), RevistaViewActivity.class);
-                    intent.putExtra("ViewType",vanguardaList.get(i).getLink());
+                    intent.putExtra("ViewType",rumoList.get(i).getLink());
                     startActivity(intent);
                 }
             });
@@ -490,10 +489,6 @@ public class FragRevistasTeste extends Fragment {
 
 
     }
-
-
-
-
 
 
 }

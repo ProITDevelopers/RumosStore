@@ -13,6 +13,7 @@ import android.view.View;
 
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +43,7 @@ public class RevistaViewActivity extends AppCompatActivity {
     private LinearLayout progressBar;
 
     private Toolbar toolbar;
+    private TextView txt_toolbar;
 
 
     @Override
@@ -57,6 +59,7 @@ public class RevistaViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        txt_toolbar = (TextView) findViewById(R.id.txt_toolbar);
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
         progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
 
@@ -78,7 +81,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
                                 File pdfFile = fileResponse.getBody();
 
-                                progressBar.setVisibility(View.GONE);
+
 
                                 pdfView.fromFile(pdfFile)
                                         .password(null) // If have password
@@ -89,7 +92,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                         .onDraw(new OnDrawListener() {
                                             @Override
                                             public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-
+                                                progressBar.setVisibility(View.GONE);
                                             }
                                         })
                                         .onDrawAll(new OnDrawListener() {
@@ -109,6 +112,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             @Override
                                             public void onPageChanged(int page, int pageCount) {
                                                 // Code here if you want to do something
+                                                txt_toolbar.setText(String.valueOf((page + 1)+ " de "+pageCount));
 
                                             }
                                         })
@@ -126,7 +130,6 @@ public class RevistaViewActivity extends AppCompatActivity {
 
                                             }
                                         })
-
                                         .enableAnnotationRendering(true)
                                         .invalidPageColor(Color.WHITE)
                                         .load();
@@ -151,7 +154,6 @@ public class RevistaViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-
                 finish();
                 return true;
         }
