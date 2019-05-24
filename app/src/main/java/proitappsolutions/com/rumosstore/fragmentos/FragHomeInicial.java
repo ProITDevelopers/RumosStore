@@ -113,6 +113,4 @@ public class FragHomeInicial extends Fragment {
             }
         });
     }
-
-
 }

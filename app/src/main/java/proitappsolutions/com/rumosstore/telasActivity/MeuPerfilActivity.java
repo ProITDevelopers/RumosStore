@@ -40,11 +40,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -57,7 +52,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -70,17 +64,9 @@ import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.communs.RotateBitmap;
-import proitappsolutions.com.rumosstore.fragmentos.FragMeuPerfil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_ASPECT_RATIO_X;
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_ASPECT_RATIO_Y;
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_BITMAP_MAX_HEIGHT;
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_BITMAP_MAX_WIDTH;
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_LOCK_ASPECT_RATIO;
-import static proitappsolutions.com.rumosstore.telasActivity.ImagemPegarActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT;
 
 public class MeuPerfilActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
