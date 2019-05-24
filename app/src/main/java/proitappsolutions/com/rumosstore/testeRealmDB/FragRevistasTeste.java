@@ -336,7 +336,8 @@ public class FragRevistasTeste extends Fragment {
                 @Override
                 public void onScrolledToPosition(int position) {
                     indexMercado = position;
-                    mTitle.setText((position + 1)+" de "+mercadoList.size());
+//                    mTitle.setText((position + 1)+" de "+mercadoList.size());
+                    mTitle.setText(String.valueOf(mercadoList.get(position).getNome()));
                 }
 
                 @Override
@@ -352,7 +353,6 @@ public class FragRevistasTeste extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
                     if (i<mercadoList.size()){
-                        mTitle2.setText(mercadoList.get(i).getNome());
                         Intent intent = new Intent(getContext(), RevistaViewActivity.class);
                         intent.putExtra("ViewType",mercadoList.get(i).getLink());
                         startActivity(intent);
@@ -398,7 +398,8 @@ public class FragRevistasTeste extends Fragment {
                 @Override
                 public void onScrolledToPosition(int position) {
                     indexVanguarda = position;
-                    mTitle2.setText((position + 1)+" de "+vanguardaList.size());
+//                    mTitle2.setText((position + 1)+" de "+vanguardaList.size());
+                    mTitle2.setText(String.valueOf(vanguardaList.get(position).getNome()));
                 }
 
                 @Override
@@ -411,7 +412,6 @@ public class FragRevistasTeste extends Fragment {
 
                 if (i<vanguardaList.size()){
 
-                    mTitle2.setText(vanguardaList.get(i).getNome());
                     Intent intent = new Intent(getContext(), RevistaViewActivity.class);
                     intent.putExtra("ViewType",vanguardaList.get(i).getLink());
                     startActivity(intent);
@@ -457,7 +457,8 @@ public class FragRevistasTeste extends Fragment {
                 @Override
                 public void onScrolledToPosition(int position) {
                     indexRumo = position;
-                    mTitle3.setText((position + 1)+" de "+rumoList.size());
+//                    mTitle3.setText((position + 1)+" de "+rumoList.size());
+                    mTitle3.setText(String.valueOf(rumoList.get(position).getNome()));
                 }
 
                 @Override
@@ -468,7 +469,6 @@ public class FragRevistasTeste extends Fragment {
             coverFlow3.setOnItemClickListener((adapterView, view, i, l) -> {
 
                 if (i<rumoList.size()){
-                    mTitle3.setText(rumoList.get(i).getNome());
                     Intent intent = new Intent(getContext(), RevistaViewActivity.class);
                     intent.putExtra("ViewType",rumoList.get(i).getLink());
                     startActivity(intent);
