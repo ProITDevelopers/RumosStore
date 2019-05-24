@@ -96,7 +96,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         //carregar dados do Usuario
         usuario = AppDatabase.getUser();
         loaduserProfile(usuario);
-        verifConecxao();
+
+        if (usuario!=null){
+            verifConecxao(usuario);
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -154,12 +158,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }
     }
 
-    private void verifConecxao() {
+    private void verifConecxao(Usuario usuario) {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            loaduserProfile(usuario);
-        }else{
+        if (netInfo != null){
             carregarDadosdoUserApi(usuario);
         }
 
