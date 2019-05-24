@@ -42,7 +42,7 @@ public class FragVanguarda extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_vanguarda, container, false);
+        view = inflater.inflate(R.layout.frag_vanguarda, container, false);
 
         coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
         errorLayout = view.findViewById(R.id.erroLayout);
