@@ -1,24 +1,26 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
-import android.content.res.Configuration;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
@@ -27,21 +29,25 @@ import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 
-
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
-import android.support.v7.widget.Toolbar;
 
 public class RevistaViewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
     private LinearLayout progressBar;
 
+    private RelativeLayout coordinatorLayout;
+    private RelativeLayout errorLayout;
+    private TextView btnTentarDeNovo;
+
+
     private Toolbar toolbar;
+    private TextView txt_toolbar;
+    String viewType;
 
 
     @Override
@@ -53,19 +59,51 @@ public class RevistaViewActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Leitura");
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        txt_toolbar = (TextView) findViewById(R.id.txt_toolbar);
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
         progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
 
-
-
+        coordinatorLayout = (RelativeLayout) findViewById(R.id.coordinatorLayout);
+        errorLayout = (RelativeLayout) findViewById(R.id.erroLayout);
+        btnTentarDeNovo = (TextView) findViewById(R.id.btn);
+        btnTentarDeNovo.setText("Tentar de Novo");
+        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
 
         if (getIntent() != null){
-            String viewType = getIntent().getStringExtra("ViewType");
+            viewType = getIntent().getStringExtra("ViewType");
             if (viewType != null || !TextUtils.isEmpty(viewType)){
+                verifConecxao(viewType);
+            }
+        }
+
+
+
+
+
+    }
+
+
+    private void verifConecxao(String viewType) {
+
+        if (getBaseContext() != null){
+            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostarMsnErro();
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }else{
+                carregarPDFView(viewType);
+            }
+        }
+
+    }
+
+    private void carregarPDFView(String viewType){
+
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -78,7 +116,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
                                 File pdfFile = fileResponse.getBody();
 
-                                progressBar.setVisibility(View.GONE);
+
 
                                 pdfView.fromFile(pdfFile)
                                         .password(null) // If have password
@@ -89,7 +127,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                         .onDraw(new OnDrawListener() {
                                             @Override
                                             public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-
+                                                progressBar.setVisibility(View.GONE);
                                             }
                                         })
                                         .onDrawAll(new OnDrawListener() {
@@ -109,6 +147,7 @@ public class RevistaViewActivity extends AppCompatActivity {
                                             @Override
                                             public void onPageChanged(int page, int pageCount) {
                                                 // Code here if you want to do something
+                                                txt_toolbar.setText(String.valueOf((page + 1)+ " de "+pageCount));
 
                                             }
                                         })
@@ -126,7 +165,6 @@ public class RevistaViewActivity extends AppCompatActivity {
 
                                             }
                                         })
-
                                         .enableAnnotationRendering(true)
                                         .invalidPageColor(Color.WHITE)
                                         .load();
@@ -141,8 +179,25 @@ public class RevistaViewActivity extends AppCompatActivity {
 
 
 
-            }
+
+
+    }
+
+    private void mostarMsnErro(){
+
+        if (errorLayout.getVisibility() == View.GONE){
+            errorLayout.setVisibility(View.VISIBLE);
+            coordinatorLayout.setVisibility(View.GONE);
         }
+
+        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                coordinatorLayout.setVisibility(View.VISIBLE);
+                errorLayout.setVisibility(View.GONE);
+                verifConecxao(viewType);
+            }
+        });
     }
 
 
@@ -151,7 +206,6 @@ public class RevistaViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-
                 finish();
                 return true;
         }

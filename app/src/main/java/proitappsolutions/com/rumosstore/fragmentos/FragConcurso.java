@@ -81,10 +81,10 @@ public class FragConcurso extends Fragment {
 
     private void carregarWebView(){
         WebView webView = new WebView(getContext());
-        webView = view.findViewById(R.id.webViewMercado);
+        webView = view.findViewById(R.id.webViewSorteio);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://concursomediarumo.herokuapp.com/");
+        webView.loadUrl("https://sorteio.mediarumo.net/");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {

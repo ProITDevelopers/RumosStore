@@ -88,7 +88,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btnRegistrate.setOnClickListener(MediaRumoActivity.this);
         btn_alterar_senha.setOnClickListener(MediaRumoActivity.this);
 
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
 

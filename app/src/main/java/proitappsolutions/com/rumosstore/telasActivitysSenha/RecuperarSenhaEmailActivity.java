@@ -56,7 +56,7 @@ public class RecuperarSenhaEmailActivity extends AppCompatActivity {
 
         editEmail = findViewById(R.id.editEmail);
         btn_email_redif = findViewById(R.id.btn_email_redif);
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
         errorLayout = findViewById(R.id.erroLayout);

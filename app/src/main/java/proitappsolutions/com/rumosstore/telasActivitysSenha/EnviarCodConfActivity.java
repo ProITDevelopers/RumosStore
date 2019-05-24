@@ -63,7 +63,7 @@ public class EnviarCodConfActivity extends AppCompatActivity {
         btnTentarDeNovo = findViewById(R.id.btn);
         btnTentarDeNovo.setText("Voltar");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
-        progressDialog = new ProgressDialog(EnviarCodConfActivity.this);
+        progressDialog = new ProgressDialog(EnviarCodConfActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

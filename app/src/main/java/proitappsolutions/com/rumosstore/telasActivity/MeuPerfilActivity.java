@@ -151,7 +151,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         btnGaleria = caixa_dialogo_foto.findViewById(R.id.btnGaleria);
         btnCancelar_dialog = caixa_dialogo_foto.findViewById(R.id.btnCancelar_dialog);
 
-        progressDialog = new ProgressDialog(MeuPerfilActivity.this);
+        progressDialog = new ProgressDialog(MeuPerfilActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
         //editarPerfil layout

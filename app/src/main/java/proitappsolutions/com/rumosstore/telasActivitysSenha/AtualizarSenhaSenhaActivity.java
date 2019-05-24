@@ -58,7 +58,7 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
         edtSenhaNova = findViewById(R.id.edtSenhaNova);
         btn_cancelar = findViewById(R.id.btn_cancelar);
         edtsenhaAntiga = findViewById(R.id.edtSenhaAntiga);
-        progressDialog = new ProgressDialog(AtualizarSenhaSenhaActivity.this);
+        progressDialog = new ProgressDialog(AtualizarSenhaSenhaActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
         errorLayout = findViewById(R.id.erroLayout);
         relativeLayout = findViewById(R.id.relativeLayout);

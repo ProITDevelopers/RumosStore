@@ -1,6 +1,5 @@
 package proitappsolutions.com.rumosstore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
