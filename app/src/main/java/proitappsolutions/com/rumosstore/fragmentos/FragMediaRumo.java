@@ -49,7 +49,7 @@ public class FragMediaRumo extends Fragment {
         errorLayout = view.findViewById(R.id.erroLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
-        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
+        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
 
         progressBar = view.findViewById(R.id.linearProgresso);
         anelprogressbar = view.findViewById(R.id.progressbar_1);

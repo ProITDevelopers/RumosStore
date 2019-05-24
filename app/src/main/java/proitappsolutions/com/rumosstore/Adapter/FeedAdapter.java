@@ -73,7 +73,11 @@ class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
     @Override
     public boolean onLongClick(View view) {
-        itemClickListener.onClick(view,getAdapterPosition(),true);
+        try {
+            itemClickListener.onClick(view,getAdapterPosition(),true);
+        }catch (Exception e){
+            e.getMessage();
+        }
         return true;
     }
 }

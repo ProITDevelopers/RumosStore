@@ -60,23 +60,6 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/hint_edtSenha"
-                            android:theme="@style/MyEditTextTheme"
-                            app:passwordToggleEnabled="true">
-
-                            <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-                                android:id="@+id/edtSenhaNova"
-                                android:textColor="@color/colorBotaoLogin"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/hit_nova_senha"
-                                android:inputType="textPassword" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             android:id="@+id/hint_edtConf"
                             android:theme="@style/MyEditTextTheme"
                             app:passwordToggleEnabled="true">
@@ -91,6 +74,24 @@
 
 
                         </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/hint_edtSenha"
+                            android:theme="@style/MyEditTextTheme"
+                            app:passwordToggleEnabled="true">
+
+                            <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                                android:id="@+id/edtSenhaNova"
+                                android:textColor="@color/colorBotaoLogin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hit_nova_senha"
+                                android:inputType="textPassword" />
+
+                        </android.support.design.widget.TextInputLayout>
+
 
                     </LinearLayout>
 

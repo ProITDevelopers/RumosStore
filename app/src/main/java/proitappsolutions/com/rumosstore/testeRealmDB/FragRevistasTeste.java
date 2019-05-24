@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +90,7 @@ public class FragRevistasTeste extends Fragment {
         errorLayout = view.findViewById(R.id.erroLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
-        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
+        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
 
         linearLayoutCarregando =view.findViewById(R.id.linearLayoutCarregando);
         linearCarregarMercado =view.findViewById(R.id.linearCarregarMercado);
@@ -185,7 +186,6 @@ public class FragRevistasTeste extends Fragment {
             NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
             if (netInfo == null){
                 mostarMsnErro();
-
             } else {
                 carregarRevistas();
             }
@@ -330,7 +330,11 @@ public class FragRevistasTeste extends Fragment {
 
 //            revistasMercadoAdapter.notifyDataSetChanged();
 
-            coverFlow.scrollToPosition(firstIndex);
+            try {
+                coverFlow.scrollToPosition(firstIndex);
+            }catch (Exception e){
+                Log.i("Excep",e.getMessage());
+            }
 
             coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
                 @Override
@@ -392,7 +396,11 @@ public class FragRevistasTeste extends Fragment {
             }
 //            revistasVanguardaAdapter.notifyDataSetChanged();
 
-            coverFlow2.scrollToPosition(firstIndex);
+            try {
+                coverFlow2.scrollToPosition(firstIndex);
+            }catch (Exception e){
+                Log.i("Excep",e.getMessage());
+            }
 
             coverFlow2.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
                 @Override

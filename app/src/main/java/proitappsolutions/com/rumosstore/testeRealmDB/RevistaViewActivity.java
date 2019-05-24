@@ -60,8 +60,10 @@ public class RevistaViewActivity extends AppCompatActivity {
         toolbar.setTitle("Leitura");
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         txt_toolbar = (TextView) findViewById(R.id.txt_toolbar);
         pdfView = (PDFView)findViewById(R.id.pdf_viewer);
@@ -71,7 +73,7 @@ public class RevistaViewActivity extends AppCompatActivity {
         errorLayout = (RelativeLayout) findViewById(R.id.erroLayout);
         btnTentarDeNovo = (TextView) findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
-        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorBotaoLogin));
+        btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
 
         if (getIntent() != null){
             viewType = getIntent().getStringExtra("ViewType");
