@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                     Toast.makeText(MainActivity.this,"Por favor faça o login.",Toast.LENGTH_SHORT).show();
+                    return;
 
                 }else if (AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||
                         AppDatabase.getUser().getTelefone() == null || AppDatabase.getUser().getDataNascimento() == null ||
