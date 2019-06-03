@@ -66,7 +66,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         setContentView(R.layout.activity_home_inicial);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Rumo Store");
+        toolbar.setTitle("Media Rumo");
         setSupportActionBar(toolbar);
 
 
@@ -254,7 +254,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_home) {
-            toolbar.setTitle("Rumo Store");
+            toolbar.setTitle("Media Rumo");
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();

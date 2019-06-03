@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
 import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
-import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
+
 
 public class MainActivity extends AppCompatActivity {
 

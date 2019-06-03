@@ -21,7 +21,7 @@ allprojects {
         google()
         jcenter()
         maven{ url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
+        maven { url "https://jitpack.io" }//libraries using this: HotBitmapGG:RingProgressBar, //showhidepasswordedittext
 
     }
 }

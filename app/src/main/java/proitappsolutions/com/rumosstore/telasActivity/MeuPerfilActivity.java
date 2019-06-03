@@ -104,6 +104,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_meu_perfil);
 
         toolbar_meu_perfil = findViewById(R.id.toolbar_meu_perfil);
+        toolbar_meu_perfil.setTitle("Meu Perfil");
         setSupportActionBar(toolbar_meu_perfil);
 
         if (getSupportActionBar() != null){

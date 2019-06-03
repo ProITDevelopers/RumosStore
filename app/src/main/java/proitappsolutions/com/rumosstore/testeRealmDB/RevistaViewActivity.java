@@ -1,8 +1,8 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,43 +11,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnDrawListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
-import com.github.barteksc.pdfviewer.listener.OnRenderListener;
-import com.github.barteksc.pdfviewer.listener.OnTapListener;
-import com.krishna.fileloader.FileLoader;
-import com.krishna.fileloader.listener.FileRequestListener;
-import com.krishna.fileloader.pojo.FileResponse;
-import com.krishna.fileloader.request.FileLoadRequest;
-
-import java.io.File;
-
+import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
 public class RevistaViewActivity extends AppCompatActivity {
 
-    private PDFView pdfView;
-    private LinearLayout progressBar;
+    private Toolbar toolbar;
+    String viewType;
 
+    private WebView webView;
     private RelativeLayout coordinatorLayout;
     private RelativeLayout errorLayout;
     private TextView btnTentarDeNovo;
 
+    private LinearLayout progressBar;
+    RingProgressBar anelprogressbar;
 
-    private Toolbar toolbar;
-    private TextView txt_toolbar;
-    String viewType;
+
 
 
     @Override
@@ -57,7 +47,7 @@ public class RevistaViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_revista_view);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Leitura");
+        toolbar.setTitle("Media Rumo");
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null){
@@ -65,15 +55,15 @@ public class RevistaViewActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        txt_toolbar = (TextView) findViewById(R.id.txt_toolbar);
-        pdfView = (PDFView)findViewById(R.id.pdf_viewer);
-        progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
-
+        webView = (WebView) findViewById(R.id.webViewPdf);
         coordinatorLayout = (RelativeLayout) findViewById(R.id.coordinatorLayout);
         errorLayout = (RelativeLayout) findViewById(R.id.erroLayout);
         btnTentarDeNovo = (TextView) findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
+
+        progressBar = (LinearLayout) findViewById(R.id.linearProgresso);
+        anelprogressbar = (RingProgressBar) findViewById(R.id.progressbar_1);
 
         if (getIntent() != null){
             viewType = getIntent().getStringExtra("ViewType");
@@ -104,82 +94,53 @@ public class RevistaViewActivity extends AppCompatActivity {
 
     }
 
-    private void carregarPDFView(String viewType){
+    private void carregarPDFView(String pdf){
 
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+pdf);
+        webView.setWebViewClient(new WebViewClient() {
 
-                progressBar.setVisibility(View.VISIBLE);
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
 
-                FileLoader.with(this)
-                        .load(viewType)
-//                            .fromDirectory("PDFFiles",FileLoader.DIR_EXTERNAL_PUBLIC)
-                        .asFile(new FileRequestListener<File>() {
-                            @Override
-                            public void onLoad(FileLoadRequest fileLoadRequest, FileResponse<File> fileResponse) {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                webView.loadUrl("javascript:(function() { " +
+                        "document.getElementsByClassName('ndfHFb-c4YZDc-GSQQnc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe VIpgJd-TzA9Ye-eEGnhe ndfHFb-c4YZDc-LgbsSe')[0].style.display='none'; })()");
+//                progressBar.setVisibility(View.INVISIBLE);
+            }
 
-                                File pdfFile = fileResponse.getBody();
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+//                progressBar.setVisibility(View.VISIBLE);
 
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
 
+            public void onProgressChanged(WebView view, int progress) {
 
-                                pdfView.fromFile(pdfFile)
-                                        .password(null) // If have password
-                                        .defaultPage(0) // Open default page, you can remember this value to open from the last time
-                                        .enableSwipe(true)
-                                        .swipeHorizontal(false)
-                                        .enableDoubletap(true) // Double tap to zoom
-                                        .onDraw(new OnDrawListener() {
-                                            @Override
-                                            public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                        })
-                                        .onDrawAll(new OnDrawListener() {
-                                            @Override
-                                            public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-                                                // Code here if you want to do something
+                if (progress < 100){
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                    anelprogressbar.setProgress(progress);
+                }
 
-                                            }
-                                        })
-                                        .onPageError(new OnPageErrorListener() {
-                                            @Override
-                                            public void onPageError(int page, Throwable t) {
-                                                Toast.makeText(RevistaViewActivity.this, "Error while open page "+page, Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .onPageChange(new OnPageChangeListener() {
-                                            @Override
-                                            public void onPageChanged(int page, int pageCount) {
-                                                // Code here if you want to do something
-                                                txt_toolbar.setText(String.valueOf((page + 1)+ " de "+pageCount));
+                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
+                    anelprogressbar.setProgress(progress);
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                }
 
-                                            }
-                                        })
-                                        .onTap(new OnTapListener() {
-                                            @Override
-                                            public boolean onTap(MotionEvent e) {
-
-                                                return true;
-                                            }
-                                        })
-                                        .onRender(new OnRenderListener() {
-                                            @Override
-                                            public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
-                                                pdfView.fitToWidth(); //Fixed screen size
-
-                                            }
-                                        })
-                                        .enableAnnotationRendering(true)
-                                        .invalidPageColor(Color.WHITE)
-                                        .load();
-                            }
-
-                            @Override
-                            public void onError(FileLoadRequest fileLoadRequest, Throwable throwable) {
-                                Toast.makeText(RevistaViewActivity.this, ""+throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-
-
+                if(progress == 100) {
+                    progressBar.setVisibility(ProgressBar.GONE);
+                    anelprogressbar.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
 
@@ -212,6 +173,12 @@ public class RevistaViewActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
     }
 
 

@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".testeRealmDB.RevistaViewActivity" />
+            android:name=".testeRealmDB.RevistaViewActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
