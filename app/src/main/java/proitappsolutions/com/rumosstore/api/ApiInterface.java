@@ -52,7 +52,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<Void> enviarNovaSenha(@Header("Authorization") String tokenAuth,
                                          @Field("novasenha") String novasenha );
-
     @Multipart
     @PUT("/v1/app/image/{id}")
     Call<ResponseBody> enviarFoto(

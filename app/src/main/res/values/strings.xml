@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rumo Store</string>
+    <string name="app_name">Media Rumo</string>
     <string name="hit_nome">Nome</string>
     <string name="hit_nomeUser">Mel Chaves</string>
     <string name="hit_emailUser">melchaves@gmail.com</string>
@@ -22,7 +22,7 @@
     <string name="hit_redif_cod">Insira o Seu Código de Confirmação</string>
     <string name="hit_receber_denovo">Não Recebeu o código ?</string>
     <string name="hit_email_enviado">Enviamos o código de confirmação para - </string>
-    <string name="hit_nova_senha">Nova Senha</string>
+    <string name="hit_nova_senha">Senha Nova</string>
     <string name="hit_conf_senha">Confirmar Senha</string>
     <string name="hit_senha_antiga">Senha Antiga</string>
     <string name="navigation_drawer_abre"> </string>
@@ -60,10 +60,8 @@
     <string name="dialog_permissao">
 Este aplicativo precisa de permissão para usar esse recurso. Você pode concedê-los nas configurações do aplicativo.</string>
     <string name="ocorreuErro">Ocorreu um erro de conexão</string>
-
     <string-array name="genero">
         <item>Feminino</item>
         <item>Masculino</item>
     </string-array>
-
 </resources>

@@ -55,9 +55,9 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn_redif_senha = findViewById(R.id.btn_redif_senha);
+        edtsenhaAntiga = findViewById(R.id.edtSenhaAntiga);
         edtSenhaNova = findViewById(R.id.edtSenhaNova);
         btn_cancelar = findViewById(R.id.btn_cancelar);
-        edtsenhaAntiga = findViewById(R.id.edtSenhaAntiga);
         progressDialog = new ProgressDialog(AtualizarSenhaSenhaActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
         errorLayout = findViewById(R.id.erroLayout);
@@ -152,17 +152,6 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
         senha1 = edtSenhaNova.getText().toString().trim();
         senha2 = edtsenhaAntiga.getText().toString().trim();
 
-        if (senha1.isEmpty()){
-            edtSenhaNova.setError("Preencha o campo.");
-            return false;
-        }
-
-        if (senha1.length() <5){
-            edtSenhaNova.setError("Senha fraca. Precisa de ter mais de 6 caracteres.");
-            edtSenhaNova.requestFocus();
-            return false;
-        }
-
         if (senha2.isEmpty()){
             edtsenhaAntiga.setError("Preencha o campo.");
             return false;
@@ -171,6 +160,17 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
         if (senha2.length() < 5){
             edtsenhaAntiga.setError("Senha fraca. Precisa de ter mais de 6 caracteres.");
             edtsenhaAntiga.requestFocus();
+            return false;
+        }
+
+        if (senha1.isEmpty()){
+            edtSenhaNova.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (senha1.length() <5){
+            edtSenhaNova.setError("Senha fraca. Precisa de ter mais de 6 caracteres.");
+            edtSenhaNova.requestFocus();
             return false;
         }
 
