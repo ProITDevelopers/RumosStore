@@ -499,4 +499,15 @@ public class FragRevistasTeste extends Fragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+
+        if (mercadoList!=null && vanguardaList!=null && rumoList!=null){
+            mercadoList.clear();
+            vanguardaList.clear();
+            rumoList.clear();
+        }
+
+        super.onDestroyView();
+    }
 }
