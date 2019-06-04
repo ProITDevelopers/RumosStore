@@ -3,11 +3,13 @@ package proitappsolutions.com.rumosstore.telasActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -55,6 +57,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private Button btn_cancelar,btnSim,btnNao,btnCancelar_dialog;
     private Dialog caixa_dialogo_cancelar;
     public DataUserApi dataUserApi  = new DataUserApi();
+    ActionBarDrawerToggle toggle;
 
     Usuario usuario;
 
@@ -103,7 +106,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_abre, R.string.navigation_drawer_abre){
 
             @Override
@@ -254,6 +257,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_home) {
+            if (getSupportActionBar() != null){
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+                toolbar.setTitle("");
+                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
+                getSupportActionBar().setBackgroundDrawable(corBranca);
+            }
             toolbar.setTitle("Media Rumo");
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -265,6 +274,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
 
         } else if (id == R.id.nav_quiosque) {
+            if (getSupportActionBar() != null){
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+                toolbar.setTitle("");
+                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
+                getSupportActionBar().setBackgroundDrawable(corBranca);
+            }
             toolbar.setTitle("Quiosque");
             FragRevistasTeste fragRevistas = new FragRevistasTeste();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -273,39 +288,31 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_concurso) {
+            if (getSupportActionBar() != null){
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+                toolbar.setTitle("");
+                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
+                getSupportActionBar().setBackgroundDrawable(corBranca);
+            }
             toolbar.setTitle("Sorteio Media Rumo");
             FragConcurso fragConcurso = new FragConcurso();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container,fragConcurso);
             fragmentTransaction.commit();
-
         }else if (id == R.id.nav_mercado) {
-            toolbar.setTitle("Mercado");
-            FragMercado fragMercado = new FragMercado();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragMercado);
-            fragmentTransaction.commit();
-
+            enviarLinkActivity("https://mercado.co.ao/","mercado");
         } else if (id == R.id.nav_vanguarda) {
-            toolbar.setTitle("Vanguarda");
-            FragVanguarda fragVanguarda = new FragVanguarda();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragVanguarda);
-            fragmentTransaction.commit();
-
+            enviarLinkActivity("https://www.vanguarda.co.ao/","vanguarda");
         } else if (id == R.id.nav_rumo) {
-            toolbar.setTitle("Media Rumo");
-            FragMediaRumo fragMediaRumo = new FragMediaRumo();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragMediaRumo);
-            fragmentTransaction.commit();
-
+            enviarLinkActivity("https://mediarumo.com/","rumo");
         }else if (id == R.id.nav_instagram) {
-            toolbar.setTitle("Instagram");
+            toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+            if (getSupportActionBar() != null){
+                toolbar.setTitle("");
+            ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
+            getSupportActionBar().setBackgroundDrawable(corBranca);
+        }
             FragInstagram fragInstagram = new FragInstagram();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -314,7 +321,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
 
         }  else if (id == R.id.nav_facebook) {
-            toolbar.setTitle("Facebook");
+            if (getSupportActionBar() != null){
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+                toolbar.setTitle("");
+                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook));
+                getSupportActionBar().setBackgroundDrawable(corBranca);
+            }
             FragFacebook fragFacebook = new FragFacebook();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -332,6 +344,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
+    private void enviarLinkActivity(String s,String cor) {
+        Intent intent = new Intent(HomeInicialActivity.this,WebViewActivity.class);
+        intent.putExtra("site",s);
+        intent.putExtra("cor",cor);
+        startActivity(intent);
+    }
 
 
     private void logOut(){
