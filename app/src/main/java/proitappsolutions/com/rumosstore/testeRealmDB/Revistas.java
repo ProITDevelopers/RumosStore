@@ -1,29 +1,30 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
-import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class Revistas extends RealmObject {
+import java.util.Comparator;
 
-    @PrimaryKey
+
+
+public class Revistas implements Comparator<Revistas> {
+
+
     public int id_jornal;
     public String nome;
-    @SerializedName("fotoJornal")
     public String fotoJornal;
-    @SerializedName("link")
     public String link;
     public String categoria;
+    public String dataEdicao;
 
     public Revistas() {}
 
-    public Revistas(int id_jornal, String nome, String fotoJornal, String link, String categoria) {
+    public Revistas(int id_jornal, String nome, String fotoJornal, String link, String categoria, String dataEdicao) {
         this.id_jornal = id_jornal;
         this.nome = nome;
         this.fotoJornal = fotoJornal;
         this.link = link;
         this.categoria = categoria;
+        this.dataEdicao = dataEdicao;
     }
 
     public int getId_jornal() {
@@ -64,6 +65,22 @@ public class Revistas extends RealmObject {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getDataEdicao() {
+        return dataEdicao;
+    }
+
+    public void setDataEdicao(String dataEdicao) {
+        this.dataEdicao = dataEdicao;
+    }
+
+    @Override
+    public int compare(Revistas o1, Revistas o2) {
+        // Order ascending.
+        int ret = o1.getDataEdicao().compareTo(o2.getDataEdicao());
+
+        return ret;
     }
 
     //    @PrimaryKey

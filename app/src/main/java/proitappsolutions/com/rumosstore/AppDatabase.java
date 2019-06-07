@@ -1,54 +1,72 @@
 package proitappsolutions.com.rumosstore;
 
-import java.util.List;
+import android.content.Context;
+import android.content.SharedPreferences;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
-import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
+import com.google.gson.Gson;
+
+
 
 public class AppDatabase {
 
-    public AppDatabase() {
+    private static AppDatabase singleTonInstance = null;
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor editor;
+    private static final String PREF_NAME = "app_prefs";
+    private static final int PRIVATE_MODE = 0;
+    private static final String KEY_AUTH_TOKEN = "auth_user_token";
+    private static final String KEY_USER = "myuser";
+    private Gson gson;
+    private Usuario mUsuario;
+    private String json;
+
+    public static AppDatabase getInstance() {
+        if (singleTonInstance == null) {
+            singleTonInstance = new AppDatabase(MyApplication.getInstance().getApplicationContext());
+        }
+        return singleTonInstance;
     }
 
-    public static void saveUser(Usuario user) {
-        Realm.getDefaultInstance().executeTransaction(realm -> {
-            realm.delete(Usuario.class); //deleting previous user data
-            realm.copyToRealmOrUpdate(user);
-        });
+    private AppDatabase(Context context) {
+        super();
+        this.mUsuario = new Usuario();
+        this.gson = new Gson();
+        sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = sharedPreferences.edit();
+        editor.apply();
     }
 
-    public static Usuario getUser() {
-        return Realm.getDefaultInstance().where(Usuario.class).findFirst();
-    }
-    //==========================================================================//
-    //==========================================================================//
-    public static void saveRevistasList(List<Revistas> revistas) {
-        Realm.getDefaultInstance().executeTransactionAsync(realm -> {
-            for (Revistas revista : revistas) {
-                realm.copyToRealmOrUpdate(revista);
-            }
-        });
+    public void saveUser(Usuario usuario){
+
+        json = gson.toJson(usuario);
+        editor.putString(KEY_USER, json);
+        editor.commit();
+
     }
 
-    public static RealmResults<Revistas> getTodasRevistasList() {
-        return Realm.getDefaultInstance().where(Revistas.class).findAll();
+
+
+    public Usuario getUser(){
+
+        json = sharedPreferences.getString(KEY_USER, "");
+        mUsuario = gson.fromJson(json, Usuario.class);
+
+        return mUsuario;
+
     }
 
-    public static RealmResults<Revistas> getRevistasMercadoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "mercado").findAll();
+
+    public void saveAuthToken(String authToken) {
+        editor.putString(KEY_AUTH_TOKEN, authToken);
+        editor.commit();
     }
 
-    public static RealmResults<Revistas> getRevistasVanguardaList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "vanguarda").findAll();
+    public String getAuthToken() {
+        return sharedPreferences.getString(KEY_AUTH_TOKEN, null);
     }
 
-    public static RealmResults<Revistas> getRevistasRumoList() {
-        return Realm.getDefaultInstance().where(Revistas.class).equalTo("categoria", "rumo").findAll();
+    public void clearData() {
+        editor.clear().commit();
     }
-    //==========================================================================//
-    //==========================================================================//
-    public static void clearData() {
-        Realm.getDefaultInstance().executeTransaction(realm -> realm.deleteAll());
-    }
+
 }

@@ -59,7 +59,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public DataUserApi dataUserApi  = new DataUserApi();
     ActionBarDrawerToggle toggle;
 
-    Usuario usuario;
+
 
 
 
@@ -97,11 +97,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         btnNao.setOnClickListener(HomeInicialActivity.this);
 
         //carregar dados do Usuario
-        usuario = AppDatabase.getUser();
-        loaduserProfile(usuario);
+        Common.mCurrentUser = AppDatabase.getInstance().getUser();
+        loaduserProfile(Common.mCurrentUser);
 
-        if (usuario!=null){
-            verifConecxao(usuario);
+        if (Common.mCurrentUser!=null){
+            verifConecxao(Common.mCurrentUser);
         }
 
 
@@ -150,6 +150,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             txtEmail.setText(usuario.getEmail());
 
             if (usuario.getFoto()!=null || !TextUtils.isEmpty(usuario.getFoto())){
+
                 Picasso.with(HomeInicialActivity.this)
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
@@ -163,9 +164,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     private void verifConecxao(Usuario usuario) {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo != null){
-            carregarDadosdoUserApi(usuario);
+
+        if (conMgr!=null){
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo != null){
+                carregarDadosdoUserApi(usuario);
+            }
         }
 
     }
@@ -181,41 +185,41 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                     if (response.isSuccessful()){
                         dataUserApi = response.body();
 
-                        Usuario usuario = new Usuario();
+
 
                         if (dataUserApi.getDataDados().getId_utilizador() != null )
-                            usuario.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
+                            Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
                         if (dataUserApi.getDataDados().getNomeCliente() != null )
-                            usuario.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
+                            Common.mCurrentUser.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
 
                         if (dataUserApi.getDataDados().getEmail() != null )
-                            usuario.setEmail(dataUserApi.getDataDados().getEmail());
+                            Common.mCurrentUser.setEmail(dataUserApi.getDataDados().getEmail());
 
                         if (dataUserApi.getDataDados().getFoto() != null )
-                            usuario.setFoto(dataUserApi.getDataDados().getFoto());
+                            Common.mCurrentUser.setFoto(dataUserApi.getDataDados().getFoto());
 
                         if (dataUserApi.getDataDados().getSexo() != null )
-                            usuario.setSexo(dataUserApi.getDataDados().getSexo());
+                            Common.mCurrentUser.setSexo(dataUserApi.getDataDados().getSexo());
 
                         if (dataUserApi.getDataDados().getTelefone() != null )
-                            usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
+                            Common.mCurrentUser.setTelefone(dataUserApi.getDataDados().getTelefone());
 
                         if (dataUserApi.getDataDados().getDataNascimento() != null )
-                            usuario.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
+                            Common.mCurrentUser.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
 
                         if (dataUserApi.getDataDados().getProvincia() != null )
-                            usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
+                            Common.mCurrentUser.setProvincia(dataUserApi.getDataDados().getProvincia());
 
                         if (dataUserApi.getDataDados().getMunicipio() != null )
-                            usuario.setMunicipio(dataUserApi.getDataDados().getMunicipio());
+                            Common.mCurrentUser.setMunicipio(dataUserApi.getDataDados().getMunicipio());
 
                         if (dataUserApi.getDataDados().getRua() != null )
-                            usuario.setRua(dataUserApi.getDataDados().getRua());
+                            Common.mCurrentUser.setRua(dataUserApi.getDataDados().getRua());
 
-                        Common.mCurrentUser = usuario;
-                        AppDatabase.saveUser(Common.mCurrentUser);
-                        AppPref.getInstance().saveAuthToken("ksaksnaksa");
+
+                        AppDatabase.getInstance().saveUser(Common.mCurrentUser);
+                        AppDatabase.getInstance().saveAuthToken(Common.mCurrentUser.getId_utilizador());
 
                         loaduserProfile(Common.mCurrentUser);
 
@@ -352,8 +356,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     private void logOut(){
 
-        AppDatabase.clearData();
-        AppPref.getInstance().clearData();
+        AppDatabase.getInstance().clearData();
+//        AppPref.getInstance().clearData();
+        caixa_dialogo_cancelar.dismiss();
 
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -383,7 +388,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnSim:
-                Intent intent = new Intent(HomeInicialActivity.this,HomeInicialActivity.class);
                 logOut();
                 break;
             case R.id.btnNao:

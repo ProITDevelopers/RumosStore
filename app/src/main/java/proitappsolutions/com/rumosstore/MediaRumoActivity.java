@@ -636,25 +636,25 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                             if (response.isSuccessful()){
                                 progressDialog.dismiss();
                                 dataUserApi = response.body();
-                                Usuario usuario = new Usuario();
+
 
                                 if (dataUserApi.getDataDados().getId_utilizador() != null )
-                                    usuario.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
+                                    Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
                                 if (dataUserApi.getDataDados().getNomeCliente() != null )
-                                    usuario.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
+                                    Common.mCurrentUser.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
 
                                 if (dataUserApi.getDataDados().getEmail() != null )
-                                    usuario.setEmail(dataUserApi.getDataDados().getEmail());
+                                    Common.mCurrentUser.setEmail(dataUserApi.getDataDados().getEmail());
 
                                 if (dataUserApi.getDataDados().getFoto() != null )
-                                    usuario.setFoto(dataUserApi.getDataDados().getFoto());
+                                    Common.mCurrentUser.setFoto(dataUserApi.getDataDados().getFoto());
 
                                 if (dataUserApi.getDataDados().getSexo() != null )
-                                    usuario.setSexo(dataUserApi.getDataDados().getSexo());
+                                    Common.mCurrentUser.setSexo(dataUserApi.getDataDados().getSexo());
 
                                 if (dataUserApi.getDataDados().getTelefone() != null )
-                                    usuario.setTelefone(dataUserApi.getDataDados().getTelefone());
+                                    Common.mCurrentUser.setTelefone(dataUserApi.getDataDados().getTelefone());
 
                                 if (dataUserApi.getDataDados().getDataNascimento() != null ){
                                     String resultado = dataUserApi.getDataDados().getDataNascimento();
@@ -663,23 +663,23 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                     String mes = partes[1];
                                     String dia = partes[2];
                                     Log.d("snansa",ano + "---" + mes + "---" + dia.substring(0,2));
-                                    usuario.setDataNascimento(ano+"-"+mes+"-"+dia.substring(0,2));
-                                    Log.d("snansa",usuario.getDataNascimento());
+                                    Common.mCurrentUser.setDataNascimento(ano+"-"+mes+"-"+dia.substring(0,2));
+                                    Log.d("snansa",Common.mCurrentUser.getDataNascimento());
                                     //
                                 }
 // --------------------------------
                                 if (dataUserApi.getDataDados().getProvincia() != null )
-                                    usuario.setProvincia(dataUserApi.getDataDados().getProvincia());
+                                    Common.mCurrentUser.setProvincia(dataUserApi.getDataDados().getProvincia());
 
                                 if (dataUserApi.getDataDados().getMunicipio() != null )
-                                    usuario.setMunicipio(dataUserApi.getDataDados().getMunicipio());
+                                    Common.mCurrentUser.setMunicipio(dataUserApi.getDataDados().getMunicipio());
 
                                 if (dataUserApi.getDataDados().getRua() != null )
-                                    usuario.setRua(dataUserApi.getDataDados().getRua());
+                                    Common.mCurrentUser.setRua(dataUserApi.getDataDados().getRua());
 
-                                Common.mCurrentUser = usuario;
-                                AppDatabase.saveUser(Common.mCurrentUser);
-                                AppPref.getInstance().saveAuthToken("ksaksnaksa");
+
+                                AppDatabase.getInstance().saveUser(Common.mCurrentUser);
+                                AppDatabase.getInstance().saveAuthToken(Common.mCurrentUser.getId_utilizador());
 
                                 if (dataUserApi.getDataDados().getFoto() == null ||
                                         dataUserApi.getDataDados().getSexo() == null ||

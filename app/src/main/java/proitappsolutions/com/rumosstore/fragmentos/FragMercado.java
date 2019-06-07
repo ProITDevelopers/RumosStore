@@ -70,13 +70,17 @@ public class FragMercado extends Fragment {
 
         if (getActivity() != null){
             ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo == null){
-                mostarMsnErro();
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
-            }else{
-                carregarWebView();
+
+            if (conMgr!=null){
+                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                if (netInfo == null){
+                    mostarMsnErro();
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
+                }else{
+                    carregarWebView();
+                }
             }
+
         }
 
     }
