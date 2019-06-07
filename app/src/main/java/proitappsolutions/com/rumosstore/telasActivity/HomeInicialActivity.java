@@ -390,7 +390,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnSim:
-                Intent intent = new Intent(HomeInicialActivity.this,HomeInicialActivity.class);
                 logOut();
                 break;
             case R.id.btnNao:

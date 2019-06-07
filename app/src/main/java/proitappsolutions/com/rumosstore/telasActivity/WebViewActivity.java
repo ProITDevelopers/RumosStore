@@ -92,13 +92,17 @@ public class WebViewActivity extends AppCompatActivity {
     private void verifConecxao(String site) {
 
             ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo == null){
-                mostarMsnErro(site);
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
-            }else{
-                carregarWebView(site);
+
+            if (conMgr!=null){
+                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                if (netInfo == null){
+                    mostarMsnErro(site);
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
+                }else{
+                    carregarWebView(site);
+                }
             }
+
     }
 
     private void carregarWebView(String site){
