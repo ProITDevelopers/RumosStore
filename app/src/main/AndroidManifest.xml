@@ -37,6 +37,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".MediaRumoActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RegistroActivity"

@@ -272,7 +272,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }else if (id == R.id.nav_meu_perfil) {
             Intent intent = new Intent(HomeInicialActivity.this,MeuPerfilActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_quiosque) {
             if (getSupportActionBar() != null){
                 toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
@@ -350,7 +349,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         intent.putExtra("cor",cor);
         startActivity(intent);
     }
-
 
     private void logOut(){
 

@@ -16,7 +16,7 @@
     <string name="hit_btn_registrar">REGISTRAR</string>
     <string name="hit_btn_registrate">NÃO TEM UMA CONTA ? REGISTA-SE AQUI</string>
     <string name="hit_recuperar_senha">Redifinir Senha</string>
-    <string name="hit_receber_cod_confirmacao">Como deseja receber o codigo de confirmação?</string>
+    <string name="hit_receber_cod_confirmacao">Como deseja receber o código de confirmação?</string>
     <string name="hit_redif_senha">Insira o seu e-mail para redifinir a sua senha</string>
     <string name="hit_redif_telef">Insira o seu número do telefone</string>
     <string name="hit_redif_cod">Insira o Seu Código de Confirmação</string>
@@ -40,6 +40,7 @@
     <string name="txtMunicipioE">Municipio</string>
     <string name="txtMunicipio">Municipio - </string>
     <string name="txtBairroE">Bairro</string>
+    <string name="cancelar">Cancelar</string>
     <string name="txtBairro">Bairro - </string>
     <string name="txtRuaE">Rua</string>
     <string name="txtRua">Rua - </string>
