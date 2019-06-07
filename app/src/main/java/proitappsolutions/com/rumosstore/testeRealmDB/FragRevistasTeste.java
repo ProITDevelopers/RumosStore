@@ -327,11 +327,6 @@ public class FragRevistasTeste extends Fragment {
         //===========================================MERCADO==============================================
         //===============================================================================================
 
-
-
-
-
-
         try
         {
 
@@ -386,7 +381,7 @@ public class FragRevistasTeste extends Fragment {
             });
 
         cardMercado.setVisibility(View.VISIBLE);
-        linearCarregarMercado.setVisibility(View.INVISIBLE);
+        linearCarregarMercado.setVisibility(View.GONE);
 
 
 
@@ -454,7 +449,7 @@ public class FragRevistasTeste extends Fragment {
             });
 
         cardVanguarda.setVisibility(View.VISIBLE);
-        linearCarregarVanguarda.setVisibility(View.INVISIBLE);
+        linearCarregarVanguarda.setVisibility(View.GONE);
 
     }
 
