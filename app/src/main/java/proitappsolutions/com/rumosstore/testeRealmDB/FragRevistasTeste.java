@@ -25,6 +25,7 @@ import android.widget.ViewSwitcher;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
@@ -55,7 +56,7 @@ public class FragRevistasTeste extends Fragment {
     private RevistasAdapter revistasMercadoAdapter,revistasVanguardaAdapter,revistasRumoAdapter;
 
     int indexMercado,indexVanguarda,indexRumo=0;
-    int firstIndex;
+
 
 
     private View view;
@@ -183,12 +184,18 @@ public class FragRevistasTeste extends Fragment {
 
         if (getActivity() != null){
             ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo == null){
-                mostarMsnErro();
-            } else {
-                carregarRevistas();
+
+            if (conMgr!=null) {
+
+                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                if (netInfo == null){
+                    mostarMsnErro();
+                } else {
+                    carregarRevistas();
+                }
             }
+
+
 
         }
 
@@ -261,6 +268,9 @@ public class FragRevistasTeste extends Fragment {
 
     private void filtrarRevistas(List<Revistas> revistasList){
 
+        // Order the list by regist date.
+        Collections.sort(revistasList, new Revistas());
+
         for (int i = 0; i <revistasList.size() ; i++) {
             revistas = revistasList.get(i);
 
@@ -319,23 +329,24 @@ public class FragRevistasTeste extends Fragment {
 
 
 
-            firstIndex = mercadoList.indexOf(mercadoList.get(0));
 
+
+
+        try
+        {
 
             if (getContext()!=null){
                 revistasMercadoAdapter = new RevistasAdapter(mercadoList,getContext());
                 coverFlow.setAdapter(revistasMercadoAdapter);
             }
 
+        }catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
-//            revistasMercadoAdapter.notifyDataSetChanged();
 
-            try {
-                coverFlow.scrollToPosition(firstIndex);
-            }catch (Exception e){
-                Log.i("Excep",e.getMessage());
-            }
-
+            coverFlow.scrollToPosition(mercadoList.size());
             coverFlow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
                 @Override
                 public void onScrolledToPosition(int position) {
@@ -387,21 +398,26 @@ public class FragRevistasTeste extends Fragment {
         //===========================================VANGUARDA==============================================
         //=========================================================================================
 
-            firstIndex = vanguardaList.indexOf(vanguardaList.get(0));
+
+
+        try
+        {
 
 
             if (getContext()!=null){
                 revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,getContext());
                 coverFlow2.setAdapter(revistasVanguardaAdapter);
             }
-//            revistasVanguardaAdapter.notifyDataSetChanged();
 
-            try {
-                coverFlow2.scrollToPosition(firstIndex);
-            }catch (Exception e){
-                Log.i("Excep",e.getMessage());
-            }
+        }catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
+
+
+
+            coverFlow2.scrollToPosition(vanguardaList.size());
             coverFlow2.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
                 @Override
                 public void onScrolledToPosition(int position) {
@@ -449,18 +465,26 @@ public class FragRevistasTeste extends Fragment {
             //==============================================RUMO===========================================
             //=========================================================================================
 
-            firstIndex = rumoList.indexOf(rumoList.get(0));
 
 
-        if (getContext()!=null){
-            revistasRumoAdapter = new RevistasAdapter(rumoList,getContext());
-            coverFlow3.setAdapter(revistasRumoAdapter);
+        try
+        {
+
+
+            if (getContext()!=null){
+                revistasRumoAdapter = new RevistasAdapter(rumoList,getContext());
+                coverFlow3.setAdapter(revistasRumoAdapter);
+            }
+
+        }catch(Exception ex)
+        {
+            ex.printStackTrace();
         }
 
 
-//            revistasRumoAdapter.notifyDataSetChanged();
 
-            coverFlow3.scrollToPosition(firstIndex);
+
+            coverFlow3.scrollToPosition(rumoList.size());
             coverFlow3.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
                 @Override
                 public void onScrolledToPosition(int position) {

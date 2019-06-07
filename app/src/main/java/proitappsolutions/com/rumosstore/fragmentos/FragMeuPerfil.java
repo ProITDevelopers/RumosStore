@@ -147,7 +147,7 @@ public class FragMeuPerfil extends Fragment implements View.OnClickListener {
         btnCancelar_dialog.setOnClickListener(FragMeuPerfil.this);
 
         //carregar dados do Usuario
-        loaduserProfile(AppDatabase.getUser());
+        loaduserProfile(AppDatabase.getInstance().getUser());
 
         return view;
 

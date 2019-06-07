@@ -31,14 +31,15 @@
                 android:id="@+id/progressbar_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/logo_media_rumo"
                 app:max="100"
-                app:ringColor="@android:color/transparent"
-                app:ringProgressColor="@android:color/transparent"
+                app:ringColor="@color/colorBotaoLogin"
+                app:ringProgressColor="@android:color/white"
                 app:textColor="@android:color/black"
-                app:ringWidth="10dp"
+                app:ringWidth="5dp"
                 style="FILL"
-                app:textSize="16dp"/>
+                app:textSize="20dp"/>
+
+
 
             <com.wang.avi.AVLoadingIndicatorView
                 android:id="@+id/progress"

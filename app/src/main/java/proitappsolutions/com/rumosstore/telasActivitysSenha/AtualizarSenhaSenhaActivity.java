@@ -102,7 +102,7 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
         progressDialog.setMessage("A processar...!");
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<Void> enviarSenhaNova = apiInterface.atualizarSenha(Integer.parseInt(AppDatabase.getUser().getId_utilizador()),senha1,senha2); //AQUI
+        Call<Void> enviarSenhaNova = apiInterface.atualizarSenha(Integer.parseInt(AppDatabase.getInstance().getUser().getId_utilizador()),senha1,senha2); //AQUI
 
         enviarSenhaNova.enqueue(new Callback<Void>() {
             @Override
@@ -195,8 +195,8 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
 
     private void logOut(){
 
-        AppDatabase.clearData();
-        AppPref.getInstance().clearData();
+        AppDatabase.getInstance().clearData();
+//        AppPref.getInstance().clearData();
 
         Intent intent = new Intent(AtualizarSenhaSenhaActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

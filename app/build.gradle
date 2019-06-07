@@ -62,8 +62,7 @@ dependencies {
     //filiutili
     implementation 'commons-io:commons-io:2.4'
 
-    //realm-db, Gson, Picasso, Glide, coverflow
-    implementation "io.realm:android-adapters:2.1.1"
+    //Gson, Picasso, Glide, coverflow
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.moondroid.coverflow:library:1.0'
@@ -86,4 +85,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-apply plugin: 'realm-android'
+

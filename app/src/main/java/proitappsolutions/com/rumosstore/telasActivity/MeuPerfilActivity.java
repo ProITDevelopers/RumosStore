@@ -58,6 +58,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.AppDatabase;
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
@@ -199,7 +200,8 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         btnCancelar_dialog.setOnClickListener(MeuPerfilActivity.this);
 
         //carregar dados do Usuario
-        loaduserProfile(AppDatabase.getUser());
+        Common.mCurrentUser = AppDatabase.getInstance().getUser();
+        loaduserProfile(Common.mCurrentUser);
     }
 
     /*AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||

@@ -3,9 +3,11 @@ package proitappsolutions.com.rumosstore;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
 
 public class AppPref {
-//
+
     private static AppPref singleTonInstance = null;
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;

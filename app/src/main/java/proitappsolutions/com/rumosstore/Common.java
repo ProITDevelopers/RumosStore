@@ -21,9 +21,8 @@ import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {
 
-    public static Usuario mCurrentUser;
+    public static Usuario mCurrentUser = new Usuario();;
 
-    public static final String DB_REALM = "rumo_store_db";
 
 
     public static void changeStatusBarColor(Activity activity, int color) {
