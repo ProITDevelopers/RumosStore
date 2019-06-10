@@ -66,6 +66,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_home_inicial);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

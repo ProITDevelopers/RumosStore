@@ -102,6 +102,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_meu_perfil);
 
         toolbar_meu_perfil = findViewById(R.id.toolbar_meu_perfil);
