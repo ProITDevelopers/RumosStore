@@ -27,4 +27,8 @@
         <item name="colorAccent">@color/colorBotaoLogin</item>
     </style>
 
+    <style name="progressBarAmarela" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/colorBotaoLogin</item>
+    </style>
+
 </resources>

@@ -66,6 +66,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private AppCompatEditText dialog_editEmail_email;
     private String emailRedif_senha;
 
+    //Esqueceu a senha? ----Componentes interface da caixa de dialogo Enviar Numero Telefone
+    private Dialog dialogOpcaoSenhaEnviarTelefone;
+    private Button dialog_btn_cancelar_enviar_telefone,dialog_btn_telefone_redif_enviar_telefone;
+    private AppCompatEditText dialog_editTelefone_telefone;
+    private String telefoneRedif_senha;
+
     //Esqueceu a senha? ----EnviarCodRedifinicao
     private Dialog dialogSenhaEnviarEmailCodReset;
     private EditText editCod1,editCod2,editCod3,editCod4,editCod5,editCod6;
@@ -74,6 +80,16 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private String id,email,emailReceberDeNovo,codigo1,codigo2,codigo3,codigo4,codigo5,codigo6;
     private Button btn_enviar_cod_reset;
     private TextView receberDeNovo;
+
+    //Esqueceu a senha? ----EnviarCodRedifinicao Telefone
+    private Dialog dialogSenhaEnviarTelefoneCodReset;
+    private EditText editCod1Telef,editCod2Telef,editCod3Telef,editCod4Telef,editCod5Telef,editCod6Telef;
+    private TextView tv_telefone;
+    private LinearLayout linearBtnFecharTelef;
+    private String idTelef,telefone,telefoneReceberDeNovo,codigo1Telef,codigo2Telef,codigo3Telef,codigo4Telef,
+            codigo5Telef,codigo6Telef;
+    private Button btn_enviar_cod_resetTelef;
+    private TextView receberDeNovoTelefone;
 
     //Esqueceu a senha? ----SalvarSenha
     private Dialog dialogSenhaEnviarEmailSenhaNova;
@@ -121,6 +137,15 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         dialog_btn_cancelar_enviar_email.setOnClickListener(MediaRumoActivity.this);
         dialog_btn_email_redif_enviar_email.setOnClickListener(MediaRumoActivity.this);
 
+        dialogOpcaoSenhaEnviarTelefone = new Dialog(MediaRumoActivity.this);
+        dialogOpcaoSenhaEnviarTelefone.setContentView(R.layout.dialogo_activity_opcao_rec_senha_telefone);
+        dialog_btn_cancelar_enviar_telefone = dialogOpcaoSenhaEnviarTelefone.findViewById(R.id.dialog_btn_cancelar_enviar_telefone);
+        dialog_editTelefone_telefone = dialogOpcaoSenhaEnviarTelefone.findViewById(R.id.dialog_editTelefone_telefone);
+        dialog_btn_telefone_redif_enviar_telefone = dialogOpcaoSenhaEnviarTelefone.findViewById(R.id.dialog_btn_telefone_redif_enviar_telefone);
+        dialogOpcaoSenhaEnviarTelefone.setCancelable(false);
+        dialog_btn_cancelar_enviar_telefone.setOnClickListener(MediaRumoActivity.this);
+        dialog_btn_telefone_redif_enviar_telefone.setOnClickListener(MediaRumoActivity.this);
+
         //Dialog enviar codigo de confirmacao
         dialogSenhaEnviarEmailCodReset = new Dialog(MediaRumoActivity.this);
         dialogSenhaEnviarEmailCodReset.setContentView(R.layout.dialogo_activity_op_email_reset);
@@ -138,6 +163,26 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         receberDeNovo.setOnClickListener(MediaRumoActivity.this);
         btn_enviar_cod_reset.setOnClickListener(MediaRumoActivity.this);
         linearBtnFechar.setOnClickListener(MediaRumoActivity.this);
+
+        //-------------------------------------------------------------
+        //Dialog enviar codigo de confirmacao telefone
+        dialogSenhaEnviarTelefoneCodReset = new Dialog(MediaRumoActivity.this);
+        dialogSenhaEnviarTelefoneCodReset.setContentView(R.layout.dialogo_activity_op_telefone_reset);
+        dialogSenhaEnviarTelefoneCodReset.setCancelable(false);
+        editCod1Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod1Telef);
+        editCod2Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod2Telef);
+        editCod3Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod3Telef);
+        editCod4Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod4Telef);
+        editCod5Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod5Telef);
+        editCod6Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod6Telef);
+        tv_telefone = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.tv_telefone);
+        receberDeNovoTelefone = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.receberDeNovoTelefone);
+        btn_enviar_cod_resetTelef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.btn_enviar_cod_resetTelef);
+        linearBtnFecharTelef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.linearBtnFecharTelef);
+        receberDeNovoTelefone.setOnClickListener(MediaRumoActivity.this);
+        btn_enviar_cod_resetTelef.setOnClickListener(MediaRumoActivity.this);
+        linearBtnFecharTelef.setOnClickListener(MediaRumoActivity.this);
+        //-------------------------------------------------------------
 
         //Dialogo enviar senha nova email
         dialogSenhaEnviarEmailSenhaNova = new Dialog(MediaRumoActivity.this);
@@ -187,8 +232,16 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 enviarEmailRedif();
                 break;
 
+            case R.id.dialog_btn_telefone_redif_enviar_telefone:
+                enviarTelefonelRedif();
+                break;
+
             case R.id.dialog_btn_cancelar_enviar_email:
                 cancelarEnvioEmail();
+                break;
+
+            case R.id.dialog_btn_cancelar_enviar_telefone:
+                cancelarEnvioTelefone();
                 break;
 
             case R.id.receberDeNovo:
@@ -199,13 +252,40 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
 
+            case R.id.receberDeNovoTelefone:
+                if (!TextUtils.isEmpty(telefoneReceberDeNovo)){
+                    enviarTelefoneRedifDeNovo();
+                }else {
+                    Toast.makeText(MediaRumoActivity.this,"Tentar mais tarde.",Toast.LENGTH_SHORT).show();
+                }
+                break;
+
             case R.id.btn_enviar_cod_reset:
                 if (verificarCampo())
                     enviarCodRedifinicao();
                 break;
+            case R.id.btn_enviar_cod_resetTelef:
+                if (verificarCampoTelef())
+                    enviarCodRedifinicaoTelef();
+                break;
             case R.id.linearBtnFechar:
                 dialogSenhaEnviarEmailCodReset.cancel();
-                apagarCamposDialogResetCode();
+                apagarCamposDialogResetCode(editCod1);
+                apagarCamposDialogResetCode(editCod2);
+                apagarCamposDialogResetCode(editCod3);
+                apagarCamposDialogResetCode(editCod4);
+                apagarCamposDialogResetCode(editCod5);
+                apagarCamposDialogResetCode(editCod6);
+                //Toast.makeText(MediaRumoActivity.this,"FECHAR.",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.linearBtnFecharTelef:
+                dialogSenhaEnviarTelefoneCodReset.cancel();
+                apagarCamposDialogResetCode(editCod1Telef);
+                apagarCamposDialogResetCode(editCod2Telef);
+                apagarCamposDialogResetCode(editCod3Telef);
+                apagarCamposDialogResetCode(editCod4Telef);
+                apagarCamposDialogResetCode(editCod5Telef);
+                apagarCamposDialogResetCode(editCod6Telef);
                 //Toast.makeText(MediaRumoActivity.this,"FECHAR.",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_redif_senha:
@@ -239,6 +319,66 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(MediaRumoActivity.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
                     Log.i("skansaksas",response.code() + "error");
                     Log.i("skansaksas",response.code() + email);
+                    try {
+                        Log.i("skansaksas",response.errorBody().string() + email);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecuperarSenha> call, Throwable t) {
+                progressDialog.cancel();
+                Log.i("skansaksas",t.getMessage() + "failed");
+                verifConecxao(false);
+                Log.i("skansaksasErro",t.getMessage());
+
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Algum problema aconteceu. Tente novamente.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                final String[] unable = t.getMessage().split("");
+                Log.i("skansaksasErro",unable[1] + " <-->");
+                if (unable[1].equals("U")){
+                    Toast.makeText(MediaRumoActivity.this,
+                            "Sem conexão a internet.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void enviarTelefoneRedifDeNovo() {
+
+        errorLayout.setVisibility(View.GONE);
+        dialog_editTelefone_telefone.setError(null);
+        telefone = telefoneReceberDeNovo.trim();
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<RecuperarSenha> enviarYelefoneReset = apiInterface.enviarTelefone(telefone);
+        progressDialog.setMessage("A reenviar o Nº Telefone..");
+        progressDialog.show();
+        enviarYelefoneReset.enqueue(new Callback<RecuperarSenha>() {
+            @Override
+            public void onResponse(Call<RecuperarSenha> call, Response<RecuperarSenha> response) {
+                if (response.isSuccessful()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(MediaRumoActivity.this,"O código foi reenviado.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MediaRumoActivity.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
+                    Log.i("skansaksas",response.code() + "error");
+                    Log.i("skansaksas",response.code() + telefone);
                     try {
                         Log.i("skansaksas",response.errorBody().string() + email);
                     } catch (IOException e) {
@@ -433,6 +573,47 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    private boolean verificarCampoTelef() {
+        codigo1Telef = editCod1Telef.getText().toString().trim();
+        codigo2Telef = editCod2Telef.getText().toString().trim();
+        codigo3Telef = editCod3Telef.getText().toString().trim();
+        codigo4Telef = editCod4Telef.getText().toString().trim();
+        codigo5Telef = editCod5Telef.getText().toString().trim();
+        codigo6Telef = editCod6Telef.getText().toString().trim();
+
+        if (codigo1Telef.isEmpty()){
+            editCod1Telef.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (codigo2Telef.isEmpty()){
+            editCod2Telef.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (codigo3Telef.isEmpty()){
+            editCod3Telef.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (codigo4Telef.isEmpty()){
+            editCod4Telef.setError("Preencha o campo.");
+            return false;
+        }
+        if (codigo5Telef.isEmpty()){
+            editCod5Telef.setError("Preencha o campo.");
+            return false;
+        }
+
+        if (codigo6Telef.isEmpty()){
+            editCod6Telef.setError("Preencha o campo.");
+            return false;
+        }
+
+        return true;
+
+    }
+
     private void enviarCodRedifinicao() {
 
         errorLayout.setVisibility(View.GONE);
@@ -447,7 +628,12 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 if (!response.isSuccessful()){
                     try {
                         Toast.makeText(MediaRumoActivity.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
-                        apagarCamposDialogResetCode();
+                        apagarCamposDialogResetCode(editCod1);
+                        apagarCamposDialogResetCode(editCod2);
+                        apagarCamposDialogResetCode(editCod3);
+                        apagarCamposDialogResetCode(editCod4);
+                        apagarCamposDialogResetCode(editCod5);
+                        apagarCamposDialogResetCode(editCod6);
                         Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
                         //erro = response.errorBody().string();
                     } catch (IOException e) {
@@ -496,19 +682,101 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void apagarCamposDialogResetCode() {
-        editCod1.getText().clear();
-        editCod2.getText().clear();
-        editCod3.getText().clear();
-        editCod4.getText().clear();
-        editCod5.getText().clear();
-        editCod6.getText().clear();
+    private void enviarCodRedifinicaoTelef() {
+
+        errorLayout.setVisibility(View.GONE);
+
+        progressDialog.setMessage("Enviando o código de confirmação..!");
+        progressDialog.show();
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<CodConfirmacaoResult> enviarCod = apiInterface.enviarConfirCodigo(idTelef,codigo1Telef+codigo2Telef+codigo3Telef+codigo4Telef+codigo5Telef+codigo6Telef);
+        enviarCod.enqueue(new Callback<CodConfirmacaoResult>() {
+            @Override
+            public void onResponse(Call<CodConfirmacaoResult> call, Response<CodConfirmacaoResult> response) {
+                if (!response.isSuccessful()){
+                    try {
+                        Toast.makeText(MediaRumoActivity.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
+                        apagarCamposDialogResetCode(editCod1Telef);
+                        apagarCamposDialogResetCode(editCod2Telef);
+                        apagarCamposDialogResetCode(editCod3Telef);
+                        apagarCamposDialogResetCode(editCod4Telef);
+                        apagarCamposDialogResetCode(editCod5Telef);
+                        apagarCamposDialogResetCode(editCod6Telef);
+                        Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
+                        //erro = response.errorBody().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                }else {
+                    if (response.body() != null){
+                        token = response.body().getToken();
+                        dialogSenhaEnviarTelefoneCodReset.cancel();
+                        dialogSenhaEnviarEmailSenhaNova.show();
+                    }
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CodConfirmacaoResult> call, Throwable t) {
+                progressDialog.cancel();
+                Log.i("skansaksas",t.getMessage() + "failed");
+                verifConecxao(false);
+                Log.i("skansaksasErro",t.getMessage());
+
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Algum problema aconteceu. Tente novamente.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                final String[] unable = t.getMessage().split("");
+                Log.i("skansaksasErro",unable[1] + " <-->");
+                if (unable[1].equals("U")){
+                    Toast.makeText(MediaRumoActivity.this,
+                            "Sem conexão a internet.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void apagarCamposDialogResetCode(EditText editText) {
+        editText.getText().clear();
     }
 
     private void enviarEmailRedif() {
         if (verificarEmail()){
             mandarEmailResetSenha(emailRedif_senha);
         }
+    }
+
+    private void enviarTelefonelRedif() {
+        if (verificarTelefone()){
+            mandarTelefoneResetSenha(telefoneRedif_senha);
+        }
+    }
+
+    private boolean verificarTelefone() {
+
+        if (dialog_editTelefone_telefone.getText() != null)
+            telefoneRedif_senha = dialog_editTelefone_telefone.getText().toString().trim();
+
+        if (!telefoneRedif_senha.matches("9[1-9][1-9]\\d{6}")){
+            dialog_editTelefone_telefone.setError("Preencha com um número válido");
+        }
+
+        return true;
+
     }
 
     private void mandarEmailResetSenha(String email) {
@@ -580,6 +848,75 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    private void mandarTelefoneResetSenha(String telefone) {
+        errorLayout.setVisibility(View.GONE);
+        dialog_editTelefone_telefone.setError(null);
+        telefoneReceberDeNovo = telefone;
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<RecuperarSenha> enviarTelefoneReset = apiInterface.enviarTelefone(telefone);
+        progressDialog.setMessage("A enviar o nº Telefone..");
+        progressDialog.show();
+        enviarTelefoneReset.enqueue(new Callback<RecuperarSenha>() {
+            @Override
+            public void onResponse(Call<RecuperarSenha> call, Response<RecuperarSenha> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        idTelef = response.body().getId();
+                    }catch (Exception e){
+                        Log.i("skansaksas",e.getMessage());
+                    }
+                    progressDialog.cancel();
+                    dialog_editTelefone_telefone.setText(null);
+                    dialogOpcaoSenhaEnviarTelefone.cancel();
+                    tv_telefone.setText(telefone);
+                    dialogSenhaEnviarTelefoneCodReset.show();
+                    //intent.putExtra("id",response.body().getId());
+                    //intent.putExtra("email",email);}
+                    Log.i("skansaksas",response.body().getId() + "sucess");
+                }else {
+                    dialog_editTelefone_telefone.setError("Nº Telefone não encontrado.");
+                    Log.i("skansaksas",response.code() + "error");
+                    Log.i("skansaksas",response.code() + email);
+                    try {
+                        Log.i("skansaksas",response.errorBody().string() + email);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.cancel();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecuperarSenha> call, Throwable t) {
+                progressDialog.cancel();
+                Log.i("skansaksas",t.getMessage() + "failed");
+                verifConecxao(false);
+                Log.i("skansaksasErro",t.getMessage());
+
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MediaRumoActivity.this,
+                                "Algum problema aconteceu. Tente novamente.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                final String[] unable = t.getMessage().split("");
+                Log.i("skansaksasErro",unable[1] + " <-->");
+                if (unable[1].equals("U")){
+                    Toast.makeText(MediaRumoActivity.this,
+                            "Sem conexão a internet.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private Boolean verificarEmail(){
         
         if (dialog_editEmail_email.getText() != null)
@@ -601,8 +938,16 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         dialogOpcaoSenhaEnviarEmail.cancel();
     }
 
+    private void cancelarEnvioTelefone() {
+        dialog_editTelefone_telefone.setText(null);
+        dialog_editTelefone_telefone.setError(null);
+        dialogOpcaoSenhaEnviarTelefone.dismiss();
+        dialogOpcaoSenhaEnviarTelefone.cancel();
+    }
+
     private void inserirTelefRedif() {
         dialogOpcaoSenha.dismiss();
+        dialogOpcaoSenhaEnviarTelefone.show();
     }
 
     private void inserirEmailRedif() {
@@ -695,9 +1040,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                     Toast.makeText(MediaRumoActivity.this,"Por favor termina de editar o perfil.",Toast.LENGTH_SHORT).show();
                                 }else {
                                     launchHomeScreen();
-                                    /*Log.d("autenticacaoVerif",dataUserApi.getDataDados().getDataNascimento());
-                                    Log.d("autenticacaoVerif",dataUserApi.getDataDados().getSexo());
-                                    Log.d("autenticacaoVerif", "" + dataUserApi.getDataDados().getFoto());*/
                                 }
                             }
                         }
@@ -734,7 +1076,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             public void onFailure(retrofit2.Call<Data> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.i("erroApi",t.getMessage());
-                verifConecxao(false);
+                verifConecxao(true);
                 switch (t.getMessage()){
                     case "timeout":
                         Toast.makeText(MediaRumoActivity.this,

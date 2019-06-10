@@ -31,11 +31,10 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     //Toast.makeText(MainActivity.this,"Por favor faça o login.",Toast.LENGTH_SHORT).show();
                     return;
-
-                }else if (AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||
-                        AppDatabase.getUser().getTelefone() == null || AppDatabase.getUser().getDataNascimento() == null ||
-                        AppDatabase.getUser().getProvincia() == null || AppDatabase.getUser().getMunicipio() == null ||
-                        AppDatabase.getUser().getRua() == null){
+                }else if (AppDatabase.getInstance().getUser().getFoto() == null || AppDatabase.getInstance().getUser().getSexo() == null ||
+                        AppDatabase.getInstance().getUser().getTelefone() == null || AppDatabase.getInstance().getUser().getDataNascimento() == null ||
+                        AppDatabase.getInstance().getUser().getProvincia() == null || AppDatabase.getInstance().getUser().getMunicipio() == null ||
+                        AppDatabase.getInstance().getUser().getRua() == null){
                         Intent intent = new Intent(MainActivity.this, MeuPerfilActivity.class);
                         startActivity(intent);
                         finish();

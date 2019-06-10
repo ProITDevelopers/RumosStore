@@ -51,7 +51,7 @@ import retrofit2.Response;
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private CircleImageView circleImageView;
-    private TextView txtName;
+    private TextView txtName,tv_inicial_nome;
     private TextView txtEmail,diagolo_titulo;
     private Toolbar toolbar;
     private Button btn_cancelar,btnSim,btnNao,btnCancelar_dialog;
@@ -82,6 +82,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         circleImageView = (CircleImageView) headerView.findViewById(R.id.iv_imagem_perfil);
         txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
+        tv_inicial_nome = (TextView) headerView.findViewById(R.id.tv_inicial_nome);
 
         caixa_dialogo_cancelar = new Dialog(HomeInicialActivity.this);
         caixa_dialogo_cancelar.setContentView(R.layout.caixa_de_dialogo_redif_senha);
@@ -151,11 +152,15 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
             if (usuario.getFoto()!=null || !TextUtils.isEmpty(usuario.getFoto())){
 
+                tv_inicial_nome.setVisibility(View.GONE);
                 Picasso.with(HomeInicialActivity.this)
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(circleImageView);
+            }else{
+                tv_inicial_nome.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
+
 
         } else {
             logOut();
@@ -235,7 +240,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.rumos_store, menu);
         return true;
     }

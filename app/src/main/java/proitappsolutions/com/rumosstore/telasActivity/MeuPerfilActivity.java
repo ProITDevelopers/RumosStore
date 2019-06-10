@@ -73,7 +73,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
     private static final int TIRAR_FOTO_CAMARA = 1, ESCOLHER_FOTO_GALERIA = 1995, PERMISSAO_FOTO = 3;
     private TextView txtName, txtEmail, numeroTelef, valorProvincia, valorMunicipio,
-            valorRua, valorGenero, valorDataNasc, txtNameEditar, txtEmailEditar;
+            valorRua, valorGenero, valorDataNasc, txtNameEditar, txtEmailEditar,tv_inicial_nome,tv_inicial_nome_edit;
     private CircleImageView iv_imagem_perfil, iv_imagem_perfilEditar;
     private ImageView imagem_editar_foto;
     private Button btnEditarPerfil, btnCancelarEdicao, btnSalvarDados, btnCamara, btnGaleria, btnCancelar_dialog;
@@ -115,6 +115,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
         iv_imagem_perfil = findViewById(R.id.iv_imagem_perfil);
         txtName = findViewById(R.id.txtName);
+        tv_inicial_nome = findViewById(R.id.tv_inicial_nome);
         txtEmail = findViewById(R.id.txtEmail);
         numeroTelef = findViewById(R.id.numeroTelef);
         valorProvincia = findViewById(R.id.valorProvincia);
@@ -145,6 +146,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         //editarPerfil layout
         toolbar_editPerfil = relativeLayoutEditarPerfil.findViewById(R.id.toolbar_editPerfil);
         iv_imagem_perfilEditar = relativeLayoutEditarPerfil.findViewById(R.id.iv_imagem_perfilEditar);
+        tv_inicial_nome_edit = relativeLayoutEditarPerfil.findViewById(R.id.tv_inicial_nome_edit);
         imagem_editar_foto = relativeLayoutEditarPerfil.findViewById(R.id.imagem_editar_foto);
         txtNameEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtNameEditar);
         txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
@@ -262,17 +264,23 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             }
 
             if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
+                tv_inicial_nome_edit.setVisibility(View.GONE);
                 Picasso.with(MeuPerfilActivity.this)
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
+            }else {
+                tv_inicial_nome_edit.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
 
             if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
+                tv_inicial_nome.setVisibility(View.GONE);
                 Picasso.with(MeuPerfilActivity.this)
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfilEditar);
+            }else {
+                tv_inicial_nome.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
 
         }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class FragHomeInicial extends Fragment {
 
     RecyclerView recyclerView;
     RSSObjecto rssObjecto;
+    private ProgressBar progress_amarela;
     private RelativeLayout errorLayout;
     private LinearLayout linearLayout;
     private TextView btnTentarDeNovo;
@@ -40,6 +42,7 @@ public class FragHomeInicial extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home_inicial, container, false);
+        progress_amarela = view.findViewById(R.id.progress_amarela);
         recyclerView = view.findViewById(R.id.recyclerView);
         errorLayout = view.findViewById(R.id.erroLayout);
         linearLayout = view.findViewById(R.id.linearLayout);
@@ -72,6 +75,7 @@ public class FragHomeInicial extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
+                progress_amarela.setVisibility(View.GONE);
                 rssObjecto = new Gson().fromJson(s,RSSObjecto.class);
                 FeedAdapter adapter = new FeedAdapter(rssObjecto,getContext());
                 recyclerView.setAdapter(adapter);
@@ -90,10 +94,12 @@ public class FragHomeInicial extends Fragment {
             ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             if (conMgr!=null){
+                progress_amarela.setVisibility(View.GONE);
                 NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
                 if (netInfo == null){
                     mostarMsnErro();
                 }else{
+                    progress_amarela.setVisibility(View.VISIBLE);
                     carregarRss();
                 }
             }

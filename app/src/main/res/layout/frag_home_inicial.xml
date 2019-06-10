@@ -20,6 +20,14 @@
                     android:src="@drawable/img_media_rumo"/>
             </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progress_amarela"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:theme="@style/progressBarAmarela"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:paddingLeft="8dp"
