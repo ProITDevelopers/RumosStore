@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(AppDatabase.getInstance().getAuthToken())) {
 
-
-
                     if (AppDatabase.getInstance().getUser().getFoto() == null || AppDatabase.getInstance().getUser().getSexo() == null ||
                             AppDatabase.getInstance().getUser().getTelefone() == null || AppDatabase.getInstance().getUser().getDataNascimento() == null ||
                             AppDatabase.getInstance().getUser().getProvincia() == null || AppDatabase.getInstance().getUser().getMunicipio() == null ||

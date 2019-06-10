@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.RegistroActivity;
 import proitappsolutions.com.rumosstore.api.ApiClient;
@@ -47,6 +49,7 @@ public class EnviarCodConfActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_enviar_cod_conf);
 
         editCod1 = findViewById(R.id.editCod1);
