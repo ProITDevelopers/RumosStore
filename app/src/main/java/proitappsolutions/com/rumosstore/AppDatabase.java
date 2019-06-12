@@ -21,7 +21,7 @@ public class AppDatabase {
     private Gson gson;
     private Usuario mUsuario;
     private String json;
-    private Context context;
+
 
     public static AppDatabase getInstance() {
         if (singleTonInstance == null) {
@@ -34,31 +34,24 @@ public class AppDatabase {
         super();
         this.mUsuario = new Usuario();
         this.gson = new Gson();
-        this.context = context;
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
         editor.apply();
     }
 
     public void saveUser(Usuario usuario){
 
-        sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
         editor = sharedPreferences.edit();
 
         json = gson.toJson(usuario);
         editor.putString(KEY_USER, json);
-        editor.commit();
+        editor.apply();
 
     }
 
 
 
     public Usuario getUser(){
-
-        sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
-
 
         json = sharedPreferences.getString(KEY_USER, null);
         mUsuario = gson.fromJson(json, Usuario.class);
