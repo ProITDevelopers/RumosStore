@@ -533,14 +533,20 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             rua = editRuaEditar.getText().toString().trim();
             genero = valorGeneroItem;
             dataNasc = editDataNascEditar.getText().toString().trim();
-            Log.i("datanasccc",dataNasc);
-            String resultado = dataNasc;
-            String[] partes = resultado.split("-");
-            String dia = partes[0];
-            String mes = partes[1];
-            String ano = partes[2];
-            dataNasc = ano+"-"+mes+"-"+dia;
-            Log.d("snansaVxxxx",ano + "---" + mes + "---" + dia+ "----------------:>" + dataNasc);
+
+            //Se dataNasc estiver vazia -> String[] partes gera Array_IndexOutofbounds_Exception
+            if (!dataNasc.equals("") || !TextUtils.isEmpty(dataNasc)){
+                Log.i("datanasccc",dataNasc);
+                String resultado = dataNasc;
+                String[] partes = resultado.split("-");
+                String dia = partes[0];
+                String mes = partes[1];
+                String ano = partes[2];
+                dataNasc = ano+"-"+mes+"-"+dia;
+                Log.d("snansaVxxxx",ano + "---" + mes + "---" + dia+ "----------------:>" + dataNasc);
+            }
+
+
 
             if (telefone.isEmpty()) {
                 editTelefoneEditar.setError("Preencha o campo.");
@@ -599,6 +605,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                             Toast.makeText(MeuPerfilActivity.this,
                                     "Foto atualizada com sucesso.!",
                                     Toast.LENGTH_SHORT).show();
+
+                            tv_inicial_nome.setVisibility(View.INVISIBLE);
+                            tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
                         } else {
                             progressDialog.dismiss();
                             ErrorResponce errorResponce = ErrorUtils.parseError(response);

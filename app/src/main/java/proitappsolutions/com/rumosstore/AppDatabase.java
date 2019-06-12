@@ -2,6 +2,8 @@ package proitappsolutions.com.rumosstore;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
@@ -19,6 +21,7 @@ public class AppDatabase {
     private Gson gson;
     private Usuario mUsuario;
     private String json;
+
 
     public static AppDatabase getInstance() {
         if (singleTonInstance == null) {
@@ -38,9 +41,11 @@ public class AppDatabase {
 
     public void saveUser(Usuario usuario){
 
+        editor = sharedPreferences.edit();
+
         json = gson.toJson(usuario);
         editor.putString(KEY_USER, json);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -48,7 +53,7 @@ public class AppDatabase {
 
     public Usuario getUser(){
 
-        json = sharedPreferences.getString(KEY_USER, "");
+        json = sharedPreferences.getString(KEY_USER, null);
         mUsuario = gson.fromJson(json, Usuario.class);
 
         return mUsuario;
@@ -66,7 +71,12 @@ public class AppDatabase {
     }
 
     public void clearData() {
-        editor.clear().commit();
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
     }
+
+
 
 }

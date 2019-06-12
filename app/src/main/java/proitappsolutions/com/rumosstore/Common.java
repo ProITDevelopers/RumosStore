@@ -21,7 +21,7 @@ import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
 
 public class Common {
 
-    public static Usuario mCurrentUser = new Usuario();;
+    public static Usuario mCurrentUser = new Usuario();
 
 
 

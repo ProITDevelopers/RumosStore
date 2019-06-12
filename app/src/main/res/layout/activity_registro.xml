@@ -76,7 +76,7 @@
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_nome"
                             android:paddingLeft="10dp"
-                            android:inputType="textPersonName" />
+                            android:inputType="textCapSentences" />
 
                     </LinearLayout>
 
