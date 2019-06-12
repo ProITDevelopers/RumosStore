@@ -321,14 +321,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     progressDialog.dismiss();
                     Toast.makeText(MediaRumoActivity.this,"O código foi reenviado.",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(MediaRumoActivity.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
-                    Log.i("skansaksas",response.code() + "error");
-                    Log.i("skansaksas",response.code() + email);
-                    try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }
@@ -381,14 +375,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     progressDialog.dismiss();
                     Toast.makeText(MediaRumoActivity.this,"O código foi reenviado.",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(MediaRumoActivity.this,"Por algum motivo esta operação falhou..",Toast.LENGTH_SHORT).show();
-                    Log.i("skansaksas",response.code() + "error");
-                    Log.i("skansaksas",response.code() + telefone);
-                    try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }
@@ -458,7 +446,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(MediaRumoActivity.this,"Algum problema inesperado ocorreu.",Toast.LENGTH_SHORT).show();
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -631,26 +620,21 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(Call<CodConfirmacaoResult> call, Response<CodConfirmacaoResult> response) {
                 if (!response.isSuccessful()){
-                    try {
-                        //ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                        //Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
-                        apagarCamposDialogResetCode(editCod1);
-                        apagarCamposDialogResetCode(editCod2);
-                        apagarCamposDialogResetCode(editCod3);
-                        apagarCamposDialogResetCode(editCod4);
-                        apagarCamposDialogResetCode(editCod5);
-                        apagarCamposDialogResetCode(editCod6);
-                        Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
-                        //erro = response.errorBody().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                        Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }else {
                     if (response.body() != null){
                         token = response.body().getToken();
                         dialogSenhaEnviarEmailCodReset.cancel();
                         dialogSenhaEnviarEmailSenhaNova.show();
+                        apagarCamposDialogResetCode(editCod1);
+                        apagarCamposDialogResetCode(editCod2);
+                        apagarCamposDialogResetCode(editCod3);
+                        apagarCamposDialogResetCode(editCod4);
+                        apagarCamposDialogResetCode(editCod5);
+                        apagarCamposDialogResetCode(editCod6);
+
                     }
                     progressDialog.dismiss();
                 }
@@ -700,25 +684,21 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(Call<CodConfirmacaoResult> call, Response<CodConfirmacaoResult> response) {
                 if (!response.isSuccessful()){
-                    try {
-                        Toast.makeText(MediaRumoActivity.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(MediaRumoActivity.this,
+                            errorResponce.getError(),Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
+                }else {
+                    if (response.body() != null){
+                        token = response.body().getToken();
+                        dialogSenhaEnviarTelefoneCodReset.cancel();
+                        dialogSenhaEnviarEmailSenhaNova.show();
                         apagarCamposDialogResetCode(editCod1Telef);
                         apagarCamposDialogResetCode(editCod2Telef);
                         apagarCamposDialogResetCode(editCod3Telef);
                         apagarCamposDialogResetCode(editCod4Telef);
                         apagarCamposDialogResetCode(editCod5Telef);
                         apagarCamposDialogResetCode(editCod6Telef);
-                        Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
-                        //erro = response.errorBody().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-                }else {
-                    if (response.body() != null){
-                        token = response.body().getToken();
-                        dialogSenhaEnviarTelefoneCodReset.cancel();
-                        dialogSenhaEnviarEmailSenhaNova.show();
                     }
                     progressDialog.dismiss();
                 }
@@ -813,8 +793,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 }else {
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     dialog_editEmail_email.setError(errorResponce.getError());
-                    Log.i("skansaksas",response.code() + "error");
-                    Log.i("skansaksas",response.code() + email);
                     progressDialog.cancel();
                 }
             }
@@ -876,15 +854,13 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     //intent.putExtra("email",email);}
                     Log.i("skansaksas",response.body().getId() + "sucess");
                 }else {
-                    dialog_editTelefone_telefone.setError("Nº Telefone não encontrado.");
-                    Log.i("skansaksas",response.code() + "error");
-                    Log.i("skansaksas",response.code() + email);
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    progressDialog.dismiss();
                     try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        dialog_editTelefone_telefone.setError(errorResponce.getError());
+                    }catch (Exception e){
+                        Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
                     }
-                    progressDialog.cancel();
                 }
             }
 
@@ -1043,6 +1019,17 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                 }else {
                                     launchHomeScreen();
                                 }
+                            }else {
+                                ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                                progressDialog.dismiss();
+                                try {
+                                    Snackbar
+                                            .make(raiz, errorResponce.getError(), 4000)
+                                            .setActionTextColor(Color.MAGENTA)
+                                            .show();
+                                }catch (Exception e){
+                                    Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
+                                }
                             }
                         }
 
@@ -1065,19 +1052,17 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         }
                     });
                 }else {
-                   // ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     progressDialog.dismiss();
 
                    try {
-                       Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
-                      /* Snackbar
+                      Snackbar
                                .make(raiz, errorResponce.getError(), 4000)
                                .setActionTextColor(Color.MAGENTA)
-                               .show();*/
+                               .show();
                    }catch (Exception e){
                        Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
                    }
-                    Log.d("autenticacaoVerif", String.valueOf(response.code()));
                 }
             }
 

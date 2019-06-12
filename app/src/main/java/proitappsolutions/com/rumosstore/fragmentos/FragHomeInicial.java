@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,8 +35,8 @@ public class FragHomeInicial extends Fragment {
     private RelativeLayout errorLayout;
     private LinearLayout linearLayout;
     private TextView btnTentarDeNovo;
-
     private final String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
+    private final String RSS_link_vanguarda = "https://vanguarda.co.ao/rss/newsletter";
     private final String RSS_PARA_JSON_API = "https://api.rss2json.com/v1/api.json?rss_url=";
 
     @Nullable
@@ -48,6 +50,7 @@ public class FragHomeInicial extends Fragment {
         linearLayout = view.findViewById(R.id.linearLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -85,6 +88,7 @@ public class FragHomeInicial extends Fragment {
 
         StringBuilder url_get_data = new StringBuilder(RSS_PARA_JSON_API);
         url_get_data.append(RSS_link);
+        //url_get_data.append(RSS_link_vanguarda);
         carregaAsync.execute(url_get_data.toString());
     }
 
@@ -124,4 +128,5 @@ public class FragHomeInicial extends Fragment {
             }
         });
     }
+
 }

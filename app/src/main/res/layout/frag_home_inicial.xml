@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_media_rumo"/>
-            </LinearLayout>
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            app:layout_collapseMode="parallax"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_media_rumo"/>
         <ProgressBar
             android:id="@+id/progress_amarela"
-            android:visibility="gone"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:theme="@style/progressBarAmarela"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/recyclerView"
+           android:paddingLeft="8dp"
+           android:paddingRight="8dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+       </android.support.v7.widget.RecyclerView>
 
-            </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
-
-        </LinearLayout>
 
     <include layout="@layout/activity_sem_internet" />
 

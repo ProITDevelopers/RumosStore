@@ -86,7 +86,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.btnRegistrar:
                 if (verificarCampo()){
-                    verifConecxao();
+                    registrarUsuario();
                 }
                 break;
 
@@ -159,14 +159,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         UsuarioApi usuarioApi = new UsuarioApi(editTextNomeRegistro.getText().toString(),email = editTextEmailRegistro.getText().toString()
                 ,editTextPassRegistro.getText().toString());
-
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<Void> call = apiInterface.registrarCliente(usuarioApi);
-
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
                 if (response.isSuccessful()){
                     Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -174,38 +171,25 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);
                     Log.i("verificacao","certo" + response.code());
-
-
                 } else {
-
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     progressDialog.dismiss();
 
-                    /*try {
+                    try {
                         Snackbar
                                 .make(raiz, errorResponce.getError(), 4000)
                                 .setActionTextColor(Color.MAGENTA)
                                 .show();
                     }catch (Exception e){
                         Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
-                    }*/
-                    Toast.makeText(RegistroActivity.this,"Email já existe.", Toast.LENGTH_SHORT).show();
-                    try {
-                        Log.i("verificacao","certo" + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                    Log.i("verificacao","certo" + response.code());
-                    //erro = response.errorBody().string();
-                    progressDialog.dismiss();
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.i("onFailure","erro" + t.getMessage());
+                Log.i("onFailure", t.getMessage());
                 progressDialog.dismiss();
                 verifConecxao();
                 switch (t.getMessage()){
@@ -216,9 +200,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         break;
                     default:
                         Toast.makeText(RegistroActivity.this,
-                                "Algum problema aconteceu. Tente novamente.",
+                                "Algum problema aconteceu.Possivelmente seja a conexão com a Internet.",
                                 Toast.LENGTH_SHORT).show();
                         break;
+                }
+                final String[] unable = t.getMessage().split("");
+                Log.i("skansaksasErro",unable[1] + " <-->");
+                if (unable[1].equals("U")){
+                    Toast.makeText(RegistroActivity.this,
+                            "Sem conexão a internet.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -231,7 +222,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         if (netInfo == null){
             mostarMsnErro();
         }else{
-            registrarUsuario();
+           // registrarUsuario();
         }
     }
 
