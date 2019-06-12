@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,6 +31,8 @@ import java.io.IOException;
 
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
 import proitappsolutions.com.rumosstore.modelo.Data;
@@ -96,6 +99,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private ShowHidePasswordEditText edtSenhaNova,edtConfSenha;
     private String senha1,senha2,token;
     private Button btn_cancelar,btn_redif_senha;
+    View raiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         btn_alterar_senha.setOnClickListener(MediaRumoActivity.this);
         progressDialog = new ProgressDialog(MediaRumoActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
+        raiz = findViewById(android.R.id.content);
 
         dialogOpcaoSenha = new Dialog(MediaRumoActivity.this);
         dialogOpcaoSenha.setContentView(R.layout.dialogo_activity_opcao_rec_senha);
@@ -627,7 +632,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(Call<CodConfirmacaoResult> call, Response<CodConfirmacaoResult> response) {
                 if (!response.isSuccessful()){
                     try {
-                        Toast.makeText(MediaRumoActivity.this,"Código de redifinição Incorrecto.",Toast.LENGTH_SHORT).show();
+                        //ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                        //Toast.makeText(MediaRumoActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                         apagarCamposDialogResetCode(editCod1);
                         apagarCamposDialogResetCode(editCod2);
                         apagarCamposDialogResetCode(editCod3);
@@ -805,14 +811,10 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         //intent.putExtra("email",email);}
                     Log.i("skansaksas",response.body().getId() + "sucess");
                 }else {
-                    dialog_editEmail_email.setError("E-mail não encontrado.");
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    dialog_editEmail_email.setError(errorResponce.getError());
                     Log.i("skansaksas",response.code() + "error");
                     Log.i("skansaksas",response.code() + email);
-                    try {
-                        Log.i("skansaksas",response.errorBody().string() + email);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     progressDialog.cancel();
                 }
             }
@@ -1063,11 +1065,18 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         }
                     });
                 }else {
+                   // ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     progressDialog.dismiss();
-                    Snackbar
-                            .make(getCurrentFocus(), "Email ou senha inválidos", 4000)
-                            .setActionTextColor(Color.MAGENTA)
-                            .show();
+
+                   try {
+                       Log.i("TAGENVIARRESET","certo" + response.errorBody().string());
+                      /* Snackbar
+                               .make(raiz, errorResponce.getError(), 4000)
+                               .setActionTextColor(Color.MAGENTA)
+                               .show();*/
+                   }catch (Exception e){
+                       Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
+                   }
                     Log.d("autenticacaoVerif", String.valueOf(response.code()));
                 }
             }

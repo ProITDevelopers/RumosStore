@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorResponce {
 
-    @SerializedName("erro")
+    @SerializedName("error")
     @Expose
     private String error;
 

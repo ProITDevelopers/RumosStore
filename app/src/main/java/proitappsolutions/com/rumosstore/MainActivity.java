@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     Toast.makeText(MainActivity.this,"Por favor faça o login.",Toast.LENGTH_SHORT).show();//
                     return;
-
                 }
 
                 if (!TextUtils.isEmpty(AppDatabase.getInstance().getAuthToken())) {
@@ -48,15 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     }else {
                         launchHomeScreen();;
                     }
-
-
                 }
-
-
-
-
-
-
             }
         }, 2000);
     }

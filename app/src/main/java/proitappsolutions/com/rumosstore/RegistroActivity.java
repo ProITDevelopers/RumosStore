@@ -3,8 +3,10 @@ package proitappsolutions.com.rumosstore;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import okhttp3.ResponseBody;
 import okhttp3.internal.http.RealResponseBody;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Erro;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
@@ -45,6 +49,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout errorLayout;
     private RelativeLayout relLativeLayout;
     private TextView btnTentarDeNovo;
+    View raiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         editTextPassRegistro = findViewById(R.id.editTextPassRegistro);
         editTextPassRegistro2 = findViewById(R.id.editTextPassRegistro2);
         editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
+        raiz = findViewById(android.R.id.content);
 
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnLoginInicial = findViewById(R.id.btnLoginInicial);
@@ -161,24 +167,37 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                if (!response.isSuccessful()){
-
-                    Toast.makeText(RegistroActivity.this,"Email já existe.", Toast.LENGTH_SHORT).show();
-                    try {
-                        Log.i("verificacao","certo" + response.errorBody().string());
-                        //erro = response.errorBody().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-
-                } else {
+                if (response.isSuccessful()){
                     Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
                     intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentEntrar);
                     Log.i("verificacao","certo" + response.code());
+
+
+                } else {
+
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    progressDialog.dismiss();
+
+                    /*try {
+                        Snackbar
+                                .make(raiz, errorResponce.getError(), 4000)
+                                .setActionTextColor(Color.MAGENTA)
+                                .show();
+                    }catch (Exception e){
+                        Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
+                    }*/
+                    Toast.makeText(RegistroActivity.this,"Email já existe.", Toast.LENGTH_SHORT).show();
+                    try {
+                        Log.i("verificacao","certo" + response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("verificacao","certo" + response.code());
+                    //erro = response.errorBody().string();
+                    progressDialog.dismiss();
                 }
 
 
