@@ -985,6 +985,8 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                 dataUserApi = response.body();
 
 
+                                Common.mCurrentUser = new Usuario();
+
                                 if (dataUserApi.getDataDados().getId_utilizador() != null )
                                     Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 

@@ -2,6 +2,8 @@ package proitappsolutions.com.rumosstore;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
@@ -19,6 +21,7 @@ public class AppDatabase {
     private Gson gson;
     private Usuario mUsuario;
     private String json;
+    private Context context;
 
     public static AppDatabase getInstance() {
         if (singleTonInstance == null) {
@@ -31,12 +34,17 @@ public class AppDatabase {
         super();
         this.mUsuario = new Usuario();
         this.gson = new Gson();
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.apply();
     }
 
     public void saveUser(Usuario usuario){
+
+        sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        editor = sharedPreferences.edit();
 
         json = gson.toJson(usuario);
         editor.putString(KEY_USER, json);
@@ -48,7 +56,11 @@ public class AppDatabase {
 
     public Usuario getUser(){
 
-        json = sharedPreferences.getString(KEY_USER, "");
+        sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+
+        json = sharedPreferences.getString(KEY_USER, null);
         mUsuario = gson.fromJson(json, Usuario.class);
 
         return mUsuario;
@@ -66,7 +78,12 @@ public class AppDatabase {
     }
 
     public void clearData() {
-        editor.clear().commit();
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
     }
+
+
 
 }

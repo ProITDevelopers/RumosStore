@@ -191,8 +191,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                     if (response.isSuccessful()){
                         dataUserApi = response.body();
 
-
-
+                        Common.mCurrentUser = new Usuario();
                         if (dataUserApi.getDataDados().getId_utilizador() != null )
                             Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
@@ -362,6 +361,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private void logOut(){
 
         AppDatabase.getInstance().clearData();
+
 //        AppPref.getInstance().clearData();
         caixa_dialogo_cancelar.dismiss();
 

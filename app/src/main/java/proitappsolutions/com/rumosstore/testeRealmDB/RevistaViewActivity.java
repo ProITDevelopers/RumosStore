@@ -107,6 +107,7 @@ public class RevistaViewActivity extends AppCompatActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+pdf);
+//        webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url="+pdf);
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -118,7 +119,7 @@ public class RevistaViewActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:(function() { " +
+                view.loadUrl("javascript:(function() { " +
                         "document.getElementsByClassName('ndfHFb-c4YZDc-GSQQnc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe VIpgJd-TzA9Ye-eEGnhe ndfHFb-c4YZDc-LgbsSe')[0].style.display='none'; })()");
 //                progressBar.setVisibility(View.INVISIBLE);
             }
@@ -128,11 +129,15 @@ public class RevistaViewActivity extends AppCompatActivity {
                 super.onPageStarted(view, url, favicon);
 //                progressBar.setVisibility(View.VISIBLE);
 
+
             }
         });
         webView.setWebChromeClient(new WebChromeClient() {
 
             public void onProgressChanged(WebView view, int progress) {
+
+                view.loadUrl("javascript:(function() { " +
+                        "document.getElementsByClassName('ndfHFb-c4YZDc-GSQQnc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe VIpgJd-TzA9Ye-eEGnhe ndfHFb-c4YZDc-LgbsSe')[0].style.display='none'; })()");
 
                 if (progress < 100){
                     progressBar.setVisibility(ProgressBar.VISIBLE);
@@ -142,6 +147,8 @@ public class RevistaViewActivity extends AppCompatActivity {
                 if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
                     anelprogressbar.setProgress(progress);
                     progressBar.setVisibility(ProgressBar.VISIBLE);
+
+
                 }
 
                 if(progress == 100) {

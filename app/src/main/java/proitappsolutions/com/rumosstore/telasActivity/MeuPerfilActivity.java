@@ -596,6 +596,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                             Toast.makeText(MeuPerfilActivity.this,
                                     "Foto atualizada com sucesso.!",
                                     Toast.LENGTH_SHORT).show();
+
+                            tv_inicial_nome.setVisibility(View.INVISIBLE);
+                            tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
                         } else {
                             progressDialog.dismiss();
                             /*Toast.makeText(MeuPerfilActivity.this,
