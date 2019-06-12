@@ -60,10 +60,13 @@ import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
+import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.RotateBitmap;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -607,9 +610,8 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                             tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
                         } else {
                             progressDialog.dismiss();
-                            /*Toast.makeText(MeuPerfilActivity.this,
-                                    "errado",
-                                    Toast.LENGTH_SHORT).show();*/
+                            ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                            Toast.makeText(MeuPerfilActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                             try {
                                 Log.d("sbaksanR", response.errorBody().string());
                             } catch (IOException e) {
@@ -663,7 +665,8 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                         finish();
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(MeuPerfilActivity.this, "Algum problema ocorreu. Tente novamente!", Toast.LENGTH_SHORT).show();
+                        ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                        Toast.makeText(MeuPerfilActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                         try {
                             Log.d("sbaksanR", response.errorBody().string());
                         } catch (IOException e) {

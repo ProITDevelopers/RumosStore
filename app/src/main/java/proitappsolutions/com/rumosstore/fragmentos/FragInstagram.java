@@ -7,6 +7,7 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,6 @@ public class FragInstagram extends Fragment {
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText("Tentar de Novo");
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
-
         progressBar = view.findViewById(R.id.linearProgresso);
         anelprogressbar = view.findViewById(R.id.progressbar_1);
 
@@ -125,4 +125,7 @@ public class FragInstagram extends Fragment {
             }
         });
     }
+
+
+
 }

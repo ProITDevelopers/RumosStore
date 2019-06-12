@@ -29,7 +29,10 @@ import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
+import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,13 +120,8 @@ public class AtualizarSenhaSenhaActivity extends AppCompatActivity implements Vi
                     logOut();
                 }else {
                     progressDialog.dismiss();
-                    try {
-                        Log.i("erroCod",response.errorBody().string());
-                        Log.i("erroCod",response.code() + "");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(AtualizarSenhaSenhaActivity.this,"Algum problema inesperado ocorreu.",Toast.LENGTH_SHORT).show();
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(AtualizarSenhaSenhaActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
                 }
 
             }

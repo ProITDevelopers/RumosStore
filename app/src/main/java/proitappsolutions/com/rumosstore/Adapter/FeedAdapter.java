@@ -29,6 +29,8 @@ import proitappsolutions.com.rumosstore.communs.CustomizarResultadoXml;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
 import proitappsolutions.com.rumosstore.rssFeed.rssInterface.ItemClickListener;
 import proitappsolutions.com.rumosstore.telasActivity.DetalheNoticiaActivity;
+import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
+import proitappsolutions.com.rumosstore.telasActivity.WebViewActivity;
 
 class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
 
@@ -136,12 +138,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
                     if (!isLongClick){
-                        Intent intent = new Intent(mContext,DetalheNoticiaActivity.class);
+                       enviarLinkActivity(rssObjecto.getItems().get(i).getLink(),"mercado",mContext);
+                       /*Intent intent = new Intent(mContext, WebViewActivity.class);
                         intent.putExtra("imagem",String.valueOf(resultadoXml.comecar()));
                         intent.putExtra("titulo",String.valueOf(rssObjecto.getItems().get(i).getTitle()));
                         intent.putExtra("data",String.valueOf(rssObjecto.getItems().get(i).getPubDate()));
                         intent.putExtra("conteudo",resultadoXmlConteudo.conteudo().get(0));
-                        mContext.startActivity(intent);
+                        intent.putExtra("site",rssObjecto.getItems().get(i).getLink());
+                        intent.putExtra("mercado","#ffffff");
+                        mContext.startActivity(intent);*/
                     }
                 }
             });
@@ -149,6 +154,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
             feedViewHolder.progress_bar.setVisibility(View.GONE);
             e.printStackTrace();
         }
+    }
+
+    public void enviarLinkActivity(String s, String cor, Context context) {
+        Intent intent = new Intent(context,WebViewActivity.class);
+        intent.putExtra("site",s);
+        intent.putExtra("cor",cor);
+        context.startActivity(intent);
     }
 
     @Override

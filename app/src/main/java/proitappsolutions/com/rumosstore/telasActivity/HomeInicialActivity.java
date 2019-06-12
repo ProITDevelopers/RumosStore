@@ -52,16 +52,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     private CircleImageView circleImageView;
     private TextView txtName,tv_inicial_nome;
-    private TextView txtEmail,diagolo_titulo;
+    private TextView txtEmail;
     private Toolbar toolbar;
-    private Button btn_cancelar,btnSim,btnNao,btnCancelar_dialog;
+    private Button btn_cancelar;
     private Dialog caixa_dialogo_cancelar;
     public DataUserApi dataUserApi  = new DataUserApi();
     ActionBarDrawerToggle toggle;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +85,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         caixa_dialogo_cancelar.setContentView(R.layout.caixa_de_dialogo_redif_senha);
         caixa_dialogo_cancelar.setCancelable(false);
 
-        btnCancelar_dialog = caixa_dialogo_cancelar.findViewById(R.id.btnCancelar_dialog);
-        btnSim = caixa_dialogo_cancelar.findViewById(R.id.btnSim);
-        btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
-        diagolo_titulo = caixa_dialogo_cancelar.findViewById(R.id.diagolo_titulo);
+        Button btnCancelar_dialog = caixa_dialogo_cancelar.findViewById(R.id.btnCancelar_dialog);
+        Button btnSim = caixa_dialogo_cancelar.findViewById(R.id.btnSim);
+        Button btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
+        TextView diagolo_titulo = caixa_dialogo_cancelar.findViewById(R.id.diagolo_titulo);
         btnCancelar_dialog.setOnClickListener(HomeInicialActivity.this);
         diagolo_titulo.setText("Deseja terminar a sessão ?");
         btnSim.setOnClickListener(HomeInicialActivity.this);
@@ -308,11 +304,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.replace(R.id.container,fragConcurso);
             fragmentTransaction.commit();
         }else if (id == R.id.nav_mercado) {
-            enviarLinkActivity("https://mercado.co.ao/","mercado");
+            enviarLinkActivity("https://mercado.co.ao/","mercado",HomeInicialActivity.this);
         } else if (id == R.id.nav_vanguarda) {
-            enviarLinkActivity("https://www.vanguarda.co.ao/","vanguarda");
+            enviarLinkActivity("https://www.vanguarda.co.ao/","vanguarda",HomeInicialActivity.this);
         } else if (id == R.id.nav_rumo) {
-            enviarLinkActivity("https://mediarumo.com/","rumo");
+            enviarLinkActivity("https://mediarumo.com/","rumo",HomeInicialActivity.this);
         }else if (id == R.id.nav_instagram) {
             toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
             if (getSupportActionBar() != null){
@@ -351,8 +347,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
-    private void enviarLinkActivity(String s,String cor) {
-        Intent intent = new Intent(HomeInicialActivity.this,WebViewActivity.class);
+    public void enviarLinkActivity(String s, String cor, Context context) {
+        Intent intent = new Intent(context,WebViewActivity.class);
         intent.putExtra("site",s);
         intent.putExtra("cor",cor);
         startActivity(intent);
