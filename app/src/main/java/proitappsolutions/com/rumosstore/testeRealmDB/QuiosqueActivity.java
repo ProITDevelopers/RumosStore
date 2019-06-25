@@ -69,8 +69,6 @@ public class QuiosqueActivity extends AppCompatActivity {
         Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_quiosque);
 
-        Log.d("QuiosqueActivity","onCreate()");
-
         toolbarQuiosque = findViewById(R.id.toolbarQuiosque);
         toolbarQuiosque.setTitle("Quiosque");
         setSupportActionBar(toolbarQuiosque);
