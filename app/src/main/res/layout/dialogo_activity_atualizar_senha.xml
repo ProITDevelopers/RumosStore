@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/txt_cor_redif"
-                android:text="@string/hit_recuperar_senha"
+                android:text="@string/hit_atualizar_senha"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -43,10 +43,10 @@
 
                     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                         android:id="@+id/edtSenhaNova"
-                        android:textColor="@color/colorBotaoLogin"
+                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hit_nova_senha"
+                        android:hint="@string/hit_senha_antiga"
                         android:inputType="textPassword" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -60,12 +60,11 @@
 
                     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                         android:id="@+id/edtConfSenha"
-                        android:textColor="@color/colorBotaoLogin"
+                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hit_conf_senha"
+                        android:hint="@string/hit_nova_senha"
                         android:inputType="textPassword" />
-
 
                 </android.support.design.widget.TextInputLayout>
 

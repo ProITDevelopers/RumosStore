@@ -18,4 +18,12 @@
     <color name="proitCyanBlue">#75c5f0</color>
     <color name="btn_remove_item">#fc2222</color>
     <color name="border_remove_item">#fc9898</color>
+
+    <!--CORES QUIZ-->
+    <color name="colorCinza">#4F0e0d0e</color>
+    <color name="colorLaranja">#2731ea</color> <!--FFFF8A80 -->
+    <color name="colorRosa">#AD1457</color>
+    <color name="colorFundo">#e5e7d2</color>
+    <color name="colorMeioAmarela">#0f4de2</color> <!--abae69-->
+    <color name="colorAzul">#1CB3BC</color>
 </resources>

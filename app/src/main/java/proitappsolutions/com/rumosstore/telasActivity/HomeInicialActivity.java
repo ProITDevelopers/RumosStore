@@ -1,6 +1,7 @@
 package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -16,12 +17,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,10 +34,15 @@ import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
+import proitappsolutions.com.rumosstore.MediaRumoActivity;
+import proitappsolutions.com.rumosstore.QUIZ.Home;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
+import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragFacebook;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
@@ -51,11 +61,13 @@ import retrofit2.Response;
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private CircleImageView circleImageView;
-    private TextView txtName,tv_inicial_nome;
+    private TextView txtName,tv_inicial_nome,atualizar_senha_dialg;
     private TextView txtEmail;
     private Toolbar toolbar;
-    private Button btn_cancelar;
-    private Dialog caixa_dialogo_cancelar;
+    private ProgressDialog progressDialog;
+    private Button btn_cancelar,btn_cancelar_dialog,btn_redif_senha_dialog;
+    private ShowHidePasswordEditText edtSenhaAntiga,edtConfSenhaNova;
+    private Dialog caixa_dialogo_cancelar,dialogSenhaEnviarEmailSenhaNova;
     public DataUserApi dataUserApi  = new DataUserApi();
     ActionBarDrawerToggle toggle;
 
@@ -69,7 +81,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         toolbar.setTitle("Media Rumo");
         setSupportActionBar(toolbar);
 
-
+        progressDialog = new ProgressDialog(HomeInicialActivity.this,R.style.MyAlertDialogStyle);
+        progressDialog.setCancelable(false);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -93,6 +106,20 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         diagolo_titulo.setText("Deseja terminar a sessão ?");
         btnSim.setOnClickListener(HomeInicialActivity.this);
         btnNao.setOnClickListener(HomeInicialActivity.this);
+
+
+        //Dialogo enviar senha nova email
+        dialogSenhaEnviarEmailSenhaNova = new Dialog(HomeInicialActivity.this);
+        dialogSenhaEnviarEmailSenhaNova.setContentView(R.layout.dialogo_activity_atualizar_senha);
+        dialogSenhaEnviarEmailSenhaNova.setCancelable(false);
+        atualizar_senha_dialg = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.atualizar_senha);
+        edtSenhaAntiga = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.edtSenhaNova);
+        edtConfSenhaNova = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.edtConfSenha);
+        btn_redif_senha_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_redif_senha);
+        btn_cancelar_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_cancelar);
+        btn_redif_senha_dialog.setOnClickListener(HomeInicialActivity.this);
+        btn_cancelar_dialog.setOnClickListener(HomeInicialActivity.this);
+        atualizar_senha_dialg.setText(R.string.hit_atualizar_senha);
 
         //carregar dados do Usuario
         Common.mCurrentUser = AppDatabase.getInstance().getUser();
@@ -245,8 +272,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         int id = item.getItemId();
         switch (id){
             case R.id.action_alterar_senha:
-                Intent atualizarSenhaIntent = new Intent(HomeInicialActivity.this,AtualizarSenhaSenhaActivity.class);
-                startActivity(atualizarSenhaIntent);
+                alterarSenha();
+                /*Intent atualizarSenhaIntent = new Intent(HomeInicialActivity.this,AtualizarSenhaSenhaActivity.class);
+                startActivity(atualizarSenhaIntent);*/
                 break;
             case R.id.action_logout:
                 caixa_dialogo_cancelar.show();
@@ -254,6 +282,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void alterarSenha() {
+        dialogSenhaEnviarEmailSenhaNova.show();
     }
 
     @Override
@@ -275,6 +307,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             fragmentTransaction.commit();
         }else if (id == R.id.nav_meu_perfil) {
             Intent intent = new Intent(HomeInicialActivity.this,MeuPerfilActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_quiz) {
+            Intent intent = new Intent(HomeInicialActivity.this, Home.class);
             startActivity(intent);
         } else if (id == R.id.nav_quiosque) {
             if (getSupportActionBar() != null){
@@ -397,6 +432,101 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             case R.id.btnCancelar_dialog:
                 caixa_dialogo_cancelar.dismiss();
                 break;
+            case R.id.btn_redif_senha:
+                if (verificarCamposDialogo()){
+                    redefinirSenha();
+                }
+                break;
+            case R.id.btn_cancelar:
+                cancelarAtualizarSenha();
+                break;
+                
+            
         }
+    }
+
+    private void redefinirSenha() {
+
+        //enviarNovaSenha
+        progressDialog.setMessage("A processar...!");
+        progressDialog.show();
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        Call<Void> enviarSenhaNova = apiInterface.atualizarSenha(Integer.parseInt(AppDatabase
+                .getInstance()
+                .getUser()
+                .getId_utilizador()),
+                edtConfSenhaNova.getText().toString(),
+                edtSenhaAntiga.getText().toString()); //AQUI
+
+        enviarSenhaNova.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.isSuccessful()){
+                    progressDialog.dismiss();
+                    Toast.makeText(HomeInicialActivity.this,"A sua senha foi alterada com sucesso.!",Toast.LENGTH_SHORT).show();
+                    cancelarAtualizarSenha();
+                    logOut();
+                }else {
+                    progressDialog.dismiss();
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    Toast.makeText(HomeInicialActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.i("skansaksas",t.getMessage() + "failed");
+                //verifConecxao();
+                switch (t.getMessage()){
+                    case "timeout":
+                        Toast.makeText(HomeInicialActivity.this,
+                                "Impossivel se comunicar. Internet lenta.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(HomeInicialActivity.this,
+                                "Algum problema aconteceu.Verifica a conexão com a internet.",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+    }
+
+    private boolean verificarCamposDialogo() {
+        if (TextUtils.isEmpty(edtSenhaAntiga.getText())){
+            edtSenhaAntiga.setError("Preencha o campo");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(edtConfSenhaNova.getText())){
+            edtConfSenhaNova.setError("Preencha o campo");
+            return false;
+        }
+
+
+        if (edtSenhaAntiga.equals(edtConfSenhaNova)){
+            edtConfSenhaNova.setError("Os campos devem ser diferentes.");
+            return false;
+        }
+
+        if (edtConfSenhaNova.getText().length() < 5){
+            edtConfSenhaNova.setError("Senha fraca.");
+            return false;
+        }
+        return true;
+    }
+
+    private void cancelarAtualizarSenha() {
+        edtSenhaAntiga.getText().clear();
+        edtConfSenhaNova.getText().clear();
+        edtSenhaAntiga.clearFocus();
+        edtConfSenhaNova.clearFocus();
+        edtConfSenhaNova.setError(null);
+        edtSenhaAntiga.setError(null);
+        dialogSenhaEnviarEmailSenhaNova.dismiss();
     }
 }

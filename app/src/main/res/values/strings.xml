@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Media Rumo</string>
     <string name="hit_nome">Nome</string>
-    <string name="hit_nomeUser">Mel Chaves</string>
-    <string name="hit_emailUser">melchaves@gmail.com</string>
     <string name="hit_senha">Senha</string>
     <string name="hit_senha_conf">Repita a senha</string>
     <string name="hit_ja_tem_conta">Já tem uma conta? Entra aqui</string>
@@ -26,6 +24,7 @@
     <string name="hit_nova_senha">Senha Nova</string>
     <string name="hit_conf_senha">Confirmar Senha</string>
     <string name="hit_senha_antiga">Senha Antiga</string>
+    <string name="hit_vazio" />
     <string name="navigation_drawer_abre"> </string>
     <string name="lbl_view_cart">VIEW CART</string>
     <string name="cart_info_bar_data">%d Items | Kz%s</string>
@@ -63,8 +62,37 @@
     <string name="dialog_permissao">
 Este aplicativo precisa de permissão para usar esse recurso. Você pode concedê-los nas configurações do aplicativo.</string>
     <string name="ocorreuErro">Ocorreu um erro de conexão</string>
+    <string name="hit_atualizar_senha">Atualizar Senha</string>
     <string-array name="genero">
         <item>Feminino</item>
         <item>Masculino</item>
     </string-array>
+
+
+
+    <!--valores quiz-->
+    <string name="exemplo_usuario">Usuario</string>
+    <string name="exemplo_senha">Senha</string>
+    <string name="exemplo_email">Email</string>
+    <string name="exemplo_registrese">Registre-se</string>
+    <string name="exemplo_entrar">Entrar</string>
+    <string name="exemplo_categoria">Categorias</string>
+    <string name="exemplo_categoria_titulo">Categoria</string>
+    <string name="exemplo_jogar">Jogar</string>
+    <string name="exemplo_ranking">Classificação</string>
+    <string name="exemplo_usuario_">bacar</string>
+    <string name="exemplo_senha_">123456</string>
+    <string name="exemplo_pontuacao">0</string>
+    <string name="exemplo_perguntas">1/30</string>
+    <string name="exemplo_pergunta_a">Answer A</string>
+    <string name="exemplo_pergunta_b">Answer B</string>
+    <string name="exemplo_pergunta_c">Answer C</string>
+    <string name="exemplo_pergunta_d">Answer D</string>
+    <string name="exemplo_pontuacao_">Pontuação : 0</string>
+    <string name="exemplo_perguntas_certas">Perg. Certas : 0/30</string>
+    <string name="exemplo_tentar_denovo">Tentar de Novo</string>
+    <string name="exemplo_nome">Jogador</string>
+    <string name="exemplo_categoria_nome">Categoria</string>
+    <string name="exemplo_pontuacao_desc">Pontuação</string>
+    <string name="exemplo_pontos">Pontos</string>
 </resources>
