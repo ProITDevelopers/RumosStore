@@ -42,7 +42,6 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_web_view);
 
         toolbar = findViewById(R.id.toolbar_activyt);
@@ -64,14 +63,25 @@ public class WebViewActivity extends AppCompatActivity {
             String cor = getIntent().getStringExtra("cor");
             verifConecxao(getIntent().getStringExtra("site"));
             if (cor.equals("mercado")) {
+                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.mercado));
                 ColorDrawable corMerdado = new ColorDrawable(ContextCompat.getColor(this, R.color.mercado));
                 getSupportActionBar().setBackgroundDrawable(corMerdado);
                 setSupportActionBar(toolbar);
             }else if (cor.equals("vanguarda")) {
+                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.vanguarda));
                 ColorDrawable corVanguarda = new ColorDrawable(ContextCompat.getColor(this, R.color.vanguarda));
                 getSupportActionBar().setBackgroundDrawable(corVanguarda);
             }else if (cor.equals("rumo")){
+                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
                 ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
+                getSupportActionBar().setBackgroundDrawable(corRumo);
+            }else if (cor.equals("instagram")){
+                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+                ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
+                getSupportActionBar().setBackgroundDrawable(corRumo);
+            }else if (cor.equals("facebook")){
+                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.facebook_webview));
+                ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook_webview));
                 getSupportActionBar().setBackgroundDrawable(corRumo);
             }
         }
