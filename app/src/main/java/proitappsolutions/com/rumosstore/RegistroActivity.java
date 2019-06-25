@@ -219,8 +219,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private void verifConecxao() {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            mostarMsnErro();
+        if (netInfo == null && netInfo.isConnected()){
+            if (netInfo.isConnected()){
+                mostarMsnErro();
+            }
         }else{
            // registrarUsuario();
         }

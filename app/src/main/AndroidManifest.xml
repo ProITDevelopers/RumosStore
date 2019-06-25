@@ -74,6 +74,13 @@
             android:name=".telasActivitysSenha.EnviarCodConfActivityTelefone"
             android:screenOrientation="portrait" />
         <activity android:name=".telasActivity.WebViewActivity"></activity>
+        <activity android:name=".QUIZ.Done"></activity>
+        <activity android:name=".QUIZ.Home"></activity>
+        <activity android:name=".QUIZ.Start"></activity>
+        <activity android:name=".QUIZ.ScoreDetail"></activity>
+        <activity android:name=".QUIZ.Playing"></activity>
+
+
     </application>
 
 </manifest>
