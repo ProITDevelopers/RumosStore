@@ -69,6 +69,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
                 //Escolhe a pergunta atual
                 score +=10;
                 correctAnswer++;
+                Common.questPerguntaCerta.add(Common.questionList.get(index).getQuestion());
                 showQuestion(++index); //Proxima questão
             }else {
                 PerguntaErrada perguntaEoutros = new PerguntaErrada(

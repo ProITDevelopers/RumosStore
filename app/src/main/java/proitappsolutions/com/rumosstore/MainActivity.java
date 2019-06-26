@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(MainActivity.this,"Por favor faça o login.",Toast.LENGTH_SHORT).show();//
                     return;
                 }
 

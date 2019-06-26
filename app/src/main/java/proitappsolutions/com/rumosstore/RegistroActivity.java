@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
@@ -34,6 +43,7 @@ import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.modelo.Erro;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
+import proitappsolutions.com.rumosstore.modelo.UsuarioFire;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +60,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private RelativeLayout relLativeLayout;
     private TextView btnTentarDeNovo;
     View raiz;
+
+    //Firebase
+    FirebaseDatabase database;
+    DatabaseReference users;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +92,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         progressDialog = new ProgressDialog(RegistroActivity.this,R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
+        database = FirebaseDatabase.getInstance();
+        users = database.getReference("Userss");
+
     }
 
     @Override
     public void onClick(View view) {
-
         switch (view.getId()){
 
             case R.id.btnRegistrar:
@@ -157,20 +174,27 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         progressDialog.setMessage("Quase Pronto...!");
         progressDialog.show();
 
-        UsuarioApi usuarioApi = new UsuarioApi(editTextNomeRegistro.getText().toString(),email = editTextEmailRegistro.getText().toString()
-                ,editTextPassRegistro.getText().toString());
+        UsuarioApi usuarioApi = new UsuarioApi(editTextNomeRegistro.getText().toString().trim(),editTextEmailRegistro.getText().toString().trim()
+                ,editTextPassRegistro.getText().toString().trim());
+        UsuarioFire usuarioFire = new UsuarioFire(editTextNomeRegistro.getText().toString().trim().toUpperCase()
+                ,editTextEmailRegistro.getText().toString().trim());
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<Void> call = apiInterface.registrarCliente(usuarioApi);
-        call.enqueue(new Callback<Void>() {
+       call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                    Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
-                    intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intentEntrar);
-                    Log.i("verificacao","certo" + response.code());
+                    users.child(editTextEmailRegistro.getText().toString().trim().split("@")[0].toUpperCase())
+                            .setValue(usuarioFire).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
+                            intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intentEntrar);
+                        }
+                    });
                 } else {
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     progressDialog.dismiss();

@@ -4,12 +4,14 @@ public class Category {
 
     private String Name;
     private String Image;
+    private String Status;
 
     public Category() {}
 
-    public Category(String name, String image) {
+    public Category(String name, String image, String status) {
         Name = name;
         Image = image;
+        Status = status;
     }
 
     public String getName() {
@@ -26,5 +28,13 @@ public class Category {
 
     public void setImage(String image) {
         Image = image;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

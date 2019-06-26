@@ -1006,8 +1006,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                                 AppDatabase.getInstance().saveUser(Common.mCurrentUser);
                                 AppDatabase.getInstance().saveAuthToken(Common.mCurrentUser.getId_utilizador());
 
-                                if (dataUserApi.getDataDados().getFoto() == null ||
-                                        dataUserApi.getDataDados().getSexo() == null ||
+                                if (dataUserApi.getDataDados().getSexo() == null ||
                                         dataUserApi.getDataDados().getTelefone() == null ||
                                         dataUserApi.getDataDados().getDataNascimento() == null ||
                                         dataUserApi.getDataDados().getProvincia() == null ||

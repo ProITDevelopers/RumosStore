@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.User;
 import proitappsolutions.com.rumosstore.R;
@@ -34,8 +35,9 @@ public class Home extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        User login =new User ("bacar", "123456", "bacarpereira@hotmail.com");
+        User login =new User (AppDatabase.getInstance().getUser().getEmail().split("@")[0]
+                , "",
+                proitappsolutions.com.rumosstore.Common.mCurrentUser.getEmail());
         Common.currentUser = login;
 
         bottomNavigationView = findViewById(R.id.navigation);

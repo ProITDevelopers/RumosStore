@@ -6,13 +6,13 @@
     android:orientation="vertical"
     tools:context=".QUIZ.CategoryFragment">
 
-   <ProgressBar
-       android:id="@+id/progress_quiz"
-       android:visibility="gone"
-       android:layout_width="wrap_content"
-       android:theme="@style/progressDourada"
-       android:layout_gravity="center"
-       android:layout_height="wrap_content" />
+    <ProgressBar
+        android:id="@+id/progress_quiz"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:theme="@style/progressDourada"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listCategory"

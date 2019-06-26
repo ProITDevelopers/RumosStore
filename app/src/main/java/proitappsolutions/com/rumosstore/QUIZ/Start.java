@@ -70,6 +70,7 @@ public class Start extends AppCompatActivity {
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                             Question ques = postSnapshot.getValue(Question.class);
                             Common.questionList.add(ques);
+                            Common.chaveDasPerguntas.add(postSnapshot.getKey());
                         }
                     }
 
