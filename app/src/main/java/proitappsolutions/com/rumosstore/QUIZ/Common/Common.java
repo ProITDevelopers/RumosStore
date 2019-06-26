@@ -5,6 +5,7 @@ import java.util.List;
 
 import proitappsolutions.com.rumosstore.QUIZ.Model.PerguntaErrada;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Question;
+import proitappsolutions.com.rumosstore.QUIZ.Model.Ranking;
 import proitappsolutions.com.rumosstore.QUIZ.Model.User;
 
 public class Common {

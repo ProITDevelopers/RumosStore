@@ -3,6 +3,7 @@ package proitappsolutions.com.rumosstore.QUIZ.ViewHolder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import proitappsolutions.com.rumosstore.QUIZ.Interface.ItemClickListener;
@@ -11,6 +12,7 @@ import proitappsolutions.com.rumosstore.R;
 public class RankingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_name,txt_score;
+    public ImageView trofeu_score;
 
     private ItemClickListener itemClickListener;
 
@@ -18,6 +20,7 @@ public class RankingViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         txt_name = itemView.findViewById(R.id.txt_name);
         txt_score = itemView.findViewById(R.id.txt_score);
+        trofeu_score = itemView.findViewById(R.id.trofeu_score);
 
         itemView.setOnClickListener(this);
     }
@@ -38,4 +41,6 @@ public class RankingViewHolder extends RecyclerView.ViewHolder implements View.O
     public void onClick(View view) {
         itemClickListener.onClick(view,getAdapterPosition(),false);
     }
+
+
 }

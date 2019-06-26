@@ -36,6 +36,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
+        <ImageView
+            android:id="@+id/trofeu_score"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_vencedor"/>
+
 
     </LinearLayout>
 

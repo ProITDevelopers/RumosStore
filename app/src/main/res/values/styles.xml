@@ -10,8 +10,8 @@
     </style>
 
     <style name="NavigationView"  parent="Base.Theme.AppCompat">
-        <item name="android:listDivider">@color/colorBotaoLogin</item>
-        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:listDivider">@color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
     </style>
 

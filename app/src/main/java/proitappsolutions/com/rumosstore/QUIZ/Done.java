@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import dmax.dialog.SpotsDialog;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.QUIZ.Adaptador.AdapterResFinal;
@@ -38,11 +42,18 @@ public class Done extends AppCompatActivity {
     private AdapterResFinal adapter;
     FirebaseDatabase database;
     DatabaseReference question_score,catgoria_estatistica;
+    Date c;
+    SimpleDateFormat df;
+    String dataAtual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity_done);
+
+        c = Calendar.getInstance().getTime();
+        df = new SimpleDateFormat("dd-MMM-yyyy");
+        dataAtual = df.format(c);
 
         database = FirebaseDatabase.getInstance();
         question_score = database.getReference("Question_Score");
@@ -94,7 +105,8 @@ public class Done extends AppCompatActivity {
                                   .child(String.valueOf(Common.categoryId))
                                   .child(Common.chaveDasPerguntas.get(i1))
                                   .push()
-                          .setValue("E").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                  .child("dataAtual")
+                          .setValue(dataAtual).addOnCompleteListener(new OnCompleteListener<Void>() {
                               @Override
                               public void onComplete(@NonNull Task<Void> task) {
 
@@ -110,7 +122,8 @@ public class Done extends AppCompatActivity {
                                     .child(String.valueOf(Common.categoryId))
                                     .child(Common.chaveDasPerguntas.get(i1))
                                     .push()
-                                    .setValue("C");
+                                    .child("dataAtual")
+                                    .setValue(dataAtual);
                         }
                     }
                 }
@@ -128,7 +141,8 @@ public class Done extends AppCompatActivity {
                                     .child(String.valueOf(Common.categoryId))
                                     .child(Common.chaveDasPerguntas.get(i1))
                                     .push()
-                                    .setValue("C");
+                                    .child("dataAtual")
+                                    .setValue(dataAtual);
                         }
                     }
                 }

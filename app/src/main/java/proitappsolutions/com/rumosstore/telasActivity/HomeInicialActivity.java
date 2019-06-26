@@ -144,7 +144,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-
     }
 
     @Override

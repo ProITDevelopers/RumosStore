@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/black"
     tools:context=".QUIZ.Done">
 
     <TextView
@@ -70,7 +70,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:id="@+id/btnTryAgain"
                 android:layout_margin="8dp"
-                android:background="@color/colorRosa"
+                android:background="@color/colorBotaoLogin"
                 android:text="@string/exemplo_tentar_denovo"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"

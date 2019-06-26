@@ -21,6 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Interface.ItemClickListener;
 import proitappsolutions.com.rumosstore.QUIZ.Interface.RankingCallBack;
@@ -28,6 +31,7 @@ import proitappsolutions.com.rumosstore.QUIZ.Model.QuestionStore;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Ranking;
 import proitappsolutions.com.rumosstore.QUIZ.ViewHolder.RankingViewHolder;
 import proitappsolutions.com.rumosstore.R;
+
 
 public class RankingFragment extends Fragment {
 
@@ -38,7 +42,6 @@ public class RankingFragment extends Fragment {
     FirebaseDatabase database;
     ProgressBar progress_quiz_ranking;
     DatabaseReference questionScore,rankingTbl;
-
     int sum=0;
 
     public static RankingFragment newInstance(){
@@ -86,15 +89,15 @@ public class RankingFragment extends Fragment {
                         .setQuery(rankingTbl.orderByChild("score"), Ranking.class)
                         .build();
 
+
         //configurando o adapter
         adapter = new FirebaseRecyclerAdapter<Ranking, RankingViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull RankingViewHolder holder, int position, @NonNull final Ranking model) {
                 progress_quiz_ranking.setVisibility(View.GONE);
+                // Log.i("valormax",valorMaximo + "---" + model.getScore());
                 holder.txt_name.setText(model.getUserName());
                 holder.txt_score.setText(String.valueOf(model.getScore()));
-
-                Log.i("valores",model.getUserName() + "------" + model.getScore());
 
                 //resolvendo o erro quando o usario clica no item
                 holder.setItemClickListener(new ItemClickListener() {
@@ -149,23 +152,4 @@ public class RankingFragment extends Fragment {
                     }
                 });
     }
-
-    /* private void showRanking() {
-        rankingTbl.orderByChild("score")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot data:dataSnapshot.getChildren()){
-                            Ranking local = data.getValue(Ranking.class);
-                            Log.d("DEBUG",local.getUserName());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-    }*/
-
 }

@@ -36,7 +36,11 @@ public class AdapterResFinal extends RecyclerView.Adapter<AdapterResFinal.MyView
 
         PerguntaErrada perguntaErrada = perguntaErradas.get(i);
         viewHolder.tv_pergunta_feita.setText(perguntaErrada.getpFeita());
-        viewHolder.tv_pergunta_errada.setText(perguntaErrada.getpErrada());
+        if (perguntaErrada.getpErrada() !=null){
+            viewHolder.tv_pergunta_errada.setText(perguntaErrada.getpErrada());
+        }else {
+            viewHolder.tv_pergunta_errada.setVisibility(View.GONE);
+        }
         viewHolder.tv_pergunta_certa.setText(perguntaErrada.getpCerta());
     }
 

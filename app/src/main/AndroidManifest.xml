@@ -52,7 +52,7 @@
         <activity
             android:name=".telasActivity.MeuPerfilActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.ImagemPegarActivity" />
+        <activity android:name=".telasActivity.ImagemPegarActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".telasActivitysSenha.OpcaoRecSenhaActivity"
             android:screenOrientation="portrait" />
@@ -75,11 +75,11 @@
             android:name=".telasActivitysSenha.EnviarCodConfActivityTelefone"
             android:screenOrientation="portrait" />
         <activity android:name=".telasActivity.WebViewActivity" />
-        <activity android:name=".QUIZ.Done" />
-        <activity android:name=".QUIZ.Home" />
-        <activity android:name=".QUIZ.Start" />
-        <activity android:name=".QUIZ.ScoreDetail" />
-        <activity android:name=".QUIZ.Playing" />
+        <activity android:name=".QUIZ.Done" android:screenOrientation="portrait" />
+        <activity android:name=".QUIZ.Home" android:screenOrientation="portrait" />
+        <activity android:name=".QUIZ.Start" android:screenOrientation="portrait" />
+        <activity android:name=".QUIZ.ScoreDetail" android:screenOrientation="portrait" />
+        <activity android:name=".QUIZ.Playing" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

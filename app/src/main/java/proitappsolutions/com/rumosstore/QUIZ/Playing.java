@@ -22,7 +22,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
     final static long INTERVAL = 1000; //UM segundo
     final static long TIMEOUT = 15000; //SET segundo
     int progressValue = 0;
-    int peruntasR,peruntasE;
+    String pergunta_passada;
 
     CountDownTimer mCountDown;
 
@@ -65,6 +65,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
 
         if (index<totalQuestion){ //se ainda tiver elementos na lista
             Button clickedButton = (Button) view;
+            pergunta_passada = clickedButton.getText().toString();
             if (clickedButton.getText().equals(Common.questionList.get(index).getCorrectAnswer())){
                 //Escolhe a pergunta atual
                 score +=10;
@@ -143,10 +144,34 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 mCountDown.cancel();
+                PerguntaErrada perguntaEoutros = new PerguntaErrada(
+                        Common.questionList.get(index).getQuestion(),
+                        pergunta_passada,
+                        Common.questionList.get(index).getCorrectAnswer()
+                );
+                Common.questErradasList.add(perguntaEoutros);
                 showQuestion(++index);
             }
         };
 
         showQuestion(index);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mCountDown.cancel();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCountDown.cancel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mCountDown.cancel();
     }
 }
