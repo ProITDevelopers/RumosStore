@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +30,8 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import proitappsolutions.com.rumosstore.AppDatabase;
-import proitappsolutions.com.rumosstore.AppPref;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.QUIZ.Home;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.Usuario;
@@ -42,17 +39,10 @@ import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
-import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
-import proitappsolutions.com.rumosstore.fragmentos.FragFacebook;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
-import proitappsolutions.com.rumosstore.fragmentos.FragInstagram;
-import proitappsolutions.com.rumosstore.fragmentos.FragMediaRumo;
-import proitappsolutions.com.rumosstore.fragmentos.FragMercado;
-import proitappsolutions.com.rumosstore.fragmentos.FragVanguarda;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
-import proitappsolutions.com.rumosstore.telasActivitysSenha.AtualizarSenhaSenhaActivity;
-import proitappsolutions.com.rumosstore.testeRealmDB.FragRevistasTeste;
+import proitappsolutions.com.rumosstore.testeRealmDB.QuiosqueActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -312,18 +302,9 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             Intent intent = new Intent(HomeInicialActivity.this, Home.class);
             startActivity(intent);
         } else if (id == R.id.nav_quiosque) {
-            if (getSupportActionBar() != null){
-                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-                toolbar.setTitle("");
-                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
-                getSupportActionBar().setBackgroundDrawable(corBranca);
-            }
-            toolbar.setTitle("Quiosque");
-            FragRevistasTeste fragRevistas = new FragRevistasTeste();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragRevistas);
-            fragmentTransaction.commit();
+
+            Intent intent = new Intent(HomeInicialActivity.this, QuiosqueActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_concurso) {
             if (getSupportActionBar() != null){
@@ -345,32 +326,12 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_rumo) {
             enviarLinkActivity("https://mediarumo.com/","rumo",HomeInicialActivity.this);
         }else if (id == R.id.nav_instagram) {
-            toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-            if (getSupportActionBar() != null){
-                toolbar.setTitle("");
-            ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
-            getSupportActionBar().setBackgroundDrawable(corBranca);
-        }
-            FragInstagram fragInstagram = new FragInstagram();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragInstagram);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+
+            enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/","instagram",HomeInicialActivity.this);
 
         }  else if (id == R.id.nav_facebook) {
-            if (getSupportActionBar() != null){
-                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-                toolbar.setTitle("");
-                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook));
-                getSupportActionBar().setBackgroundDrawable(corBranca);
-            }
-            FragFacebook fragFacebook = new FragFacebook();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragFacebook);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+
+            enviarLinkActivity("https://www.facebook.com/jornalmercado/","facebook",HomeInicialActivity.this);
 
         }  else if (id == R.id.nav_share) {
 
@@ -393,7 +354,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         AppDatabase.getInstance().clearData();
 
-//        AppPref.getInstance().clearData();
         caixa_dialogo_cancelar.dismiss();
 
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);

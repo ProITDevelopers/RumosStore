@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!-- <uses-permission android:name="android.permission.CAMERA" tools:node="remove" /> -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -20,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".testeRealmDB.QuiosqueActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".testeRealmDB.RevistaViewActivity"
             android:configChanges="orientation|screenSize" />
@@ -37,8 +38,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".MediaRumoActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".RegistroActivity"
             android:screenOrientation="portrait" />
@@ -73,14 +74,12 @@
         <activity
             android:name=".telasActivitysSenha.EnviarCodConfActivityTelefone"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.WebViewActivity"></activity>
-        <activity android:name=".QUIZ.Done"></activity>
-        <activity android:name=".QUIZ.Home"></activity>
-        <activity android:name=".QUIZ.Start"></activity>
-        <activity android:name=".QUIZ.ScoreDetail"></activity>
-        <activity android:name=".QUIZ.Playing"></activity>
-
-
+        <activity android:name=".telasActivity.WebViewActivity" />
+        <activity android:name=".QUIZ.Done" />
+        <activity android:name=".QUIZ.Home" />
+        <activity android:name=".QUIZ.Start" />
+        <activity android:name=".QUIZ.ScoreDetail" />
+        <activity android:name=".QUIZ.Playing" />
     </application>
 
 </manifest>
