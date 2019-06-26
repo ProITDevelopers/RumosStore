@@ -7,28 +7,36 @@
     android:background="@color/colorPrimary"
     tools:context=".QUIZ.Playing">
 
-    <ImageView
-        android:id="@+id/question_image"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="200dp" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="vertical"
+       android:gravity="center"
+       android:layout_above="@+id/rel_perguntas"
+       android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/question_text"
-        android:visibility="invisible"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="25dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+       <ImageView
+           android:id="@+id/question_image"
+           android:layout_marginTop="25dp"
+           android:visibility="gone"
+           android:gravity="center"
+           android:layout_width="300dp"
+           android:layout_height="200dp" />
+
+       <TextView
+           android:id="@+id/question_text"
+           android:visibility="invisible"
+           android:textSize="20sp"
+           android:layout_gravity="center"
+           android:textColor="@android:color/white"
+           android:layout_marginTop="25dp"
+           android:gravity="center"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
+   </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rel_perguntas"
         android:layout_alignParentBottom="true"
         android:layout_margin="30dp"
         android:paddingTop="20dp"
