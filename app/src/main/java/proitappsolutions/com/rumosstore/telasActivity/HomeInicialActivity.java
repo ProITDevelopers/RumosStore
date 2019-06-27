@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -69,6 +71,13 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Media Rumo");
+        if (getSupportActionBar() != null){
+            try {
+                toolbar.getOverflowIcon().setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         setSupportActionBar(toolbar);
 
         progressDialog = new ProgressDialog(HomeInicialActivity.this,R.style.MyAlertDialogStyle);
