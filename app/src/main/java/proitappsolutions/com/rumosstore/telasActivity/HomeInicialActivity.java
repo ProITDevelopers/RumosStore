@@ -269,8 +269,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         switch (id){
             case R.id.action_alterar_senha:
                 alterarSenha();
-                /*Intent atualizarSenhaIntent = new Intent(HomeInicialActivity.this,AtualizarSenhaSenhaActivity.class);
-                startActivity(atualizarSenhaIntent);*/
                 break;
             case R.id.action_logout:
                 caixa_dialogo_cancelar.show();

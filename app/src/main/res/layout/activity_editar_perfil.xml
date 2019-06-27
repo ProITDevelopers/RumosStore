@@ -22,6 +22,7 @@
                 android:id="@+id/toolbar_editPerfil"
                 android:layout_width="match_parent"
                 android:theme="@style/estiloToolbar"
+                app:title="Editar Perfil"
                 android:background="@drawable/sombra_toolbar"
                 android:layout_height="56dp" />
 
@@ -339,7 +340,7 @@
                             android:layout_marginTop="33dp"
                             android:layout_gravity="center"
                             android:text="@string/hit_btn_salvar_dados"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/cor_borda"
                             android:background="@drawable/borda_arredondada_login"
                             android:layout_height="44dp" />
 
