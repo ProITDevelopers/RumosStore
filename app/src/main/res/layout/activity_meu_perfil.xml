@@ -14,6 +14,7 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:id="@+id/toolbar_meu_perfil"
+            android:theme="@style/estiloToolbar"
             android:background="@drawable/sombra_toolbar"
             android:layout_height="56dp" />
 
@@ -36,7 +37,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
-                        android:background="@color/colorBotaoLogin"
+                        android:background="@color/cor_preta_nova"
                         android:orientation="vertical">
 
                         <TextView
@@ -113,7 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
                                 android:textSize="20sp"
-                                android:textColor="#6c5642"
+                                android:textColor="@color/cor_borda"
                                 android:text="@string/txtInfo"/>
 
                             <LinearLayout
@@ -143,6 +144,7 @@
                                 android:id="@+id/txtTelef"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho"
                                 android:paddingRight="5dp"
                                 android:text="@string/txtTelef"/>
@@ -150,6 +152,7 @@
                                 android:id="@+id/numeroTelef"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho1" />
 
                         </LinearLayout>
@@ -163,6 +166,7 @@
                                 android:id="@+id/txtProvincia"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho"
                                 android:paddingRight="5dp"
                                 android:text="@string/txtProvincia"/>
@@ -170,6 +174,7 @@
                                 android:id="@+id/valorProvincia"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho1" />
 
                         </LinearLayout>
@@ -183,6 +188,7 @@
                                 android:id="@+id/txtMunicipio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho"
                                 android:paddingRight="5dp"
                                 android:text="@string/txtMunicipio"/>
@@ -190,6 +196,7 @@
                             <TextView
                                 android:id="@+id/valorMunicipio"
                                 android:layout_width="match_parent"
+                                android:textColor="@color/cor_borda"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/txtTamanho1" />
 
@@ -205,6 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/txtTamanho"
+                                android:textColor="@color/cor_borda"
                                 android:paddingRight="5dp"
                                 android:text="@string/txtRua"/>
 
@@ -212,6 +220,7 @@
                                 android:id="@+id/valorRua"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho1" />
 
                         </LinearLayout>
@@ -225,6 +234,7 @@
                                 android:id="@+id/txtGenero"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/cor_borda"
                                 android:textSize="@dimen/txtTamanho"
                                 android:paddingRight="5dp"
                                 android:text="@string/txtGenero"/>
@@ -232,6 +242,7 @@
                             <TextView
                                 android:id="@+id/valorGenero"
                                 android:layout_width="match_parent"
+                                android:textColor="@color/cor_borda"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/txtTamanho1" />
 
@@ -248,10 +259,12 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/txtTamanho"
                                 android:paddingRight="5dp"
+                                android:textColor="@color/cor_borda"
                                 android:text="@string/txtDataNasc"/>
 
                             <TextView
                                 android:id="@+id/valorDataNasc"
+                                android:textColor="@color/cor_borda"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/txtTamanho1" />

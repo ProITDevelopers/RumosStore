@@ -21,6 +21,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_editPerfil"
                 android:layout_width="match_parent"
+                android:theme="@style/estiloToolbar"
                 android:background="@drawable/sombra_toolbar"
                 android:layout_height="56dp" />
 
@@ -38,7 +39,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
-                        android:background="@color/colorBotaoLogin"
+                        android:background="@color/cor_preta_nova"
                         android:orientation="vertical">
 
                         <TextView

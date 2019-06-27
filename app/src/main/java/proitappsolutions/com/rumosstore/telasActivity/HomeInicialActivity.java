@@ -289,12 +289,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_home) {
-            if (getSupportActionBar() != null){
-                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-                toolbar.setTitle("");
-                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
-                getSupportActionBar().setBackgroundDrawable(corBranca);
-            }
             toolbar.setTitle("Media Rumo");
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -308,10 +302,8 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             Intent intent = new Intent(HomeInicialActivity.this, Home.class);
             startActivity(intent);
         } else if (id == R.id.nav_quiosque) {
-
             Intent intent = new Intent(HomeInicialActivity.this, QuiosqueActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_concurso) {
             enviarLinkActivity("https://sorteio.mediarumo.net/","mercado",HomeInicialActivity.this);
         }else if (id == R.id.nav_mercado) {

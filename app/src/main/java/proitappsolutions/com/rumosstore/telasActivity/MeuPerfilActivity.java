@@ -106,7 +106,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_meu_perfil);
 
         toolbar_meu_perfil = findViewById(R.id.toolbar_meu_perfil);
@@ -190,7 +189,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onDateSet(DatePicker datePicker, int ano, int mes, int dia) {
                 mes = mes + 1;
-
                 String date = dia + "-" + mes + "-" + ano;
                 editDataNascEditar.setText(date);
             }
