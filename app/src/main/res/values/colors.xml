@@ -19,6 +19,7 @@
     <color name="proitCyanBlue">#75c5f0</color>
     <color name="btn_remove_item">#fc2222</color>
     <color name="border_remove_item">#fc9898</color>
+    <color name="cor_preta_nova">#000000</color>
 
     <!--CORES QUIZ-->
     <color name="colorCinza">#4F0e0d0e</color>

@@ -28,6 +28,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 
 public class FragConcurso extends Fragment {
 
@@ -75,6 +76,9 @@ public class FragConcurso extends Fragment {
                     mostarMsnErro();
                     progressBar.setVisibility(ProgressBar.INVISIBLE);
                 }else{
+                    if (!MetodosComuns.temTrafegoNaRede(getActivity())){
+                        MetodosComuns.mostrarMensagem(getActivity(),R.string.txtMsg);
+                    }
                     carregarWebView();
                 }
             }

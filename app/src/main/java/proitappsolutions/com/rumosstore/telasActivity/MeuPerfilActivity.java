@@ -67,6 +67,7 @@ import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.communs.RotateBitmap;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -209,11 +210,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         Common.mCurrentUser = AppDatabase.getInstance().getUser();
         loaduserProfile(Common.mCurrentUser);
     }
-
-    /*AppDatabase.getUser().getFoto() == null || AppDatabase.getUser().getSexo() == null ||
-                        AppDatabase.getUser().getTelefone() == null || AppDatabase.getUser().getDataNascimento() == null ||
-                        AppDatabase.getUser().getProvincia() == null || AppDatabase.getUser().getMunicipio() == null ||
-                        AppDatabase.getUser().getRua() == null){*/
 
     private void loaduserProfile(Usuario usuario) {
 
@@ -395,20 +391,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             cortarImagemCrop(selectedImage);
         }
 
-       /* if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Log.i("ressssErroResult", result.getUri().toString());
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                String selectedFilePath = resultUri.getPath();
-                iv_imagem_perfilEditar.setImageURI(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                Toast.makeText(MeuPerfilActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                Log.i("ressssErro", error.getMessage());
-            }
-        }*/
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             Log.i("ressss", "entroueeeeeee");
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -433,13 +415,8 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         }
 
         if (requestCode == TIRAR_FOTO_CAMARA &&  resultCode == RESULT_OK  && data != null){
-
-            //selectedImage = data.getData();
             Bitmap bitmap1 = (Bitmap) data.getExtras().get("data");
             Log.i("urirranadka",data.getExtras().get("data") + "algumacoisa");
-            //try {
-                // You can update this bitmap to your server
-                //bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 Bitmap fotoReduzida = reduzirImagem(bitmap1,300);
                 Log.i("urirranadka",bitmap1.getWidth() + "algumacoisa");
                 iv_imagem_perfilEditar.setImageBitmap(fotoReduzida);
@@ -447,15 +424,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
                 Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
                 selectedImage = tempUri;
-                //Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
-                /*File foto = salvarBitmap(fotoReduzida,tempUri.getPath());
-                postPath = foto.getPath();*/
                 salvarFotoComprimida(selectedImage,fotoReduzida);
-                //salvarFoto();
-            /*} catch (IOException e) {
-                e.printStackTrace();
-                Log.i("urirranadka",selectedImage + "nadaaa");
-            }*/
 
         }
     }
@@ -573,12 +542,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 return false;
             }
 
-            /*if (!genero.matches("Masculino|Feminino|masculino|feminino")) {
-                editGeneroEditar.requestFocus();
-                editGeneroEditar.setError("Preencha com Masculino ou Feminino");
-                return false;
-            }*/
-
             if (dataNasc.isEmpty()) {
                 editCidadeEditar.setError("Preencha o campo.");
                 return false;
@@ -679,19 +642,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 public void onFailure(Call<Void> call, Throwable t) {
                     verifConecxao();
                     progressDialog.dismiss();
-                    switch (t.getMessage()) {
-                        case "timeout":
-                            Toast.makeText(MeuPerfilActivity.this,
-                                    "Impossivel se comunicar. Internet lenta.",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            Log.d("errordaboy", t.getMessage() + "SALVAR DADOS TXT");
-                            Toast.makeText(MeuPerfilActivity.this,
-                                    "Algum problema aconteceu. Tente novamente.",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-                    }
                 }
             });
         }
@@ -703,7 +653,10 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                 if (netInfo == null) {
                     mostarMsnErro();
                 } else {
-                    //Não aconteceu nada
+                    if (!MetodosComuns.temTrafegoNaRede(MeuPerfilActivity.this))
+                        MetodosComuns.mostrarMensagem(MeuPerfilActivity.this,R.string.txtMsg);
+                    else
+                        MetodosComuns.mostrarMensagem(MeuPerfilActivity.this,R.string.txtProblemaMsg);
                 }
         }
 

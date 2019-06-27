@@ -17,18 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity  {
 
     private RelativeLayout coordinatorLayout;
     private RelativeLayout errorLayout;
@@ -38,6 +42,7 @@ public class WebViewActivity extends AppCompatActivity {
     RingProgressBar anelprogressbar;
 
     private Toolbar toolbar;
+    WebView webView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class WebViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        webView = new WebView(WebViewActivity.this);
 
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         errorLayout = findViewById(R.id.erroLayout);
@@ -118,41 +125,43 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void carregarWebView(String site){
-        WebView webView = new WebView(WebViewActivity.this);
+
         webView = findViewById(R.id.webViewMercado);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(site);
+
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 handler.proceed();
                 super.onReceivedSslError(view, handler, error);
             }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String descricaoErro, String failingUrl) {
+                super.onReceivedError(view, errorCode, descricaoErro, failingUrl);
+                if (errorCode == -2) {
+                    String mensagemCustomizada = "<html><body><div align=\"center\" >"
+                            + "Falha ao carregar a página : " + failingUrl + "<br>" +
+                            "A rede 3G ou WI-FI não possui tranferência de dados." + "<br>" + "</div></body>";
+                    webView.loadDataWithBaseURL(null, mensagemCustomizada,
+                            "text/html", "UTF-8", null);
+                }
+            }
         });
         webView.setWebChromeClient(new WebChromeClient() {
 
             public void onProgressChanged(WebView view, int progress) {
-
                 if (progress < 100){
                     progressBar.setVisibility(ProgressBar.VISIBLE);
                     anelprogressbar.setTextColor(getResources().getColor(R.color.black));
                     anelprogressbar.setProgress(progress);
-                    /*try{
-                        verifConecxao(getIntent().getStringExtra("site"));
-                    }catch (Exception e){
-                        Log.i("algum _problema",e.getMessage());
-                    }*/
                 }
 
                 if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
                     anelprogressbar.setProgress(progress);
                     progressBar.setVisibility(ProgressBar.VISIBLE);
-                   /* try{
-                        verifConecxao(getIntent().getStringExtra("site"));
-                    }catch (Exception e){
-                        Log.i("algum _problema",e.getMessage());
-                    }*/
                 }
 
                 if(progress == 100) {
@@ -161,6 +170,12 @@ public class WebViewActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void receberErroWebView(WebView view, WebResourceRequest request, WebResourceError error,String site){
+
+        mostarMsnErro(site);
+        MetodosComuns.mostrarMensagem(WebViewActivity.this,R.string.txtMsg);
     }
 
     private void mostarMsnErro(String site){

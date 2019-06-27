@@ -39,6 +39,7 @@ import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
@@ -117,6 +118,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         if (Common.mCurrentUser!=null){
             verifConecxao(Common.mCurrentUser);
+            if (savedInstanceState == null){
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
+                navigationView.setCheckedItem(R.id.nav_home);
+            }
         }
 
 
@@ -139,11 +144,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        if (savedInstanceState == null){
-//            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
-            getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
-        }
     }
 
     @Override
@@ -186,7 +186,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         if (conMgr!=null){
             NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
             if (netInfo != null){
-                carregarDadosdoUserApi(usuario);
+                if (!MetodosComuns.temTrafegoNaRede(HomeInicialActivity.this)){
+                    MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtMsg);
+                }else {
+                    carregarDadosdoUserApi(usuario);
+                }
             }
         }
 
@@ -245,7 +249,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
                 @Override
                 public void onFailure(Call<DataUserApi> call, Throwable t) {
-
+                    if (MetodosComuns.temTrafegoNaRede(HomeInicialActivity.this)){
+                        MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtMsg);
+                    }else {
+                        MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtProblemaMsg);
+                    }
                 }
             });
         }
@@ -306,18 +314,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
 
         } else if (id == R.id.nav_concurso) {
-            if (getSupportActionBar() != null){
-                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-                toolbar.setTitle("");
-                ColorDrawable corBranca = new ColorDrawable(ContextCompat.getColor(this, R.color.cor_principal));
-                getSupportActionBar().setBackgroundDrawable(corBranca);
-            }
-            toolbar.setTitle("Sorteio Media Rumo");
-            FragConcurso fragConcurso = new FragConcurso();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragConcurso);
-            fragmentTransaction.commit();
+            enviarLinkActivity("https://sorteio.mediarumo.net/","mercado",HomeInicialActivity.this);
         }else if (id == R.id.nav_mercado) {
             enviarLinkActivity("https://mercado.co.ao/","mercado",HomeInicialActivity.this);
         } else if (id == R.id.nav_vanguarda) {
@@ -325,15 +322,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_rumo) {
             enviarLinkActivity("https://mediarumo.com/","rumo",HomeInicialActivity.this);
         }else if (id == R.id.nav_instagram) {
-
             enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/","instagram",HomeInicialActivity.this);
-
         }  else if (id == R.id.nav_facebook) {
-
             enviarLinkActivity("https://www.facebook.com/jornalmercado/","facebook",HomeInicialActivity.this);
-
         }  else if (id == R.id.nav_share) {
-
             shareTheApp();
         }
 

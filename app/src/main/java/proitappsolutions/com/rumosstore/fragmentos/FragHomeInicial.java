@@ -19,12 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import proitappsolutions.com.rumosstore.Adapter.FeedAdapter;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.HTTPDataHandler;
+import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
 
 public class FragHomeInicial extends Fragment {
@@ -103,12 +105,13 @@ public class FragHomeInicial extends Fragment {
                 if (netInfo == null){
                     mostarMsnErro();
                 }else{
-                    progress_amarela.setVisibility(View.VISIBLE);
-                    carregarRss();
+                    if (!MetodosComuns.temTrafegoNaRede(getActivity()))
+                        MetodosComuns.mostrarMensagem(getActivity(),R.string.txtMsg);
+                    else
+                        progress_amarela.setVisibility(View.VISIBLE);
+                            carregarRss();
                 }
             }
-
-
         }
     }
 
