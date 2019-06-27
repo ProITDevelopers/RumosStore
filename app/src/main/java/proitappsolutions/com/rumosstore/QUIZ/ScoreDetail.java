@@ -54,7 +54,7 @@ public class ScoreDetail extends AppCompatActivity {
 
         FirebaseRecyclerOptions<QuestionStore> options =
                 new FirebaseRecyclerOptions.Builder<QuestionStore>()
-                        .setQuery(question_score.orderByChild("user"), QuestionStore.class)
+                        .setQuery(question_score.orderByChild("user").equalTo(viewUser), QuestionStore.class)
                         .build();
 
         adapter = new FirebaseRecyclerAdapter<QuestionStore, SceneDetailMenuViewHolder>(options) {
