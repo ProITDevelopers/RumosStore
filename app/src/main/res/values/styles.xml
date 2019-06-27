@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorCima</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/cor_preta_nova</item>
+        <item name="colorAccent">@color/colorCima</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
     </style>
 

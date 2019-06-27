@@ -40,7 +40,6 @@ import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
-import proitappsolutions.com.rumosstore.fragmentos.FragConcurso;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.testeRealmDB.QuiosqueActivity;
@@ -65,7 +64,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
+       // Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_home_inicial);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -143,6 +142,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
     }
 
@@ -173,7 +173,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             }else{
                 tv_inicial_nome.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
-
 
         } else {
             logOut();

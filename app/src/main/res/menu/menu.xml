@@ -12,6 +12,7 @@
 
         <item
             android:id="@+id/nav_quiz"
+            android:icon="@drawable/quiz_ic"
             android:title="Quiz" />
 
         <item

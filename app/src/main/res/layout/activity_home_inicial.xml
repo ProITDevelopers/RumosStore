@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center"
-            android:background="@color/colorBotaoLogin"
+            app:titleTextColor="@color/white"
+            android:background="@color/cor_preta_nova"
             android:id="@+id/toolbar" />
 
         <FrameLayout

@@ -57,10 +57,10 @@
                             android:gravity="center">
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
                                 android:id="@+id/ic_user"
-                                android:src="@drawable/ic_user" />
+                                android:layout_width="18dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/usuario_icone" />
 
                         </LinearLayout>
 
@@ -70,8 +70,8 @@
                             android:background="@drawable/borda_lateral"
                             android:layout_height="44dp"
                             android:textCursorDrawable="@drawable/cor_cursor"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/colorExemplo"
+                            android:textColor="@color/cor_principal"
+                            android:textColorHint="@color/cor_principal"
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_nome"
                             android:paddingLeft="10dp"
@@ -98,7 +98,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:id="@+id/ic_email"
-                                android:src="@drawable/ic_email" />
+                                android:src="@drawable/envelope_dourado" />
 
                         </LinearLayout>
 
@@ -107,9 +107,9 @@
                             android:layout_width="230dp"
                             android:background="@drawable/borda_lateral"
                             android:layout_height="44dp"
-                            android:textColorHint="@color/colorExemplo"
+                            android:textColor="@color/cor_principal"
+                            android:textColorHint="@color/cor_principal"
                             android:textCursorDrawable="@drawable/cor_cursor"
-                            android:textColor="@android:color/white"
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_btn_entrar_email"
                             android:paddingLeft="10dp"
@@ -136,7 +136,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:id="@+id/ic_pass"
-                                android:src="@drawable/ic_lock" />
+                                android:src="@drawable/cadeado_dourado" />
 
                         </LinearLayout>
 
@@ -145,9 +145,9 @@
                             android:layout_width="230dp"
                             android:background="@drawable/borda_lateral"
                             android:layout_height="44dp"
-                            android:textColorHint="@color/colorExemplo"
                             android:textCursorDrawable="@drawable/cor_cursor"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/cor_principal"
+                            android:textColorHint="@color/cor_principal"
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_senha"
                             android:paddingLeft="10dp"
@@ -175,7 +175,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:id="@+id/ic_pass2"
-                                android:src="@drawable/ic_lock" />
+                                android:src="@drawable/cadeado_dourado" />
 
                         </LinearLayout>
 
@@ -184,9 +184,9 @@
                             android:layout_width="230dp"
                             android:background="@drawable/borda_lateral"
                             android:layout_height="44dp"
-                            android:textColorHint="@color/colorExemplo"
+                            android:textColor="@color/cor_principal"
+                            android:textColorHint="@color/cor_principal"
                             android:textCursorDrawable="@drawable/cor_cursor"
-                            android:textColor="@android:color/white"
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_senha_conf"
                             android:paddingLeft="10dp"
@@ -202,7 +202,7 @@
                         android:layout_width="270dp"
                         android:layout_marginTop="33dp"
                         android:text="@string/hit_btn_registrar"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/cor_borda"
                         android:background="@drawable/borda_arredondada_login"
                         android:layout_height="44dp" />
 
@@ -226,7 +226,7 @@
                 android:layout_marginTop="@dimen/margem_cima"
                 android:layout_height="wrap_content"
                 android:text="@string/hit_ja_tem_conta"
-                android:textColor="@android:color/white"
+                android:textColor="@color/cor_principal"
                 android:background="@android:color/transparent"/>
 
         </RelativeLayout>

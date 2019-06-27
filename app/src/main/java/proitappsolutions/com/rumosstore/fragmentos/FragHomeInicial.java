@@ -64,7 +64,7 @@ public class FragHomeInicial extends Fragment {
 
     private void carregarRss() {
 
-        AsyncTask<String,String,String> carregaAsync = new AsyncTask<String, String, String>() {
+          AsyncTask<String, String, String> carregaAsync = new AsyncTask<String, String, String>() {
 
             @Override
             protected void onPreExecute() {
@@ -81,8 +81,8 @@ public class FragHomeInicial extends Fragment {
             @Override
             protected void onPostExecute(String s) {
                 progress_amarela.setVisibility(View.GONE);
-                rssObjecto = new Gson().fromJson(s,RSSObjecto.class);
-                FeedAdapter adapter = new FeedAdapter(rssObjecto,getContext());
+                rssObjecto = new Gson().fromJson(s, RSSObjecto.class);
+                FeedAdapter adapter = new FeedAdapter(rssObjecto, getContext());
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -132,4 +132,9 @@ public class FragHomeInicial extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        //carregaAsync
+        super.onDestroy();
+    }
 }
