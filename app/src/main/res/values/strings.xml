@@ -47,7 +47,10 @@
     <string name="txtRua">Rua - </string>
     <string name="txtGeneroE">Gênero</string>
     <string name="txtMsg">A rede 3G ou WI-FI não possui tranferência de dados.</string>
-    <string name="txtProblemaMsg">Algum problema aconteceu.</string>
+    <string name="txtProblemaMsg">Algum problema aconteceu.Relata o problema.</string>
+    <string name="txtTimeout">O tempo de comunicação excedeu. Possivelvente a internet está lenta.</string>
+    <string name="txtEfetuadoregistro">Registro efetuado com sucesso</string>
+    <string name="txtVoltar">Voltar</string>
     <string name="txtGenero">Gênero - </string>
     <string name="txtDataNascE">Data Nascimento</string>
     <string name="txtDataNasc">Data Nascimento - </string>

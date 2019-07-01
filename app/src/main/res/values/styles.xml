@@ -5,7 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/cor_preta_nova</item>
-        <item name="colorAccent">@color/colorCima</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
     </style>
 
@@ -18,6 +19,7 @@
     <style name="MyEditTextTheme">
         <item name="colorControlNormal">#b3b3ad</item>
         <item name="colorControlActivated">@color/colorBotaoLogin</item>
+        <item name="android:textColor">@color/cor_borda</item>
         <item name="colorControlHighlight">#FFFFFF</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
     </style>
@@ -38,8 +40,9 @@
     </style>
 
     <style name="MyButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/corVerde</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
+        <item name="android:textColor">@color/cor_borda</item>
     </style>
 
     <style name="progressDourada" parent="@style/Theme.AppCompat">
@@ -50,6 +53,7 @@
     <style name="estiloToolbar"  parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlNormal">@color/white</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
+        <item name="android:textColorSecondary">@color/black</item>
     </style>
 
 </resources>

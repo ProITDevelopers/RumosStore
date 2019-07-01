@@ -37,6 +37,7 @@ public class FragHomeInicial extends Fragment {
     private RelativeLayout errorLayout;
     private LinearLayout linearLayout;
     private TextView btnTentarDeNovo;
+    private MinhaAsyncTask minhaAsyncTask;
     private final String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
     private final String RSS_link_vanguarda = "https://vanguarda.co.ao/rss/newsletter";
     private final String RSS_PARA_JSON_API = "https://api.rss2json.com/v1/api.json?rss_url=";
@@ -62,7 +63,32 @@ public class FragHomeInicial extends Fragment {
 
     }
 
-    private void carregarRss() {
+    public class MinhaAsyncTask extends AsyncTask<String,String,String>{
+
+
+        public MinhaAsyncTask(Context mContext){
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String result;
+            HTTPDataHandler httpDataHandler = new HTTPDataHandler();
+            result = httpDataHandler.GetHTTPData(strings[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progress_amarela.setVisibility(View.GONE);
+            rssObjecto = new Gson().fromJson(s, RSSObjecto.class);
+            FeedAdapter adapter = new FeedAdapter(rssObjecto, getContext());
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    /* private void carregarRss() {
 
           AsyncTask<String, String, String> carregaAsync = new AsyncTask<String, String, String>() {
 
@@ -92,7 +118,7 @@ public class FragHomeInicial extends Fragment {
         url_get_data.append(RSS_link);
         //url_get_data.append(RSS_link_vanguarda);
         carregaAsync.execute(url_get_data.toString());
-    }
+    }*/
 
     private void verifConecxao() {
 
@@ -109,7 +135,9 @@ public class FragHomeInicial extends Fragment {
                         MetodosComuns.mostrarMensagem(getActivity(),R.string.txtMsg);
                     else
                         progress_amarela.setVisibility(View.VISIBLE);
-                            carregarRss();
+                    minhaAsyncTask = new MinhaAsyncTask(getContext());
+                    minhaAsyncTask.execute(RSS_PARA_JSON_API + RSS_link);
+                    //        carregarRss();
                 }
             }
         }
@@ -134,7 +162,7 @@ public class FragHomeInicial extends Fragment {
 
     @Override
     public void onDestroy() {
-        //carregaAsync
+        minhaAsyncTask.cancel(true);
         super.onDestroy();
     }
 }

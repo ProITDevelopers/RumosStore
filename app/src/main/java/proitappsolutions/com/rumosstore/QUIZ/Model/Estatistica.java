@@ -2,29 +2,29 @@ package proitappsolutions.com.rumosstore.QUIZ.Model;
 
 public class Estatistica {
 
-    private String respostasCertas,totalPerguntas;
+    private String estado,dataAtual;
+
+    public Estatistica(String estado, String dataAtual) {
+        this.estado = estado;
+        this.dataAtual = dataAtual;
+    }
 
     public Estatistica() {
     }
 
-    public Estatistica(String respostasCertas, String totalPerguntas) {
-        this.respostasCertas = respostasCertas;
-        this.totalPerguntas = totalPerguntas;
+    public String getEstado() {
+        return estado;
     }
 
-    public String getRespostasCertas() {
-        return respostasCertas;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public void setRespostasCertas(String respostasCertas) {
-        this.respostasCertas = respostasCertas;
+    public String getDataAtual() {
+        return dataAtual;
     }
 
-    public String getTotalPerguntas() {
-        return totalPerguntas;
-    }
-
-    public void setTotalPerguntas(String totalPerguntas) {
-        this.totalPerguntas = totalPerguntas;
+    public void setDataAtual(String dataAtual) {
+        this.dataAtual = dataAtual;
     }
 }

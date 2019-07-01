@@ -91,7 +91,6 @@
            <Button
                android:id="@+id/btnAnswerA"
                android:text="@string/exemplo_pergunta_a"
-               android:textColor="@android:color/white"
                android:textStyle="bold"
                android:theme="@style/MyButton"
                style="@style/Widget.AppCompat.Button.Borderless"
@@ -104,7 +103,6 @@
            <Button
                android:id="@+id/btnAnswerB"
                android:text="@string/exemplo_pergunta_b"
-               android:textColor="@android:color/white"
                android:textStyle="bold"
                android:theme="@style/MyButton"
                style="@style/Widget.AppCompat.Button.Borderless"
@@ -117,7 +115,6 @@
            <Button
                android:id="@+id/btnAnswerC"
                android:text="@string/exemplo_pergunta_c"
-               android:textColor="@android:color/white"
                android:textStyle="bold"
                android:theme="@style/MyButton"
                style="@style/Widget.AppCompat.Button.Borderless"
@@ -130,7 +127,6 @@
            <Button
                android:id="@+id/btnAnswerD"
                android:text="@string/exemplo_pergunta_d"
-               android:textColor="@android:color/white"
                android:textStyle="bold"
                android:theme="@style/MyButton"
                style="@style/Widget.AppCompat.Button.Borderless"

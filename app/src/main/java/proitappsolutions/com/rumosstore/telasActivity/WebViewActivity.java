@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
+import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 
@@ -41,15 +42,14 @@ public class WebViewActivity extends AppCompatActivity  {
     private LinearLayout progressBar;
     RingProgressBar anelprogressbar;
 
-    private Toolbar toolbar;
-    WebView webView ;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        toolbar = findViewById(R.id.toolbar_activyt);
+        Toolbar toolbar = findViewById(R.id.toolbar_activyt);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
@@ -170,6 +170,38 @@ public class WebViewActivity extends AppCompatActivity  {
                 }
             }
         });
+    }
+
+    public static boolean carregarWebViewUniversal(Context mcontext){
+        String site = "www.google.com";
+        final boolean[] valorRetorno = new boolean[1];
+        WebView webViewInternet = null;//= R.layout.activity_web_view.findViewById(R.id.webViewInternet);
+        //webView.getSettings().setJavaScriptEnabled(true);
+        webViewInternet.setWebViewClient(new WebViewClient());
+        webViewInternet.loadUrl(site);
+
+        webViewInternet.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+                super.onReceivedSslError(view, handler, error);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String descricaoErro, String failingUrl) {
+                super.onReceivedError(view, errorCode, descricaoErro, failingUrl);
+                if (errorCode == -2) {
+                    valorRetorno[0] = false;
+                }
+            }
+        });
+        webViewInternet.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                valorRetorno[0] = true;
+            }
+        });
+
+        return valorRetorno[0];
     }
 
     public void receberErroWebView(WebView view, WebResourceRequest request, WebResourceError error,String site){

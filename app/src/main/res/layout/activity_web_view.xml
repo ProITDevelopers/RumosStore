@@ -5,10 +5,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/relWebView"
     tools:context=".telasActivity.WebViewActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_activyt"
+        android:theme="@style/estiloToolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
 
@@ -25,6 +27,12 @@
             android:layout_height="match_parent">
         </WebView>
 
+        <WebView
+            android:id="@+id/webViewInternet"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+        </WebView>
 
         <LinearLayout
             android:orientation="vertical"

@@ -49,6 +49,7 @@
                 android:text="Titulo"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:textColor="@color/cor_borda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -61,6 +62,7 @@
                     android:id="@+id/dataPublicacao"
                     android:text="2019-04-11"
                     android:textSize="12sp"
+                    android:textColor="@color/cor_borda"
                     android:textStyle="italic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

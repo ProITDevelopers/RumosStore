@@ -4,15 +4,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,7 +32,7 @@ import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
 import proitappsolutions.com.rumosstore.QUIZ.Home;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.Usuario;
+import proitappsolutions.com.rumosstore.modelo.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
@@ -71,13 +67,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Media Rumo");
-        if (getSupportActionBar() != null){
-            try {
-                toolbar.getOverflowIcon().setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
         setSupportActionBar(toolbar);
 
         progressDialog = new ProgressDialog(HomeInicialActivity.this,R.style.MyAlertDialogStyle);
@@ -88,10 +77,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         navigationView.setItemIconTintList(null); 
         View headerView = navigationView.getHeaderView(0);
 
-        circleImageView = (CircleImageView) headerView.findViewById(R.id.iv_imagem_perfil);
-        txtName = (TextView) headerView.findViewById(R.id.txtName);
-        txtEmail = (TextView) headerView.findViewById(R.id.txtEmail);
-        tv_inicial_nome = (TextView) headerView.findViewById(R.id.tv_inicial_nome);
+        circleImageView =  headerView.findViewById(R.id.iv_imagem_perfil);
+        txtName = headerView.findViewById(R.id.txtName);
+        txtEmail =  headerView.findViewById(R.id.txtEmail);
+        tv_inicial_nome = headerView.findViewById(R.id.tv_inicial_nome);
 
         caixa_dialogo_cancelar = new Dialog(HomeInicialActivity.this);
         caixa_dialogo_cancelar.setContentView(R.layout.caixa_de_dialogo_redif_senha);
@@ -105,7 +94,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         diagolo_titulo.setText("Deseja terminar a sessão ?");
         btnSim.setOnClickListener(HomeInicialActivity.this);
         btnNao.setOnClickListener(HomeInicialActivity.this);
-
 
         //Dialogo enviar senha nova email
         dialogSenhaEnviarEmailSenhaNova = new Dialog(HomeInicialActivity.this);

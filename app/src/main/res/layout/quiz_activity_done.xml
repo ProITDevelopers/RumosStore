@@ -72,7 +72,7 @@
                 android:layout_margin="8dp"
                 android:background="@color/colorBotaoLogin"
                 android:text="@string/exemplo_tentar_denovo"
-                android:textColor="@android:color/white"
+                android:textColor="@color/cor_borda"
                 android:textStyle="bold"
                 android:theme="@style/MyButton"
                 android:layout_width="match_parent"

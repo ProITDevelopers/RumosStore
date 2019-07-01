@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/txt_cor_redif"
+            android:textColor="@color/cor_borda"
             android:text="@string/hit_recuperar_senha"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/txt_cor_redif"
+            android:textColor="@color/cor_borda"
             android:text="@string/hit_redif_senha"
             android:textSize="@dimen/txtTamanho"
             android:textStyle="bold" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_gravity="center"
-            android:background="@drawable/borda_arredondada"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/borda_arredondada"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -81,7 +81,7 @@
                 android:padding="5dp"
                 android:layout_gravity="center"
                 android:text="@string/cancelar"
-                android:textColor="@android:color/white"
+                android:textColor="@color/cor_borda"
                 android:background="@drawable/borda_arredondada_login"
                 android:layout_height="44dp"
                 android:layout_marginEnd="5dp" />
@@ -96,7 +96,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:text="@string/hit_btn_receber_cod"
-                android:textColor="@android:color/white"
+                android:textColor="@color/cor_borda"
                 android:background="@drawable/borda_arredondada_login"
                 android:layout_height="44dp"
                 android:layout_marginEnd="5dp" />

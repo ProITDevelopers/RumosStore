@@ -3,6 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="corVerde">#4CAF50</color>
     <color name="colorCima">#b48d00</color>
     <color name="txt_cor_redif">#413b3b</color>
     <color name="colorBotaoLogin">#e1c65a</color>

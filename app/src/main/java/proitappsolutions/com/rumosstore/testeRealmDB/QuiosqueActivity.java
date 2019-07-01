@@ -2,6 +2,8 @@ package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -66,7 +68,6 @@ public class QuiosqueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_quiosque);
 
         toolbarQuiosque = findViewById(R.id.toolbarQuiosque);

@@ -12,49 +12,36 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.regex.Pattern;
-
-import okhttp3.ResponseBody;
-import okhttp3.internal.http.RealResponseBody;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
-import proitappsolutions.com.rumosstore.modelo.Erro;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import proitappsolutions.com.rumosstore.modelo.UsuarioFire;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = "RegistroActivityDebug";
     private EditText editTextNomeRegistro,editTextEmailRegistro;
-//    private EditText editTextPassRegistro,editTextPassRegistro2;
     private ShowHidePasswordEditText editTextPassRegistro,editTextPassRegistro2;
-    private Button btnRegistrar,btnLoginInicial;
-    private String nome,email,senha,senhaConf;
     private ProgressDialog progressDialog;
     private RelativeLayout errorLayout;
     private RelativeLayout relLativeLayout;
@@ -75,7 +62,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         errorLayout = findViewById(R.id.erroLayout);
         relLativeLayout = findViewById(R.id.relLativeLayout);
         btnTentarDeNovo = findViewById(R.id.btn);
-        btnTentarDeNovo.setText("Voltar");
+        btnTentarDeNovo.setText(R.string.txtVoltar);
         editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
         editTextEmailRegistro = findViewById(R.id.editTextEmailRegistro);
         editTextPassRegistro = findViewById(R.id.editTextPassRegistro);
@@ -83,8 +70,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         editTextNomeRegistro = findViewById(R.id.editTextNomeRegistro);
         raiz = findViewById(android.R.id.content);
 
-        btnRegistrar = findViewById(R.id.btnRegistrar);
-        btnLoginInicial = findViewById(R.id.btnLoginInicial);
+        Button btnRegistrar = findViewById(R.id.btnRegistrar);
+        Button btnLoginInicial = findViewById(R.id.btnLoginInicial);
 
         btnRegistrar.setOnClickListener(RegistroActivity.this);
         btnLoginInicial.setOnClickListener(RegistroActivity.this);
@@ -109,55 +96,50 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.btnLoginInicial:
                 Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
-                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentEntrar);
+                finish();
                 break;
 
         }
 
     }
 
-    private boolean validEmail(String email) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        return pattern.matcher(email).matches();
-    }
-
     private boolean verificarCampo() {
 
-        nome = editTextNomeRegistro.getText().toString().trim();
-        email = editTextEmailRegistro.getText().toString().trim();
-        senha = editTextPassRegistro.getText().toString().trim();
-        senhaConf = editTextPassRegistro2.getText().toString().trim();
-
-
+        String nome = editTextNomeRegistro.getText().toString().trim();
+        String email = editTextEmailRegistro.getText().toString().trim();
+        String senha = editTextPassRegistro.getText().toString().trim();
+        String senhaConf = editTextPassRegistro2.getText().toString().trim();
+        String msgErro = "Preencha o campo.";
+        String msgErroSenha = "Senha fraca..";
 
         if (nome.isEmpty()){
-            editTextNomeRegistro.setError("Preencha o campo.");
+            editTextNomeRegistro.setError(msgErro);
             return false;
         }
 
         if (email.isEmpty()){
-            editTextEmailRegistro.setError("Preencha o campo.");
+            editTextEmailRegistro.setError(msgErro);
             return false;
         }
 
         if (!MetodosComuns.validarEmail(email)){
-            editTextEmailRegistro.setError("Preencha o campo com um email.");
+            editTextEmailRegistro.setError(msgErro);
             return false;
         }
 
         if (senha.isEmpty()){
-            editTextPassRegistro.setError("Preencha o campo.");
+            editTextPassRegistro.setError(msgErro);
             return false;
         }
 
         if (senha.length()<5){
-            editTextPassRegistro.setError("Senha fraca.");
+            editTextPassRegistro.setError(msgErroSenha);
             return false;
         }
 
         if (senhaConf.length()<5){
-            editTextPassRegistro2.setError("Senha fraca.");
+            editTextPassRegistro2.setError(msgErroSenha);
             return false;
         }
 
@@ -182,19 +164,16 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         Call<Void> call = apiInterface.registrarCliente(usuarioApi);
        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()){
                     users.child(editTextEmailRegistro.getText().toString().trim().split("@")[0].toUpperCase())
-                            .setValue(usuarioFire).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(RegistroActivity.this,"Registro efetuado com sucesso",Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
-                            intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intentEntrar);
-                        }
-                    });
+                            .setValue(usuarioFire).addOnCompleteListener(task -> {
+                                Toast.makeText(RegistroActivity.this,R.string.txtEfetuadoregistro,Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                                Intent intentEntrar = new Intent(RegistroActivity.this,MediaRumoActivity.class);
+                                intentEntrar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentEntrar);
+                            });
                 } else {
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
                     progressDialog.dismiss();
@@ -205,36 +184,23 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                                 .setActionTextColor(Color.MAGENTA)
                                 .show();
                     }catch (Exception e){
-                        Log.d("autenticacaoVerif", String.valueOf(e.getMessage()));
+                        Log.i(TAG,"autenticacaoVerif snakBar" + e.getMessage());
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.i("onFailure","erro" + t.getMessage());
-                Log.i("onFailure", t.getMessage());
-                progressDialog.dismiss();
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 verifConecxao();
-                switch (t.getMessage()){
-                    case "timeout":
-                        Toast.makeText(RegistroActivity.this,
-                                "Impossivel se comunicar. Internet lenta.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(RegistroActivity.this,
-                                "Algum problema aconteceu.Possivelmente seja a conexão com a Internet.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                if (!conexaoInternetTrafego(RegistroActivity.this)){
+                    mostrarMensagem(RegistroActivity.this,R.string.txtMsg);
+                }else  if ("timeout".equals(t.getMessage())) {
+                    mostrarMensagem(RegistroActivity.this,R.string.txtTimeout);
+                }else {
+                    mostrarMensagem(RegistroActivity.this,R.string.txtProblemaMsg);
                 }
-                final String[] unable = t.getMessage().split("");
-                Log.i("skansaksasErro",unable[1] + " <-->");
-                if (unable[1].equals("U")){
-                    Toast.makeText(RegistroActivity.this,
-                            "Sem conexão a internet.",
-                            Toast.LENGTH_SHORT).show();
-                }
+                Log.i(TAG,"onFailure" + t.getMessage());
+                progressDialog.dismiss();
             }
         });
 
@@ -243,12 +209,8 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private void verifConecxao() {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null && netInfo.isConnected()){
-            if (netInfo.isConnected()){
+        if (netInfo == null){
                 mostarMsnErro();
-            }
-        }else{
-           // registrarUsuario();
         }
     }
 
@@ -259,12 +221,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             relLativeLayout.setVisibility(View.GONE);
         }
 
-        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                relLativeLayout.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
-            }
+        btnTentarDeNovo.setOnClickListener(view -> {
+            relLativeLayout.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.GONE);
         });
     }
 

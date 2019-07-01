@@ -1,6 +1,5 @@
 package proitappsolutions.com.rumosstore;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,9 +37,8 @@ import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
 import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.modelo.RecuperarSenha;
+import proitappsolutions.com.rumosstore.modelo.Usuario;
 import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
-import proitappsolutions.com.rumosstore.telasActivitysSenha.EnviarCodConfActivity;
-import proitappsolutions.com.rumosstore.telasActivitysSenha.RedifinirSenhaActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +46,6 @@ import retrofit2.Response;
 public class MediaRumoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmailLogin;
-//    private EditText editTextPasslLogin;
     private ShowHidePasswordEditText editTextPasslLogin;
     private Button btnEntrar,btnRegistrate,btn_alterar_senha;
 
@@ -329,6 +326,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onFailure(Call<RecuperarSenha> call, Throwable t) {
+                //WebViewActivity.carregarWebViewUniversal(MediaRumoActivity.this);
                 progressDialog.cancel();
                 Log.i("skansaksas",t.getMessage() + "failed");
                 verifConecxao(false);

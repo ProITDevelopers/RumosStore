@@ -57,7 +57,7 @@ public class Done extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         question_score = database.getReference("Question_Score");
-        catgoria_estatistica = database.getReference("Cat_Est");
+        catgoria_estatistica = database.getReference("Estatisticas");
         tv_quiz = findViewById(R.id.tv_quiz);
         txtResultScore = findViewById(R.id.txtTotalScore);
         getTxtResultQuestion = findViewById(R.id.txtTotalQuestion);
@@ -100,13 +100,12 @@ public class Done extends AppCompatActivity {
                 for (int i1=0;i1<=Common.questionList.size()-1;i1++){
                     for (int i=0;i<=Common.questErradasList.size()-1;i++){
                       if (Common.questionList.get(i1).getQuestion().equals(Common.questErradasList.get(i).getpFeita())){
+                          Estatistica estatistica = new Estatistica("errada",dataAtual);
                           catgoria_estatistica
-                                  .child("Perguntas_Erradas")
                                   .child(String.valueOf(Common.categoryId))
                                   .child(Common.chaveDasPerguntas.get(i1))
                                   .push()
-                                  .child("dataAtual")
-                          .setValue(dataAtual).addOnCompleteListener(new OnCompleteListener<Void>() {
+                          .setValue(estatistica).addOnCompleteListener(new OnCompleteListener<Void>() {
                               @Override
                               public void onComplete(@NonNull Task<Void> task) {
 
@@ -117,13 +116,12 @@ public class Done extends AppCompatActivity {
                     //Estatistivas P CERTAS
                     for (int i=0;i<=Common.questPerguntaCerta.size()-1;i++){
                         if (Common.questionList.get(i1).getQuestion().equals(Common.questPerguntaCerta.get(i))){
+                            Estatistica estatistica = new Estatistica("certa",dataAtual);
                             catgoria_estatistica
-                                    .child("Perguntas_Certas")
-                                    .child(String.valueOf(Common.categoryId))
-                                    .child(Common.chaveDasPerguntas.get(i1))
-                                    .push()
-                                    .child("dataAtual")
-                                    .setValue(dataAtual);
+                                  .child(String.valueOf(Common.categoryId))
+                                  .child(Common.chaveDasPerguntas.get(i1))
+                                  .push()
+                                  .setValue(estatistica);
                         }
                     }
                 }
@@ -136,13 +134,12 @@ public class Done extends AppCompatActivity {
                 for (int i1=0;i1<=Common.questionList.size()-1;i1++){
                     for (int i=0;i<=Common.questPerguntaCerta.size()-1;i++){
                         if (Common.questionList.get(i1).getQuestion().equals(Common.questPerguntaCerta.get(i))){
+                            Estatistica estatistica = new Estatistica("certa",dataAtual);
                             catgoria_estatistica
-                                    .child("Perguntas_Certas")
                                     .child(String.valueOf(Common.categoryId))
                                     .child(Common.chaveDasPerguntas.get(i1))
                                     .push()
-                                    .child("dataAtual")
-                                    .setValue(dataAtual);
+                                    .setValue(estatistica);
                         }
                     }
                 }

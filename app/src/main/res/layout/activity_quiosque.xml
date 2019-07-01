@@ -11,11 +11,12 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarQuiosque"
         android:layout_width="match_parent"
+        android:theme="@style/estiloToolbar"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorBotaoLogin">
+        app:titleTextColor="@color/white"
+        android:background="@color/cor_preta_nova">
 
     </android.support.v7.widget.Toolbar>
-
 
     <RelativeLayout
         android:layout_below="@+id/toolbarQuiosque"
