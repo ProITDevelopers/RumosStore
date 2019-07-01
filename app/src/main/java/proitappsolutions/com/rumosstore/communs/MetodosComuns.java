@@ -13,11 +13,31 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
 public class MetodosComuns {
+
+    public static String bearerApi = "Bearer ";
+    public static String msgErro = "Preencha o campo.";
+    public static String msgErroSenha = "Senha fraca.";
+    public static String msgQuasePronto = "Quase Pronto...!";
+    public static String msgSenhaAlterada = "A sua senha foi alterada com sucesso.!";
+    public static String msgErroSenhaDiferente = "As senhas devem ser iguais";
+    public static String msgAprocessar = "A processar...!";
+    public static String msgDadosAlterados = "Os dados foram alterados com sucesso.";
+    public static String msgSalvandoFoto = "Salvando a foto de perfil.";
+    public static String msgDesejaTerminarSessao = "Deseja terminar a sessão ?";
+    public static String msgReenviarNumTelef = "A reenviar o Nº Telefone..";
+    public static String msgAEnviarEmail = "A enviar o e-mail..";
+    public static String msgVerificando = "Verificando...";
+    public static String msgTentarDeNovo = "Tentar de Novo";
+    public static String msgVoltar = "Voltar";
+    public static String msgCamposIguais = "Os campos devem ser iguais.";
+    public static String msgCamposDiferentes = "Os campos devem ser diferentes.";
+    public static String msgErroSEmail = "Preencha o campo com um email.";
+    public static String msgErroTelefone = "Preencha com um número válido";
+    public static String msgEnviandoCodigo = "Enviando o código de confirmação..!";
+    public static String msgSenhaFracaAjuda = "Senha fraca.O campo precisa de ter mais de 6 caracteres.";
 
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -40,6 +60,10 @@ public class MetodosComuns {
     }
 
     public static void mostrarMensagem(Context mContexto, int mensagem) {
+        Toast.makeText(mContexto,mensagem,Toast.LENGTH_SHORT).show();
+    }
+
+    public static void mostrarMensagem(Context mContexto, String mensagem) {
         Toast.makeText(mContexto,mensagem,Toast.LENGTH_SHORT).show();
     }
 

@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -56,6 +56,7 @@ import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.RegistroActivity;
 import proitappsolutions.com.rumosstore.modelo.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
@@ -67,14 +68,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MeuPerfilActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAprocessar;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgDadosAlterados;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSalvandoFoto;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgVoltar;
 
+public class MeuPerfilActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private String TAG = "MeuPerfilActivityDebug";
     private static final int TIRAR_FOTO_CAMARA = 1, ESCOLHER_FOTO_GALERIA = 1995, PERMISSAO_FOTO = 3;
     private TextView txtName, txtEmail, numeroTelef, valorProvincia, valorMunicipio,
-            valorRua, valorGenero, valorDataNasc, txtNameEditar, txtEmailEditar,tv_inicial_nome,tv_inicial_nome_edit;
+            valorRua, valorGenero, valorDataNasc, txtNameEditar, txtEmailEditar, tv_inicial_nome, tv_inicial_nome_edit;
     private CircleImageView iv_imagem_perfil, iv_imagem_perfilEditar;
     private ImageView imagem_editar_foto;
-    private Button btnEditarPerfil, btnCancelarEdicao, btnSalvarDados, btnCamara, btnGaleria, btnCancelar_dialog;
+    private Button btnEditarPerfil;
     private RelativeLayout relativeLayoutMeuPerfil, relativeLayoutEditarPerfil;
     private String telefone, cidade, municipio, rua, genero, dataNasc;
     private Spinner editGeneroEditar;
@@ -86,14 +96,10 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private TextView btnVoltar;
     private Dialog caixa_dialogo_foto;
     private Uri selectedImage;
-    private Bitmap bitmapImg;
     private String postPath;
-    final int CROP_PIC = 55;
-    private Intent CropIntent;
     private Toolbar toolbar_meu_perfil;
     private Toolbar toolbar_editPerfil;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private byte[] mUploadBytes;
     private String valorGeneroItem;
     ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
 
@@ -106,7 +112,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         toolbar_meu_perfil.setTitle("Meu Perfil");
         setSupportActionBar(toolbar_meu_perfil);
 
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -122,23 +128,23 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         valorGenero = findViewById(R.id.valorGenero);
         valorDataNasc = findViewById(R.id.valorDataNasc);
         btnEditarPerfil = findViewById(R.id.btnEditarPerfil);
-        btnCancelarEdicao = findViewById(R.id.btnCancelarEdicao);
+        Button btnCancelarEdicao = findViewById(R.id.btnCancelarEdicao);
         relativeLayoutMeuPerfil = findViewById(R.id.relativeLayoutMeuPerfil);
         relativeLayoutEditarPerfil = findViewById(R.id.relativeLayoutEditarPerfil);
         relativeLayoutMeuPerfil.setVisibility(View.VISIBLE);
         erroLayout = findViewById(R.id.erroLayout);
         btnVoltar = findViewById(R.id.btn);
-        btnVoltar.setText("Voltar");
+        btnVoltar.setText(msgVoltar);
         caixa_dialogo_foto = new Dialog(MeuPerfilActivity.this);
         caixa_dialogo_foto.setContentView(R.layout.caixa_de_dialogo_foto);
         caixa_dialogo_foto.setCancelable(false);
 
         //Botão em caixa de dialogo foto
-        btnCamara = caixa_dialogo_foto.findViewById(R.id.btnCamara);
-        btnGaleria = caixa_dialogo_foto.findViewById(R.id.btnGaleria);
-        btnCancelar_dialog = caixa_dialogo_foto.findViewById(R.id.btnCancelar_dialog);
+        Button btnCamara = caixa_dialogo_foto.findViewById(R.id.btnCamara);
+        Button btnGaleria = caixa_dialogo_foto.findViewById(R.id.btnGaleria);
+        Button btnCancelar_dialog = caixa_dialogo_foto.findViewById(R.id.btnCancelar_dialog);
 
-        progressDialog = new ProgressDialog(MeuPerfilActivity.this,R.style.MyAlertDialogStyle);
+        progressDialog = new ProgressDialog(MeuPerfilActivity.this, R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
         //editarPerfil layout
@@ -154,7 +160,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         editRuaEditar = relativeLayoutEditarPerfil.findViewById(R.id.editRuaEditar);
         editGeneroEditar = relativeLayoutEditarPerfil.findViewById(R.id.editGeneroEditar);
         editDataNascEditar = relativeLayoutEditarPerfil.findViewById(R.id.editDataNascEditar);
-        btnSalvarDados = relativeLayoutEditarPerfil.findViewById(R.id.btnSalvarDados);
+        Button btnSalvarDados = relativeLayoutEditarPerfil.findViewById(R.id.btnSalvarDados);
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -162,30 +168,24 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editGeneroEditar.setAdapter(adapter);
 
-        editDataNascEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int ano = cal.get(Calendar.YEAR);
-                int mes = cal.get(Calendar.MONTH);
-                int dia = cal.get(Calendar.DAY_OF_MONTH);
+        editDataNascEditar.setOnClickListener(view -> {
+            Calendar cal = Calendar.getInstance();
+            int ano = cal.get(Calendar.YEAR);
+            int mes = cal.get(Calendar.MONTH);
+            int dia = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MeuPerfilActivity.this,
-                        R.style.DialogTheme,
-                        mDateSetListener,
-                        ano,mes,dia);
-                dialog.show();
-            }
+            DatePickerDialog dialog = new DatePickerDialog(
+                    MeuPerfilActivity.this,
+                    R.style.DialogTheme,
+                    mDateSetListener,
+                    ano, mes, dia);
+            dialog.show();
         });
 
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int ano, int mes, int dia) {
-                mes = mes + 1;
-                String date = dia + "-" + mes + "-" + ano;
-                editDataNascEditar.setText(date);
-            }
+        mDateSetListener = (datePicker, ano, mes, dia) -> {
+            mes = mes + 1;
+            String date = dia + "-" + mes + "-" + ano;
+            editDataNascEditar.setText(date);
         };
 
         //clique
@@ -194,7 +194,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         btnCancelarEdicao.setOnClickListener(MeuPerfilActivity.this);
         btnSalvarDados.setOnClickListener(MeuPerfilActivity.this);
         btnCamara.setOnClickListener(MeuPerfilActivity.this);
-        editGeneroEditar.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) MeuPerfilActivity.this);
+        editGeneroEditar.setOnItemSelectedListener(MeuPerfilActivity.this);
         btnGaleria.setOnClickListener(MeuPerfilActivity.this);
         btnCancelar_dialog.setOnClickListener(MeuPerfilActivity.this);
 
@@ -217,42 +217,40 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
 
             //--
-            if (usuario.getTelefone() != null){
+            if (usuario.getTelefone() != null) {
                 numeroTelef.setText(usuario.getTelefone());
                 editTelefoneEditar.setText(usuario.getTelefone());
             }
-            if (usuario.getProvincia() != null){
+            if (usuario.getProvincia() != null) {
                 valorProvincia.setText(usuario.getProvincia());
                 editCidadeEditar.setText(usuario.getProvincia());
             }
-            if (usuario.getMunicipio() != null){
+            if (usuario.getMunicipio() != null) {
                 valorMunicipio.setText(usuario.getMunicipio());
                 editMunicipioEditar.setText(usuario.getMunicipio());
             }
-            if (usuario.getRua() != null){
+            if (usuario.getRua() != null) {
                 valorRua.setText(usuario.getRua());
                 editRuaEditar.setText(usuario.getRua());
             }
-            if (usuario.getSexo() != null){
+            if (usuario.getSexo() != null) {
                 valorGenero.setText(usuario.getSexo());
                 String genero = usuario.getSexo().toUpperCase();
-                if (genero.equals("MASCULINO")){
+                if (genero.equals("MASCULINO")) {
                     editGeneroEditar.setSelection(1);
-                }else {
+                } else {
                     editGeneroEditar.setSelection(0);
                 }
             }
             if (usuario.getDataNascimento() != null) {
-                Log.d("PERFIL",usuario.getDataNascimento());
                 String resultado = usuario.getDataNascimento();
                 String[] partes = resultado.split("-");
                 String ano = partes[0];
                 String mes = partes[1];
                 String dia = partes[2];
-                Log.d("snansa",ano + "---" + mes + "---" + dia.substring(0,2));
-                Log.d("snansa",usuario.getDataNascimento());
-                editDataNascEditar.setText(dia.substring(0,2)+"-"+mes+"-"+ano);
-                valorDataNasc.setText(dia.substring(0,2)+"-"+mes+"-"+ano);
+                String valorFormatado = dia.substring(0, 2) + "-" + mes + "-" + ano;
+                editDataNascEditar.setText(valorFormatado);
+                valorDataNasc.setText(valorFormatado);
             }
 
             if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
@@ -261,7 +259,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfil);
-            }else {
+            } else {
                 tv_inicial_nome_edit.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
 
@@ -271,7 +269,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(iv_imagem_perfilEditar);
-            }else {
+            } else {
                 tv_inicial_nome.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
 
@@ -284,7 +282,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.btnEditarPerfil:
                 setSupportActionBar(toolbar_editPerfil);
-                if (getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }
@@ -295,13 +293,13 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnCancelarEdicao:
                 setSupportActionBar(toolbar_meu_perfil);
 
-                if (getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }
                 View viewAtual = this.getCurrentFocus();
                 if (viewAtual != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 relativeLayoutEditarPerfil.setVisibility(View.GONE);
@@ -330,103 +328,85 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-        private void pegarFotoGaleria () {
-            Intent galeria = new Intent();
-            galeria.setAction(Intent.ACTION_GET_CONTENT);
-            galeria.setType("image/*");
-            startActivityForResult(galeria, ESCOLHER_FOTO_GALERIA);
+    private void pegarFotoGaleria() {
+        Intent galeria = new Intent();
+        galeria.setAction(Intent.ACTION_GET_CONTENT);
+        galeria.setType("image/*");
+        startActivityForResult(galeria, ESCOLHER_FOTO_GALERIA);
+    }
+
+    private void verificarPermissaoFotoCameraGaleria() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSAO_FOTO);
         }
 
-        private void verificarPermissaoFotoCameraGaleria () {
-            if (Build.VERSION.SDK_INT >= 23) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSAO_FOTO);
-
-            } else {
-            }
-
-            if (ContextCompat.checkSelfPermission(MeuPerfilActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MeuPerfilActivity.this,
-                    Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                //Toast.makeText(view.getContext(),"Precisa aceitar as permissões para escolher uma foto de perfil",Toast.LENGTH_SHORT).show();
-            } else {
-                caixa_dialogo_foto.show();
-            }
+        if (ContextCompat.checkSelfPermission(MeuPerfilActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(MeuPerfilActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            //Toast.makeText(view.getContext(),"Precisa aceitar as permissões para escolher uma foto de perfil",Toast.LENGTH_SHORT).show();
+        } else {
+            caixa_dialogo_foto.show();
         }
+    }
 
-        private void pegarFotoCamara () {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, TIRAR_FOTO_CAMARA);
-        }
+    private void pegarFotoCamara() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TIRAR_FOTO_CAMARA);
+    }
 
-        private void cortarImagemCrop (Uri imagemUri){
-            CropImage.activity(imagemUri)
-                    .setActivityTitle("RUMOSTORE")
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setCropShape(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? CropImageView.CropShape.RECTANGLE : CropImageView.CropShape.OVAL)
-                    .start(MeuPerfilActivity.this);
-        }
-
-        public static void esconderTeclado (Activity activity){
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(), 0);
-        }
+    private void cortarImagemCrop(Uri imagemUri) {
+        CropImage.activity(imagemUri)
+                .setActivityTitle("RUMOSTORE")
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? CropImageView.CropShape.RECTANGLE : CropImageView.CropShape.OVAL)
+                .start(MeuPerfilActivity.this);
+    }
 
     @Override
-    public void onActivityResult ( int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ESCOLHER_FOTO_GALERIA && resultCode == RESULT_OK && data != null) {
-            Log.i("escolherFoto", "entroueeeeeee");
             selectedImage = CropImage.getPickImageResultUri(MeuPerfilActivity.this, data);
             cortarImagemCrop(selectedImage);
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            Log.i("ressss", "entroueeeeeee");
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK && data !=null) {
+            if (resultCode == RESULT_OK && data != null) {
                 Uri selectedImage = result.getUri();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
                     iv_imagem_perfilEditar.setImageBitmap(bitmap);
                     imagem_editar_foto.setVisibility(View.GONE);
                     postPath = selectedImage.getPath();
-                    Log.i("ressss", "entroueeeeeeeSalvando");
                     salvarFoto();
                 } catch (IOException e) {
-                    Log.i("ressss", "entroueeeeeeeSalvandoTRY");
+                    Log.i(TAG, "ERRO CROPIMAGE" + e.getMessage());
                     e.printStackTrace();
                 }
-            }else {
-                Log.i("ressss", "resultFalhou");
             }
-        }else {
-            Log.i("ressss", "erorr");
         }
 
-        if (requestCode == TIRAR_FOTO_CAMARA &&  resultCode == RESULT_OK  && data != null){
-            Bitmap bitmap1 = (Bitmap) data.getExtras().get("data");
-            Log.i("urirranadka",data.getExtras().get("data") + "algumacoisa");
-                Bitmap fotoReduzida = reduzirImagem(bitmap1,300);
-                Log.i("urirranadka",bitmap1.getWidth() + "algumacoisa");
+        if (requestCode == TIRAR_FOTO_CAMARA && resultCode == RESULT_OK && data != null) {
+            try {
+                Bitmap bitmap1 = (Bitmap) data.getExtras().get("data");
+                Bitmap fotoReduzida = reduzirImagem(bitmap1, 300);
+                Log.i("urirranadka", bitmap1.getWidth() + "algumacoisa");
                 iv_imagem_perfilEditar.setImageBitmap(fotoReduzida);
                 imagem_editar_foto.setVisibility(View.GONE);
 
-                Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
-                selectedImage = tempUri;
-                salvarFotoComprimida(selectedImage,fotoReduzida);
+                selectedImage = getImageUri(getApplicationContext(), fotoReduzida);
+                salvarFotoComprimida(selectedImage, fotoReduzida);
+            } catch (Exception e) {
+                Log.i(TAG, "Erro onActivityResult" + e.getMessage());
+            }
 
         }
     }
 
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
 
     private File salvarBitmap(Bitmap bitmap, String path) {
         File file = null;
@@ -469,7 +449,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         int width = 10;
         int height = 10;
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -481,260 +461,244 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    private boolean verificaUriFoto() {
+        return selectedImage != null;
+    }
 
-    private boolean verificaUriFoto(){
-            return selectedImage != null;
-        }
+    private boolean verificarCampos() {
 
-        private boolean verificarCampos () {
-
+        try {
             telefone = editTelefoneEditar.getText().toString().trim();
             cidade = editCidadeEditar.getText().toString().trim();
             municipio = editMunicipioEditar.getText().toString().trim();
             rua = editRuaEditar.getText().toString().trim();
             genero = valorGeneroItem;
             dataNasc = editDataNascEditar.getText().toString().trim();
-
-            //Se dataNasc estiver vazia -> String[] partes gera Array_IndexOutofbounds_Exception
-            if (!dataNasc.equals("") || !TextUtils.isEmpty(dataNasc)){
-                Log.i("datanasccc",dataNasc);
-                String resultado = dataNasc;
-                String[] partes = resultado.split("-");
-                String dia = partes[0];
-                String mes = partes[1];
-                String ano = partes[2];
-                dataNasc = ano+"-"+mes+"-"+dia;
-                Log.d("snansaVxxxx",ano + "---" + mes + "---" + dia+ "----------------:>" + dataNasc);
-            }
-
-
-
-            if (telefone.isEmpty()) {
-                editTelefoneEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            if (cidade.isEmpty()) {
-                editCidadeEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            if (municipio.isEmpty()) {
-                editCidadeEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            if (rua.isEmpty()) {
-                editCidadeEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            if (genero.isEmpty()) {
-                editCidadeEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            if (dataNasc.isEmpty()) {
-                editCidadeEditar.setError("Preencha o campo.");
-                return false;
-            }
-
-            return true;
+        } catch (Exception e) {
+            Log.i(TAG, "erroVerifCampo" + e.getMessage());
         }
 
-        private void salvarFoto(){
-            File file = new File(postPath);
-            RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)),file);
-            MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem",file.getName(),filepart);
-
-            if (verificaUriFoto()){
-                progressDialog.setMessage("Salvando a foto de perfil.");
-                progressDialog.show();
-                Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(Integer.valueOf(id),file1);
-
-                enviarFoto.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.dismiss();
-                            Toast.makeText(MeuPerfilActivity.this,
-                                    "Foto atualizada com sucesso.!",
-                                    Toast.LENGTH_SHORT).show();
-//
-                            tv_inicial_nome.setVisibility(View.INVISIBLE);
-                            tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
-                        } else {
-                            progressDialog.dismiss();
-                            ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                            Toast.makeText(MeuPerfilActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
-                            try {
-                                Log.d("sbaksanR", response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Log.d("sbaksan", response.code() + " dbsbfksbfks");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        verifConecxao();
-                        progressDialog.dismiss();
-                        switch (t.getMessage()) {
-                            case "timeout":
-                                Toast.makeText(MeuPerfilActivity.this,
-                                        "Impossivel se comunicar. Internet lenta.",
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                Log.d("errordaboy", t.getMessage() + "fdbfjsbfkbs" + "FAILURE");
-                                Toast.makeText(MeuPerfilActivity.this,
-                                        "Algum problema aconteceu. Tente novamente.",
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-            }
-
+        //Se dataNasc estiver vazia -> String[] partes gera Array_IndexOutofbounds_Exception
+        if (!dataNasc.equals("") || !TextUtils.isEmpty(dataNasc)) {
+            String resultado = dataNasc;
+            String[] partes = resultado.split("-");
+            String dia = partes[0];
+            String mes = partes[1];
+            String ano = partes[2];
+            dataNasc = ano + "-" + mes + "-" + dia;
         }
 
-        private void alterarDados () {
+        if (telefone.isEmpty()) {
+            editTelefoneEditar.setError(msgErro);
+            return false;
+        }
 
-            progressDialog.setMessage("Aguarde...!");
+        if (cidade.isEmpty()) {
+            editCidadeEditar.setError(msgErro);
+            return false;
+        }
+
+        if (municipio.isEmpty()) {
+            editCidadeEditar.setError(msgErro);
+            return false;
+        }
+
+        if (rua.isEmpty()) {
+            editCidadeEditar.setError(msgErro);
+            return false;
+        }
+
+        if (genero.isEmpty()) {
+            editCidadeEditar.setError(msgErro);
+            return false;
+        }
+
+        if (dataNasc.isEmpty()) {
+            editCidadeEditar.setError(msgErro);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void salvarFoto() {
+        File file = new File(postPath);
+        RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)), file);
+        MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem", file.getName(), filepart);
+
+        if (verificaUriFoto()) {
+            progressDialog.setMessage(msgSalvandoFoto);
             progressDialog.show();
-            erroLayout.setVisibility(View.GONE);
+            Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(Integer.valueOf(id), file1);
 
-            relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
-            Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
-
-            //------------------------
-            call.enqueue(new Callback<Void>() {
+            enviarFoto.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         progressDialog.dismiss();
-                        Intent intent = new Intent(MeuPerfilActivity.this,HomeInicialActivity.class);
-                        Toast.makeText(MeuPerfilActivity.this, "Os dados foram alterados com sucesso.", Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
-                        finish();
+                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtFotoAtualizada);
+                        tv_inicial_nome.setVisibility(View.INVISIBLE);
+                        tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
                     } else {
                         progressDialog.dismiss();
                         ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                        Toast.makeText(MeuPerfilActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
-                        try {
-                            Log.d("sbaksanR", response.errorBody().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        mostrarMensagem(MeuPerfilActivity.this, errorResponce.getError());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                     verifConecxao();
                     progressDialog.dismiss();
-                }
-            });
-        }
-
-        private void verifConecxao () {
-
-                ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-                if (netInfo == null) {
-                    mostarMsnErro();
-                } else {
-                    if (!MetodosComuns.temTrafegoNaRede(MeuPerfilActivity.this))
-                        MetodosComuns.mostrarMensagem(MeuPerfilActivity.this,R.string.txtMsg);
-                    else
-                        MetodosComuns.mostrarMensagem(MeuPerfilActivity.this,R.string.txtProblemaMsg);
-                }
-        }
-
-        private void mostarMsnErro () {
-
-            if (erroLayout.getVisibility() == View.GONE) {
-                erroLayout.setVisibility(View.VISIBLE);
-                relativeLayoutEditarPerfil.setVisibility(View.GONE);
-            }
-
-            btnVoltar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
-                    erroLayout.setVisibility(View.GONE);
-                }
-            });
-        }
-
-        //------------------------------------------------------------------------
-        private class BackgroundImageResize extends AsyncTask<Uri,Integer,byte[]> {
-
-            Bitmap mBitmap;
-
-            public BackgroundImageResize(Bitmap bitmap){
-                if (bitmap != null){
-                    this.mBitmap=bitmap;
-                }
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Toast.makeText(MeuPerfilActivity.this,"Comprimindo a imagem",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            protected byte[] doInBackground(Uri... uris) {
-                Log.d("TAGdadakdnak","doInBackground: started");
-                if (mBitmap ==null){
-                    try {
-                        //MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),uris[0]);
-                        RotateBitmap rotateBitmap = new RotateBitmap();
-                        mBitmap = rotateBitmap.HandleSamplingAndRotationBitmap(MeuPerfilActivity.this,uris[0]);
-                    }catch (IOException e){
-                        Log.e("TAGBIGMAT","doInBackground: IOException: " + e.getMessage());
+                    if (!conexaoInternetTrafego(MeuPerfilActivity.this)) {
+                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtMsg);
+                    } else if ("timeout".equals(t.getMessage())) {
+                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtTimeout);
+                    } else {
+                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtProblemaMsg);
                     }
-                }else {
-                    Log.d("TAGEROOO","doInBackground: mwgabytes before compression: nagaaaa " );
+                    Log.i(TAG, "onFailure" + t.getMessage());
                 }
-                byte[] bytes = null;
-                Log.d("TAGEROOO","doInBackground: mwgabytes before compression: " + mBitmap.getByteCount() / 1000000);
-                bytes = getBytesFromBitmap(mBitmap,50);
-                Log.d("TAG","doInBackground: mwgabytes before compression: " + bytes.length / 1000000);
-                return bytes;
+            });
+        }
+
+    }
+
+    private void alterarDados() {
+
+        progressDialog.setMessage(msgAprocessar);
+        progressDialog.show();
+        erroLayout.setVisibility(View.GONE);
+
+        relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
+        Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(MeuPerfilActivity.this, HomeInicialActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mostrarMensagem(MeuPerfilActivity.this, msgDadosAlterados);
+                    startActivity(intent);
+                } else {
+                    progressDialog.dismiss();
+                    ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                    mostrarMensagem(MeuPerfilActivity.this, errorResponce.getError());
+                }
             }
 
             @Override
-            protected void onPostExecute(byte[] bytes) {
-                super.onPostExecute(bytes);
-                mUploadBytes = bytes;
-
-                //SALVAR FOTOOOOOO
-                Bitmap imagemComprimida = BitmapFactory.decodeByteArray(mUploadBytes, 0, mUploadBytes.length);
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                verifConecxao();
+                if (!conexaoInternetTrafego(MeuPerfilActivity.this)) {
+                    mostrarMensagem(MeuPerfilActivity.this, R.string.txtMsg);
+                } else if ("timeout".equals(t.getMessage())) {
+                    mostrarMensagem(MeuPerfilActivity.this, R.string.txtTimeout);
+                } else {
+                    mostrarMensagem(MeuPerfilActivity.this, R.string.txtProblemaMsg);
+                }
+                Log.i(TAG, "onFailure" + t.getMessage());
                 progressDialog.dismiss();
-                Uri tempUri = getImageUri(getApplicationContext(), imagemComprimida);
-                selectedImage = tempUri;
-                //Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
-                File foto = salvarBitmap(imagemComprimida,tempUri.getPath());
-                postPath = foto.getPath();
-                //execute the upload task
-                salvarFoto();
+            }
+        });
+    }
+
+    private void verifConecxao() {
+
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null) {
+            mostarMsnErro();
+        } else {
+            if (!MetodosComuns.temTrafegoNaRede(MeuPerfilActivity.this))
+                MetodosComuns.mostrarMensagem(MeuPerfilActivity.this, R.string.txtMsg);
+            else
+                MetodosComuns.mostrarMensagem(MeuPerfilActivity.this, R.string.txtProblemaMsg);
+        }
+    }
+
+    private void mostarMsnErro() {
+
+        if (erroLayout.getVisibility() == View.GONE) {
+            erroLayout.setVisibility(View.VISIBLE);
+            relativeLayoutEditarPerfil.setVisibility(View.GONE);
+        }
+
+        btnVoltar.setOnClickListener(view -> {
+            relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
+            erroLayout.setVisibility(View.GONE);
+        });
+    }
+
+    //------------------------------------------------------------------------
+    private class BackgroundImageResize extends AsyncTask<Uri, Integer, byte[]> {
+
+        Bitmap mBitmap;
+
+        public BackgroundImageResize(Bitmap bitmap) {
+            if (bitmap != null) {
+                this.mBitmap = bitmap;
             }
         }
-        //------------------------------------------------------------------------
 
-    private void salvarFotoComprimida(Uri imagePath,Bitmap bitmap) {
-        Log.d("TAG","uploadNewPhoto: uploading a new image uri to storage.");
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(MeuPerfilActivity.this, "Comprimindo a imagem", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected byte[] doInBackground(Uri... uris) {
+            Log.d("TAGdadakdnak", "doInBackground: started");
+            if (mBitmap == null) {
+                try {
+                    //MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),uris[0]);
+                    RotateBitmap rotateBitmap = new RotateBitmap();
+                    mBitmap = rotateBitmap.HandleSamplingAndRotationBitmap(MeuPerfilActivity.this, uris[0]);
+                } catch (IOException e) {
+                    Log.e("TAGBIGMAT", "doInBackground: IOException: " + e.getMessage());
+                }
+            } else {
+                Log.d("TAGEROOO", "doInBackground: mwgabytes before compression: nagaaaa ");
+            }
+            byte[] bytes = null;
+            Log.d("TAGEROOO", "doInBackground: mwgabytes before compression: " + mBitmap.getByteCount() / 1000000);
+            bytes = getBytesFromBitmap(mBitmap, 50);
+            Log.d("TAG", "doInBackground: mwgabytes before compression: " + bytes.length / 1000000);
+            return bytes;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] bytes) {
+            super.onPostExecute(bytes);
+            byte[] mUploadBytes = bytes;
+
+            //SALVAR FOTOOOOOO
+            Bitmap imagemComprimida = BitmapFactory.decodeByteArray(mUploadBytes, 0, mUploadBytes.length);
+            progressDialog.dismiss();
+            Uri tempUri = getImageUri(getApplicationContext(), imagemComprimida);
+            selectedImage = tempUri;
+            //Uri tempUri = getImageUri(getApplicationContext(), fotoReduzida);
+            File foto = salvarBitmap(imagemComprimida, tempUri.getPath());
+            postPath = foto.getPath();
+            //execute the upload task
+            salvarFoto();
+        }
+    }
+    //------------------------------------------------------------------------
+
+    private void salvarFotoComprimida(Uri imagePath, Bitmap bitmap) {
+        Log.d("TAG", "uploadNewPhoto: uploading a new image uri to storage.");
         BackgroundImageResize resize = new BackgroundImageResize(bitmap);
         resize.execute(imagePath);
 
     }
 
-    public static byte[] getBytesFromBitmap(Bitmap bitmap,int quality){
+    public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,quality,stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         return stream.toByteArray();
     }
 
@@ -751,10 +715,12 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent(MeuPerfilActivity.this,HomeInicialActivity.class);
+            Intent intent = new Intent(MeuPerfilActivity.this, HomeInicialActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }}
+    }
+}
 

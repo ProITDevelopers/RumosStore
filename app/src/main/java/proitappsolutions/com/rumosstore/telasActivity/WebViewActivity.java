@@ -1,38 +1,33 @@
 package proitappsolutions.com.rumosstore.telasActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
-import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgTentarDeNovo;
+
+@SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends AppCompatActivity  {
 
     private RelativeLayout coordinatorLayout;
@@ -60,7 +55,7 @@ public class WebViewActivity extends AppCompatActivity  {
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         errorLayout = findViewById(R.id.erroLayout);
         btnTentarDeNovo = findViewById(R.id.btn);
-        btnTentarDeNovo.setText("Tentar de Novo");
+        btnTentarDeNovo.setText(msgTentarDeNovo);
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
 
         progressBar = findViewById(R.id.linearProgresso);
@@ -69,27 +64,36 @@ public class WebViewActivity extends AppCompatActivity  {
         if (getIntent().getExtras() != null){
             String cor = getIntent().getStringExtra("cor");
             verifConecxao(getIntent().getStringExtra("site"));
-            if (cor.equals("mercado")) {
-                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.mercado));
-                ColorDrawable corMerdado = new ColorDrawable(ContextCompat.getColor(this, R.color.mercado));
-                getSupportActionBar().setBackgroundDrawable(corMerdado);
-                setSupportActionBar(toolbar);
-            }else if (cor.equals("vanguarda")) {
-                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.vanguarda));
-                ColorDrawable corVanguarda = new ColorDrawable(ContextCompat.getColor(this, R.color.vanguarda));
-                getSupportActionBar().setBackgroundDrawable(corVanguarda);
-            }else if (cor.equals("rumo")){
-                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
-                ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
-                getSupportActionBar().setBackgroundDrawable(corRumo);
-            }else if (cor.equals("instagram")){
-                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
-                ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
-                getSupportActionBar().setBackgroundDrawable(corRumo);
-            }else if (cor.equals("facebook")){
-                Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.facebook_webview));
-                ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook_webview));
-                getSupportActionBar().setBackgroundDrawable(corRumo);
+            switch (cor) {
+                case "mercado":
+                    Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.mercado));
+                    ColorDrawable corMerdado = new ColorDrawable(ContextCompat.getColor(this, R.color.mercado));
+                    getSupportActionBar().setBackgroundDrawable(corMerdado);
+                    setSupportActionBar(toolbar);
+                    break;
+                case "vanguarda":
+                    Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.vanguarda));
+                    ColorDrawable corVanguarda = new ColorDrawable(ContextCompat.getColor(this, R.color.vanguarda));
+                    getSupportActionBar().setBackgroundDrawable(corVanguarda);
+                    break;
+                case "rumo": {
+                    Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+                    ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
+                    getSupportActionBar().setBackgroundDrawable(corRumo);
+                    break;
+                }
+                case "instagram": {
+                    Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
+                    ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
+                    getSupportActionBar().setBackgroundDrawable(corRumo);
+                    break;
+                }
+                case "facebook": {
+                    Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.facebook_webview));
+                    ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook_webview));
+                    getSupportActionBar().setBackgroundDrawable(corRumo);
+                    break;
+                }
             }
         }
     }
@@ -172,44 +176,6 @@ public class WebViewActivity extends AppCompatActivity  {
         });
     }
 
-    public static boolean carregarWebViewUniversal(Context mcontext){
-        String site = "www.google.com";
-        final boolean[] valorRetorno = new boolean[1];
-        WebView webViewInternet = null;//= R.layout.activity_web_view.findViewById(R.id.webViewInternet);
-        //webView.getSettings().setJavaScriptEnabled(true);
-        webViewInternet.setWebViewClient(new WebViewClient());
-        webViewInternet.loadUrl(site);
-
-        webViewInternet.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-                super.onReceivedSslError(view, handler, error);
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String descricaoErro, String failingUrl) {
-                super.onReceivedError(view, errorCode, descricaoErro, failingUrl);
-                if (errorCode == -2) {
-                    valorRetorno[0] = false;
-                }
-            }
-        });
-        webViewInternet.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                valorRetorno[0] = true;
-            }
-        });
-
-        return valorRetorno[0];
-    }
-
-    public void receberErroWebView(WebView view, WebResourceRequest request, WebResourceError error,String site){
-
-        mostarMsnErro(site);
-        MetodosComuns.mostrarMensagem(WebViewActivity.this,R.string.txtMsg);
-    }
-
     private void mostarMsnErro(String site){
 
         if (errorLayout.getVisibility() == View.GONE){
@@ -217,13 +183,10 @@ public class WebViewActivity extends AppCompatActivity  {
             coordinatorLayout.setVisibility(View.GONE);
         }
 
-        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                coordinatorLayout.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
-                verifConecxao(site);
-            }
+        btnTentarDeNovo.setOnClickListener(view -> {
+            coordinatorLayout.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.GONE);
+            verifConecxao(site);
         });
     }
 

@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import com.squareup.picasso.Picasso;
@@ -37,7 +36,6 @@ import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorUtils;
-import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.fragmentos.FragHomeInicial;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
 import proitappsolutions.com.rumosstore.testeRealmDB.QuiosqueActivity;
@@ -45,41 +43,51 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAprocessar;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgCamposDiferentes;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgDesejaTerminarSessao;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenha;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSenhaAlterada;
+
 
 public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    private String TAG = "HomeInicialActivityDebug";
     private CircleImageView circleImageView;
-    private TextView txtName,tv_inicial_nome,atualizar_senha_dialg;
+    private TextView txtName;
+    private TextView tv_inicial_nome;
     private TextView txtEmail;
     private Toolbar toolbar;
     private ProgressDialog progressDialog;
-    private Button btn_cancelar,btn_cancelar_dialog,btn_redif_senha_dialog;
-    private ShowHidePasswordEditText edtSenhaAntiga,edtConfSenhaNova;
-    private Dialog caixa_dialogo_cancelar,dialogSenhaEnviarEmailSenhaNova;
-    public DataUserApi dataUserApi  = new DataUserApi();
+    private ShowHidePasswordEditText edtSenhaAntiga, edtConfSenhaNova;
+    private Dialog caixa_dialogo_cancelar, dialogSenhaEnviarEmailSenhaNova;
+    public DataUserApi dataUserApi = new DataUserApi();
     ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
+        // Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_home_inicial);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Media Rumo");
         setSupportActionBar(toolbar);
 
-        progressDialog = new ProgressDialog(HomeInicialActivity.this,R.style.MyAlertDialogStyle);
+        progressDialog = new ProgressDialog(HomeInicialActivity.this, R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(null); 
+        navigationView.setItemIconTintList(null);
         View headerView = navigationView.getHeaderView(0);
 
-        circleImageView =  headerView.findViewById(R.id.iv_imagem_perfil);
+        circleImageView = headerView.findViewById(R.id.iv_imagem_perfil);
         txtName = headerView.findViewById(R.id.txtName);
-        txtEmail =  headerView.findViewById(R.id.txtEmail);
+        txtEmail = headerView.findViewById(R.id.txtEmail);
         tv_inicial_nome = headerView.findViewById(R.id.tv_inicial_nome);
 
         caixa_dialogo_cancelar = new Dialog(HomeInicialActivity.this);
@@ -91,7 +99,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         Button btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
         TextView diagolo_titulo = caixa_dialogo_cancelar.findViewById(R.id.diagolo_titulo);
         btnCancelar_dialog.setOnClickListener(HomeInicialActivity.this);
-        diagolo_titulo.setText("Deseja terminar a sessão ?");
+        diagolo_titulo.setText(msgDesejaTerminarSessao);
         btnSim.setOnClickListener(HomeInicialActivity.this);
         btnNao.setOnClickListener(HomeInicialActivity.this);
 
@@ -99,11 +107,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         dialogSenhaEnviarEmailSenhaNova = new Dialog(HomeInicialActivity.this);
         dialogSenhaEnviarEmailSenhaNova.setContentView(R.layout.dialogo_activity_atualizar_senha);
         dialogSenhaEnviarEmailSenhaNova.setCancelable(false);
-        atualizar_senha_dialg = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.atualizar_senha);
+        TextView atualizar_senha_dialg = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.atualizar_senha);
         edtSenhaAntiga = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.edtSenhaNova);
         edtConfSenhaNova = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.edtConfSenha);
-        btn_redif_senha_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_redif_senha);
-        btn_cancelar_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_cancelar);
+        Button btn_redif_senha_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_redif_senha);
+        Button btn_cancelar_dialog = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_cancelar);
         btn_redif_senha_dialog.setOnClickListener(HomeInicialActivity.this);
         btn_cancelar_dialog.setOnClickListener(HomeInicialActivity.this);
         atualizar_senha_dialg.setText(R.string.hit_atualizar_senha);
@@ -112,18 +120,18 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         Common.mCurrentUser = AppDatabase.getInstance().getUser();
         loaduserProfile(Common.mCurrentUser);
 
-        if (Common.mCurrentUser!=null){
+        if (Common.mCurrentUser != null) {
             verifConecxao(Common.mCurrentUser);
-            if (savedInstanceState == null){
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,new FragHomeInicial()).commit();
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new FragHomeInicial()).commit();
                 navigationView.setCheckedItem(R.id.nav_home);
             }
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_abre, R.string.navigation_drawer_abre){
+                this, drawer, toolbar, R.string.navigation_drawer_abre, R.string.navigation_drawer_abre) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -146,28 +154,28 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     @Override
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             this.moveTaskToBack(true);
         }
     }
 
-    private void loaduserProfile(Usuario usuario){
+    private void loaduserProfile(Usuario usuario) {
 
-        if (usuario !=null){
+        if (usuario != null) {
 
             txtName.setText(usuario.getNomeCliente());
             txtEmail.setText(usuario.getEmail());
 
-            if (usuario.getFoto()!=null || !TextUtils.isEmpty(usuario.getFoto())){
+            if (usuario.getFoto() != null || !TextUtils.isEmpty(usuario.getFoto())) {
 
                 tv_inicial_nome.setVisibility(View.GONE);
                 Picasso.with(HomeInicialActivity.this)
                         .load(usuario.getFoto())
                         .placeholder(R.drawable.ic_avatar)
                         .into(circleImageView);
-            }else{
+            } else {
                 tv_inicial_nome.setText(String.valueOf(usuario.getNomeCliente().charAt(0)).toUpperCase());
             }
 
@@ -177,16 +185,11 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     }
 
     private void verifConecxao(Usuario usuario) {
-        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (conMgr!=null){
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conMgr != null) {
             NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo != null){
-                if (!MetodosComuns.temTrafegoNaRede(HomeInicialActivity.this)){
-                    MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtMsg);
-                }else {
-                    carregarDadosdoUserApi(usuario);
-                }
+            if (netInfo != null) {
+                carregarDadosdoUserApi(usuario);
             }
         }
 
@@ -194,65 +197,71 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     private void carregarDadosdoUserApi(Usuario usuario) {
 
-            ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-            retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(usuario.getId_utilizador());
+        ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
+        retrofit2.Call<DataUserApi> callApiDados = apiInterface.getUsuarioDados(usuario.getId_utilizador());
 
-            callApiDados.enqueue(new Callback<DataUserApi>() {
-                @Override
-                public void onResponse(Call<DataUserApi> call, Response<DataUserApi> response) {
-                    if (response.isSuccessful()){
-                        dataUserApi = response.body();
+        callApiDados.enqueue(new Callback<DataUserApi>() {
+            @Override
+            public void onResponse(@NonNull Call<DataUserApi> call, @NonNull Response<DataUserApi> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    dataUserApi = response.body();
 
-                        Common.mCurrentUser = new Usuario();
-                        if (dataUserApi.getDataDados().getId_utilizador() != null )
-                            Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
+                    Common.mCurrentUser = new Usuario();
+                    if (dataUserApi.getDataDados().getId_utilizador() != null)
+                        Common.mCurrentUser.setId_utilizador(dataUserApi.getDataDados().getId_utilizador());
 
-                        if (dataUserApi.getDataDados().getNomeCliente() != null )
-                            Common.mCurrentUser.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
+                    if (dataUserApi.getDataDados().getNomeCliente() != null)
+                        Common.mCurrentUser.setNomeCliente(dataUserApi.getDataDados().getNomeCliente());
 
-                        if (dataUserApi.getDataDados().getEmail() != null )
-                            Common.mCurrentUser.setEmail(dataUserApi.getDataDados().getEmail());
+                    if (dataUserApi.getDataDados().getEmail() != null)
+                        Common.mCurrentUser.setEmail(dataUserApi.getDataDados().getEmail());
 
-                        if (dataUserApi.getDataDados().getFoto() != null )
-                            Common.mCurrentUser.setFoto(dataUserApi.getDataDados().getFoto());
+                    if (dataUserApi.getDataDados().getFoto() != null)
+                        Common.mCurrentUser.setFoto(dataUserApi.getDataDados().getFoto());
 
-                        if (dataUserApi.getDataDados().getSexo() != null )
-                            Common.mCurrentUser.setSexo(dataUserApi.getDataDados().getSexo());
+                    if (dataUserApi.getDataDados().getSexo() != null)
+                        Common.mCurrentUser.setSexo(dataUserApi.getDataDados().getSexo());
 
-                        if (dataUserApi.getDataDados().getTelefone() != null )
-                            Common.mCurrentUser.setTelefone(dataUserApi.getDataDados().getTelefone());
+                    if (dataUserApi.getDataDados().getTelefone() != null)
+                        Common.mCurrentUser.setTelefone(dataUserApi.getDataDados().getTelefone());
 
-                        if (dataUserApi.getDataDados().getDataNascimento() != null )
-                            Common.mCurrentUser.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
+                    if (dataUserApi.getDataDados().getDataNascimento() != null)
+                        Common.mCurrentUser.setDataNascimento(dataUserApi.getDataDados().getDataNascimento());
 
-                        if (dataUserApi.getDataDados().getProvincia() != null )
-                            Common.mCurrentUser.setProvincia(dataUserApi.getDataDados().getProvincia());
+                    if (dataUserApi.getDataDados().getProvincia() != null)
+                        Common.mCurrentUser.setProvincia(dataUserApi.getDataDados().getProvincia());
 
-                        if (dataUserApi.getDataDados().getMunicipio() != null )
-                            Common.mCurrentUser.setMunicipio(dataUserApi.getDataDados().getMunicipio());
+                    if (dataUserApi.getDataDados().getMunicipio() != null)
+                        Common.mCurrentUser.setMunicipio(dataUserApi.getDataDados().getMunicipio());
 
-                        if (dataUserApi.getDataDados().getRua() != null )
-                            Common.mCurrentUser.setRua(dataUserApi.getDataDados().getRua());
+                    if (dataUserApi.getDataDados().getRua() != null)
+                        Common.mCurrentUser.setRua(dataUserApi.getDataDados().getRua());
 
 
-                        AppDatabase.getInstance().saveUser(Common.mCurrentUser);
-                        AppDatabase.getInstance().saveAuthToken(Common.mCurrentUser.getId_utilizador());
+                    AppDatabase.getInstance().saveUser(Common.mCurrentUser);
+                    AppDatabase.getInstance().saveAuthToken(Common.mCurrentUser.getId_utilizador());
 
-                        loaduserProfile(Common.mCurrentUser);
+                    loaduserProfile(Common.mCurrentUser);
 
-                    }
+                } else {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtMsgDadosUser);
                 }
+            }
 
-                @Override
-                public void onFailure(Call<DataUserApi> call, Throwable t) {
-                    if (MetodosComuns.temTrafegoNaRede(HomeInicialActivity.this)){
-                        MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtMsg);
-                    }else {
-                        MetodosComuns.mostrarMensagem(HomeInicialActivity.this,R.string.txtProblemaMsg);
-                    }
+            @Override
+            public void onFailure(@NonNull Call<DataUserApi> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
+                if (!conexaoInternetTrafego(HomeInicialActivity.this)) {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtMsg);
+                } else if ("timeout".equals(t.getMessage())) {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtTimeout);
+                } else {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtProblemaMsg);
                 }
-            });
-        }
+                Log.i(TAG, "onFailure" + t.getMessage());
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -263,7 +272,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.action_alterar_senha:
                 alterarSenha();
                 break;
@@ -288,10 +297,10 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             FragHomeInicial fragHomeInicial = new FragHomeInicial();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container,fragHomeInicial);
+            fragmentTransaction.replace(R.id.container, fragHomeInicial);
             fragmentTransaction.commit();
-        }else if (id == R.id.nav_meu_perfil) {
-            Intent intent = new Intent(HomeInicialActivity.this,MeuPerfilActivity.class);
+        } else if (id == R.id.nav_meu_perfil) {
+            Intent intent = new Intent(HomeInicialActivity.this, MeuPerfilActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_quiz) {
             Intent intent = new Intent(HomeInicialActivity.this, Home.class);
@@ -300,41 +309,41 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
             Intent intent = new Intent(HomeInicialActivity.this, QuiosqueActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_concurso) {
-            enviarLinkActivity("https://sorteio.mediarumo.net/","mercado",HomeInicialActivity.this);
-        }else if (id == R.id.nav_mercado) {
-            enviarLinkActivity("https://mercado.co.ao/","mercado",HomeInicialActivity.this);
+            enviarLinkActivity("https://sorteio.mediarumo.net/", "mercado", HomeInicialActivity.this);
+        } else if (id == R.id.nav_mercado) {
+            enviarLinkActivity("https://mercado.co.ao/", "mercado", HomeInicialActivity.this);
         } else if (id == R.id.nav_vanguarda) {
-            enviarLinkActivity("https://www.vanguarda.co.ao/","vanguarda",HomeInicialActivity.this);
+            enviarLinkActivity("https://www.vanguarda.co.ao/", "vanguarda", HomeInicialActivity.this);
         } else if (id == R.id.nav_rumo) {
-            enviarLinkActivity("https://mediarumo.com/","rumo",HomeInicialActivity.this);
-        }else if (id == R.id.nav_instagram) {
-            enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/","instagram",HomeInicialActivity.this);
-        }  else if (id == R.id.nav_facebook) {
-            enviarLinkActivity("https://www.facebook.com/jornalmercado/","facebook",HomeInicialActivity.this);
-        }  else if (id == R.id.nav_share) {
+            enviarLinkActivity("https://mediarumo.com/", "rumo", HomeInicialActivity.this);
+        } else if (id == R.id.nav_instagram) {
+            enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/", "instagram", HomeInicialActivity.this);
+        } else if (id == R.id.nav_facebook) {
+            enviarLinkActivity("https://www.facebook.com/jornalmercado/", "facebook", HomeInicialActivity.this);
+        } else if (id == R.id.nav_share) {
             shareTheApp();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     public void enviarLinkActivity(String s, String cor, Context context) {
-        Intent intent = new Intent(context,WebViewActivity.class);
-        intent.putExtra("site",s);
-        intent.putExtra("cor",cor);
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("site", s);
+        intent.putExtra("cor", cor);
         startActivity(intent);
     }
 
-    private void logOut(){
+    private void logOut() {
 
         AppDatabase.getInstance().clearData();
 
         caixa_dialogo_cancelar.dismiss();
 
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
 
@@ -349,7 +358,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String postData = "Obtenha o aplicativo " + appName + " para ter acesso as " + appCategory +" recentes: "+ "https://play.google.com/store/apps/details?id=" + appPackageName;
+        String postData = "Obtenha o aplicativo " + appName + " para ter acesso as " + appCategory + " recentes: " + "https://play.google.com/store/apps/details?id=" + appPackageName;
 
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Baixar Agora!");
         shareIntent.putExtra(Intent.EXTRA_TEXT, postData);
@@ -359,7 +368,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnSim:
                 logOut();
                 break;
@@ -370,88 +379,81 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                 caixa_dialogo_cancelar.dismiss();
                 break;
             case R.id.btn_redif_senha:
-                if (verificarCamposDialogo()){
+                if (verificarCamposDialogo()) {
                     redefinirSenha();
                 }
                 break;
             case R.id.btn_cancelar:
                 cancelarAtualizarSenha();
                 break;
-                
-            
+
+
         }
     }
 
     private void redefinirSenha() {
 
         //enviarNovaSenha
-        progressDialog.setMessage("A processar...!");
+        progressDialog.setMessage(msgAprocessar);
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<Void> enviarSenhaNova = apiInterface.atualizarSenha(Integer.parseInt(AppDatabase
-                .getInstance()
-                .getUser()
-                .getId_utilizador()),
+                        .getInstance()
+                        .getUser()
+                        .getId_utilizador()),
                 edtConfSenhaNova.getText().toString(),
                 edtSenhaAntiga.getText().toString()); //AQUI
 
         enviarSenhaNova.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
 
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    Toast.makeText(HomeInicialActivity.this,"A sua senha foi alterada com sucesso.!",Toast.LENGTH_SHORT).show();
+                    mostrarMensagem(HomeInicialActivity.this, msgSenhaAlterada);
                     cancelarAtualizarSenha();
                     logOut();
-                }else {
+                } else {
                     progressDialog.dismiss();
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                    Toast.makeText(HomeInicialActivity.this,errorResponce.getError(),Toast.LENGTH_SHORT).show();
+                    mostrarMensagem(HomeInicialActivity.this, errorResponce.getError());
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
-                Log.i("skansaksas",t.getMessage() + "failed");
-                //verifConecxao();
-                switch (t.getMessage()){
-                    case "timeout":
-                        Toast.makeText(HomeInicialActivity.this,
-                                "Impossivel se comunicar. Internet lenta.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(HomeInicialActivity.this,
-                                "Algum problema aconteceu.Verifica a conexão com a internet.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                if (!conexaoInternetTrafego(HomeInicialActivity.this)) {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtMsg);
+                } else if ("timeout".equals(t.getMessage())) {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtTimeout);
+                } else {
+                    mostrarMensagem(HomeInicialActivity.this, R.string.txtProblemaMsg);
                 }
+                Log.i(TAG, "onFailure" + t.getMessage());
             }
         });
 
     }
 
     private boolean verificarCamposDialogo() {
-        if (TextUtils.isEmpty(edtSenhaAntiga.getText())){
-            edtSenhaAntiga.setError("Preencha o campo");
+        if (TextUtils.isEmpty(edtSenhaAntiga.getText())) {
+            edtSenhaAntiga.setError(msgErro);
             return false;
         }
 
-        if (TextUtils.isEmpty(edtConfSenhaNova.getText())){
-            edtConfSenhaNova.setError("Preencha o campo");
+        if (TextUtils.isEmpty(edtConfSenhaNova.getText())) {
+            edtConfSenhaNova.setError(msgErro);
             return false;
         }
 
-
-        if (edtSenhaAntiga.equals(edtConfSenhaNova)){
-            edtConfSenhaNova.setError("Os campos devem ser diferentes.");
+        if (edtSenhaAntiga.equals(edtConfSenhaNova)) {
+            edtConfSenhaNova.setError(msgCamposDiferentes);
             return false;
         }
 
-        if (edtConfSenhaNova.getText().length() < 5){
-            edtConfSenhaNova.setError("Senha fraca.");
+        if (edtConfSenhaNova.getText().length() < 5) {
+            edtConfSenhaNova.setError(msgErroSenha);
             return false;
         }
         return true;

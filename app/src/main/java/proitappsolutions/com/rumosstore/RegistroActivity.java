@@ -36,6 +36,10 @@ import retrofit2.Response;
 
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenha;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenhaDiferente;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgQuasePronto;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,7 +60,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.statuscolor));
         setContentView(R.layout.activity_registro);
 
         errorLayout = findViewById(R.id.erroLayout);
@@ -110,8 +113,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         String email = editTextEmailRegistro.getText().toString().trim();
         String senha = editTextPassRegistro.getText().toString().trim();
         String senhaConf = editTextPassRegistro2.getText().toString().trim();
-        String msgErro = "Preencha o campo.";
-        String msgErroSenha = "Senha fraca..";
 
         if (nome.isEmpty()){
             editTextNomeRegistro.setError(msgErro);
@@ -144,7 +145,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (!senha.equals(senhaConf)){
-            editTextPassRegistro2.setError("As senhas devem ser iguais.");
+            editTextPassRegistro2.setError(msgErroSenhaDiferente);
             return false;
         }
         return true;
@@ -153,7 +154,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private void registrarUsuario(){
 
         errorLayout.setVisibility(View.GONE);
-        progressDialog.setMessage("Quase Pronto...!");
+        progressDialog.setMessage(msgQuasePronto);
         progressDialog.show();
 
         UsuarioApi usuarioApi = new UsuarioApi(editTextNomeRegistro.getText().toString().trim(),editTextEmailRegistro.getText().toString().trim()
@@ -192,6 +193,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 verifConecxao();
+                progressDialog.dismiss();
                 if (!conexaoInternetTrafego(RegistroActivity.this)){
                     mostrarMensagem(RegistroActivity.this,R.string.txtMsg);
                 }else  if ("timeout".equals(t.getMessage())) {
@@ -200,7 +202,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     mostrarMensagem(RegistroActivity.this,R.string.txtProblemaMsg);
                 }
                 Log.i(TAG,"onFailure" + t.getMessage());
-                progressDialog.dismiss();
+
             }
         });
 

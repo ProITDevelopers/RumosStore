@@ -12,8 +12,6 @@ public class Common {
 
     public static Usuario mCurrentUser = new Usuario();
 
-
-
     public static void changeStatusBarColor(Activity activity, int color) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

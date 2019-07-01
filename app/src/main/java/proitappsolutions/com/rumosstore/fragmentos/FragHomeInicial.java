@@ -28,6 +28,11 @@ import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.communs.HTTPDataHandler;
 import proitappsolutions.com.rumosstore.communs.MetodosComuns;
 import proitappsolutions.com.rumosstore.rssFeed.RSSObjecto;
+import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
+
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgTentarDeNovo;
 
 public class FragHomeInicial extends Fragment {
 
@@ -52,9 +57,9 @@ public class FragHomeInicial extends Fragment {
         errorLayout = view.findViewById(R.id.erroLayout);
         linearLayout = view.findViewById(R.id.linearLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
-        btnTentarDeNovo.setText("Tentar de Novo");
+        btnTentarDeNovo.setText(msgTentarDeNovo);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         verifConecxao();
@@ -63,10 +68,10 @@ public class FragHomeInicial extends Fragment {
 
     }
 
-    public class MinhaAsyncTask extends AsyncTask<String,String,String>{
+    public class MinhaAsyncTask extends AsyncTask<String, String, String> {
 
 
-        public MinhaAsyncTask(Context mContext){
+        public MinhaAsyncTask(Context mContext) {
         }
 
         @Override
@@ -121,31 +126,26 @@ public class FragHomeInicial extends Fragment {
     }*/
 
     private void verifConecxao() {
-
-        if (getActivity() != null){
-            ConnectivityManager conMgr =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            if (conMgr!=null){
-                progress_amarela.setVisibility(View.GONE);
-                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-                if (netInfo == null){
-                    mostarMsnErro();
-                }else{
-                    if (!MetodosComuns.temTrafegoNaRede(getActivity()))
-                        MetodosComuns.mostrarMensagem(getActivity(),R.string.txtMsg);
-                    else
-                        progress_amarela.setVisibility(View.VISIBLE);
-                    minhaAsyncTask = new MinhaAsyncTask(getContext());
-                    minhaAsyncTask.execute(RSS_PARA_JSON_API + RSS_link);
-                    //        carregarRss();
-                }
+        if (getActivity() != null) {
+            ConnectivityManager conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            progress_amarela.setVisibility(View.VISIBLE);
+            if (netInfo == null) {
+                mostarMsnErro();
+            } else {
+                if (conexaoInternetTrafego(getActivity()))
+                    mostrarMensagem(getActivity(), R.string.txtMsg);
+                else
+                    progress_amarela.setVisibility(View.GONE);
+                minhaAsyncTask = new MinhaAsyncTask(getContext());
+                minhaAsyncTask.execute(RSS_PARA_JSON_API + RSS_link);
             }
         }
     }
 
-    private void mostarMsnErro(){
+    private void mostarMsnErro() {
 
-        if (errorLayout.getVisibility() == View.GONE){
+        if (errorLayout.getVisibility() == View.GONE) {
             errorLayout.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
         }
