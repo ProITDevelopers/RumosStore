@@ -20,7 +20,7 @@
     <string name="hit_redif_telef">Insira o seu número do telefone</string>
     <string name="hit_redif_cod">Insira o Seu Código de Confirmação</string>
     <string name="hit_receber_denovo">Não Recebeu o código ?</string>
-    <string name="hit_email_enviado">Enviamos o código de confirmação para - </string>
+    <string name="hit_email_enviado">Enviamos o código de confirmação para </string>
     <string name="hit_nova_senha">Senha Nova</string>
     <string name="hit_conf_senha">Confirmar Senha</string>
     <string name="hit_senha_antiga">Senha Antiga</string>
@@ -47,6 +47,8 @@
     <string name="txtRua">Rua - </string>
     <string name="txtGeneroE">Gênero</string>
     <string name="txtMsg">A rede 3G ou WI-FI não possui tranferência de dados.</string>
+    <string name="txtMsgCondConf">Insira o código de confirmação.</string>
+    <string name="txtMsgCondConfCod">Termina de inserir o código.</string>
     <string name="txtMsgDadosUser">Não foi possivel ter acesso a alguns dados do usuário.</string>
     <string name="txtSenhaalterada">A sua senha foi alterada com sucesso.!</string>
     <string name="txtTerminarEditPerfil">Por favor termina de editar o perfil.</string>

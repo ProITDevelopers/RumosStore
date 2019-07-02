@@ -349,7 +349,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
-    //Sharing the app
     private void shareTheApp() {
 
         final String appPackageName = getPackageName();

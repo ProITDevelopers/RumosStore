@@ -35,6 +35,7 @@ public class MetodosComuns {
     public static String msgCamposIguais = "Os campos devem ser iguais.";
     public static String msgCamposDiferentes = "Os campos devem ser diferentes.";
     public static String msgErroSEmail = "Preencha o campo com um email.";
+    public static String msgErroSTelefone = "Preencha o campo com um nº telefone.";
     public static String msgErroTelefone = "Preencha com um número válido";
     public static String msgEnviandoCodigo = "Enviando o código de confirmação..!";
     public static String msgSenhaFracaAjuda = "Senha fraca.O campo precisa de ter mais de 6 caracteres.";
