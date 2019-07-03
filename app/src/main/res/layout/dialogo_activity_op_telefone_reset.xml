@@ -103,114 +103,19 @@
                     android:textColor="@color/cor_borda"
                     android:textSize="12sp" />
 
-            <com.github.glomadrian.codeinputlib.CodeInput
-                android:id="@+id/codigoConfiTelef"
-                android:layout_marginTop="20dp"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                app:underline_color="@color/black"
+            <com.goodiebag.pinview.Pinview
+                android:id="@+id/pinCodigoConfirmacaoTelef"
+                android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                app:underline_selected_color="@color/colorPrimary"
-                app:text_color="@color/black"
-                android:padding="5dp"
-                app:hint_color="@color/colorBotaoLogin"
-                app:hint_text="Inserir Código de Confirmação"
-                app:codes="6" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/borda_arredondada"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editCod1Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod2Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod3Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod4Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod5Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod6Telef"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-            </LinearLayout>
+                app:pinWidth="20dp"
+                app:pinHeight="30dp"
+                app:pinLength="6"
+                app:cursorVisible="true"
+                app:forceKeyboard="true"
+                app:hint="*"
+                app:inputType="number"
+                app:password="false" />
 
             <LinearLayout
                 android:layout_width="270dp"
