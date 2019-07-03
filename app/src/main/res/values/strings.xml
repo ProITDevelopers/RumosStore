@@ -59,6 +59,8 @@
     <string name="txtTimeout">O tempo de comunicação excedeu. Possivelvente a internet está lenta.</string>
     <string name="txtEfetuadoregistro">Registro efetuado com sucesso</string>
     <string name="txtVoltar">Voltar</string>
+    <string name="txtTentarNovamente">Tentar de Novo</string>
+    <string name="imageView">Imagem</string>
     <string name="txtGenero">Gênero - </string>
     <string name="txtDataNascE">Data Nascimento</string>
     <string name="txtDataNasc">Data Nascimento - </string>

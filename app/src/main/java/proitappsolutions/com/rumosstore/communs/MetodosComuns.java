@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +30,7 @@ public class MetodosComuns {
     public static String msgDesejaTerminarSessao = "Deseja terminar a sessão ?";
     public static String msgReenviarNumTelef = "A reenviar o Nº Telefone..";
     public static String msgAEnviarEmail = "A enviar o e-mail..";
+    public static String msgAEnviarTelefone = "A enviar o nº Telefone..";
     public static String msgVerificando = "Verificando...";
     public static String msgTentarDeNovo = "Tentar de Novo";
     public static String msgVoltar = "Voltar";
@@ -38,7 +40,11 @@ public class MetodosComuns {
     public static String msgErroSTelefone = "Preencha o campo com um nº telefone.";
     public static String msgErroTelefone = "Preencha com um número válido";
     public static String msgEnviandoCodigo = "Enviando o código de confirmação..!";
+    public static String msgSupporte = "Enviamos o código de confirmação para - ";
     public static String msgSenhaFracaAjuda = "Senha fraca.O campo precisa de ter mais de 6 caracteres.";
+
+
+    private static String TAG = "FalhaSis";
 
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -46,10 +52,14 @@ public class MetodosComuns {
     }
 
     public static void esconderTeclado(Activity activity) {
-        View view = activity.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        try {
+            View view = activity.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+            }
+        }catch (Exception e){
+            Log.i(TAG,"esconder teclado " + e.getMessage() );
         }
     }
 

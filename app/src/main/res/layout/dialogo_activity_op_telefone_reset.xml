@@ -82,24 +82,16 @@
                     android:textSize="@dimen/txtTamanho12"
                     android:textColor="@color/cor_borda"
                     android:layout_height="wrap_content"
-                    android:text="Tentar de novo"/>
+                    android:text="@string/txtTentarNovamente"/>
 
             </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_telefone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="start"
-                    android:textColor="@color/cor_borda"
-                    android:text="@string/hit_email_enviado"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_telefone"
                     android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textColor="@color/cor_borda"
                     android:textSize="12sp" />
 
@@ -112,7 +104,7 @@
                 app:pinHeight="30dp"
                 app:pinLength="6"
                 app:cursorVisible="true"
-                app:forceKeyboard="true"
+                app:forceKeyboard="false"
                 app:hint="*"
                 app:inputType="number"
                 app:password="false" />
