@@ -98,14 +98,19 @@ public class MetodosComuns {
                 super.onReceivedError(view, errorCode, descricaoErro, failingUrl);
                 if (errorCode == -2) {
                     valorRetorno[0] = false;
+                    Log.i(TAG,"webView ERROR " + descricaoErro );
+                    Log.i(TAG,"webView ERROR " + errorCode );
                 }
             }
         });
+
         webViewInternet.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 valorRetorno[0] = true;
+                Log.i(TAG,"webView " + progress );
             }
         });
+        Log.i(TAG,"webView " + valorRetorno[0]);
 
         return valorRetorno[0];
     }

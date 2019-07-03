@@ -1,7 +1,10 @@
 package proitappsolutions.com.rumosstore.QUIZ;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +34,8 @@ import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Estatistica;
 import proitappsolutions.com.rumosstore.QUIZ.Model.QuestionStore;
 import proitappsolutions.com.rumosstore.R;
+
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class Done extends AppCompatActivity {
 
@@ -70,15 +75,14 @@ public class Done extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        btnTryAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Done.this,Home.class);
-                startActivity(intent);
-                finish();
-                Common.questErradasList.clear();
-            }
+        btnTryAgain.setOnClickListener(view -> {
+            Intent intent = new Intent(Done.this,Home.class);
+            startActivity(intent);
+            finish();
+            Common.questErradasList.clear();
         });
+
+        verifConecxao();
 
         //Pega os dados do bundle
         Bundle extra = getIntent().getExtras();
@@ -157,6 +161,15 @@ public class Done extends AppCompatActivity {
                             String.valueOf(score),
                             Common.categoryId,
                             Common.categoryName));
+        }
+    }
+
+
+    private void verifConecxao() {
+        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            mostrarMensagem(Done.this,R.string.txtMsgErroRede);
         }
     }
 }

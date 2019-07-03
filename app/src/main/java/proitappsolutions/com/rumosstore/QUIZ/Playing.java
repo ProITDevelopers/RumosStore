@@ -1,6 +1,9 @@
 package proitappsolutions.com.rumosstore.QUIZ;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.PerguntaErrada;
 import proitappsolutions.com.rumosstore.R;
+
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class Playing extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,6 +61,16 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
         btnB.setOnClickListener(Playing.this);
         btnC.setOnClickListener(Playing.this);
         btnD.setOnClickListener(Playing.this);
+
+        verifConecxao();
+    }
+
+    private void verifConecxao() {
+        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            mostrarMensagem(Playing.this,R.string.txtMsgErroRede);
+        }
     }
 
     @Override

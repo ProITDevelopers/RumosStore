@@ -47,6 +47,7 @@
     <string name="txtRua">Rua - </string>
     <string name="txtGeneroE">Gênero</string>
     <string name="txtMsg">A rede 3G ou WI-FI não possui tranferência de dados.</string>
+    <string name="txtMsgErroRede">O dispositivo não está conectado a nenhuma rede 3G ou WI-FI .</string>
     <string name="txtMsgCondConf">Insira o código de confirmação.</string>
     <string name="txtMsgCondConfCod">Termina de inserir o código.</string>
     <string name="txtMsgDadosUser">Não foi possivel ter acesso a alguns dados do usuário.</string>

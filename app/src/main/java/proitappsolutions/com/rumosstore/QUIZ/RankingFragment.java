@@ -135,9 +135,10 @@ public class RankingFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot data: dataSnapshot.getChildren()){
-                            Log.i("valordoResultado",data.getValue().getClass().getName() + "sum ->" + sum);
-                            QuestionStore ques = data.getValue(QuestionStore.class);
-                            sum+= Integer.valueOf(ques.getScore());
+                                QuestionStore ques = data.getValue(QuestionStore.class);
+                                if (ques != null && ques.getScore() != null){
+                                    sum+= Integer.valueOf(ques.getScore());
+                                }
                         }
                         /*Depois de somar toda pontuacao, precisa-se processar o somatorio com variaveis aqui
                         porque o firebase é assincono e se processar fora a variavel 'sum' será redifinida para 0

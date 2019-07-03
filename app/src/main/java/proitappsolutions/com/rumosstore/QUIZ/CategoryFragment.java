@@ -30,6 +30,10 @@ import proitappsolutions.com.rumosstore.QUIZ.Interface.ItemClickListener;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Category;
 import proitappsolutions.com.rumosstore.QUIZ.ViewHolder.CategoryViewHolder;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.RegistroActivity;
+
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class CategoryFragment extends Fragment {
 
@@ -65,7 +69,7 @@ public class CategoryFragment extends Fragment {
         listCategory.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         listCategory.setLayoutManager(layoutManager);
-    
+
         loadCategories();
 
         return myFragment;
@@ -107,7 +111,6 @@ public class CategoryFragment extends Fragment {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        //Toast.makeText(getActivity(),String.format("%s|%s",adapter.getRef(position).getKey(),model.getName()),Toast.LENGTH_SHORT).show();
                         Intent startGame = new Intent(getActivity(),Start.class);
                         Common.categoryId = adapter.getRef(position).getKey();
                         Common.categoryName = model.getName();
