@@ -16,7 +16,7 @@
         android:theme="@style/estiloToolbar"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        android:background="@color/cor_preta_nova">
+        android:background="@drawable/sombra_toolbar">
 
     </android.support.v7.widget.Toolbar>
 
@@ -47,7 +47,7 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:gravity="center_vertical"
-                    android:background="@color/white"
+                    android:background="@color/cor_preta_nova"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -64,8 +64,8 @@
                         android:id="@+id/txtCarregandoMercado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
+                        android:textColor="@color/colorBotaoLogin"
+                        android:textSize="22sp"
                         android:gravity="center"
                         android:text="Carregando..."/>
 
@@ -86,7 +86,7 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:background="@color/white"
+                    android:background="@color/cor_preta_nova"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -104,8 +104,8 @@
                         android:id="@+id/txtCarregandoVanguarda"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
+                        android:textColor="@color/colorBotaoLogin"
+                        android:textSize="22sp"
                         android:gravity="center"
                         android:text="Carregando..."/>
 
@@ -121,12 +121,11 @@
                 android:orientation="vertical"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-
                 android:layout_height="0dp">
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:background="@color/white"
+                    android:background="@color/cor_preta_nova"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -144,8 +143,8 @@
                         android:id="@+id/txtCarregandoRumo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
+                        android:textColor="@color/colorBotaoLogin"
+                        android:textSize="22sp"
                         android:gravity="center"
                         android:text="Carregando..."/>
 
@@ -174,7 +173,8 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/cor_preta_nova">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -212,7 +212,8 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/cor_preta_nova">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -252,7 +253,8 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/cor_preta_nova">
 
                 <LinearLayout
                     android:orientation="vertical"

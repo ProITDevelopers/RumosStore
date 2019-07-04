@@ -54,6 +54,11 @@
                     android:icon="@drawable/ic_rumo"
                     android:title="Rumo" />
 
+                <item
+                    android:id="@+id/nav_multimedia"
+                    android:icon="@drawable/ic_video_black_24dp"
+                    android:title="Multimédia" />
+
             </group>
         </menu>
     </item>

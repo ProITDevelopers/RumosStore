@@ -36,9 +36,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@android:color/black"
+        android:background="@android:color/white"
         android:theme="@style/NavigationView"
-        app:itemTextColor="@color/colorBotaoLogin"
+        app:itemTextColor="@android:color/black"
         app:headerLayout="@layout/nav_header_media_rumo"
         app:menu="@menu/menu" />
 

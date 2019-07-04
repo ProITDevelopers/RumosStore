@@ -304,7 +304,13 @@ public class HomeInicialActivity extends AppCompatActivity implements
             enviarLinkActivity("https://www.vanguarda.co.ao/", "vanguarda", HomeInicialActivity.this);
         } else if (id == R.id.nav_rumo) {
             enviarLinkActivity("https://mediarumo.com/", "rumo", HomeInicialActivity.this);
-        } else if (id == R.id.nav_instagram) {
+        }  else if (id == R.id.nav_multimedia) {
+            Intent intent = new Intent(this, MultimediaActivity.class);
+            startActivity(intent);
+        }
+
+
+        else if (id == R.id.nav_instagram) {
             enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/", "instagram", HomeInicialActivity.this);
         } else if (id == R.id.nav_facebook) {
             enviarLinkActivity("https://www.facebook.com/jornalmercado/", "facebook", HomeInicialActivity.this);

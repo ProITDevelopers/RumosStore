@@ -44,7 +44,7 @@ public class RevistaViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
+//        Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorBotaoLogin));
         setContentView(R.layout.activity_revista_view);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

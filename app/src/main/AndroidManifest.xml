@@ -19,8 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".testeRealmDB.QuiosqueActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".telasActivity.MultimediaActivity"></activity>
+        <activity
+            android:name=".testeRealmDB.QuiosqueActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".testeRealmDB.RevistaViewActivity"
             android:configChanges="orientation|screenSize" />
@@ -49,13 +51,25 @@
         <activity
             android:name=".telasActivity.MeuPerfilActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.ImagemPegarActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".telasActivity.ImagemPegarActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".telasActivity.WebViewActivity" />
-        <activity android:name=".QUIZ.Done" android:screenOrientation="portrait" />
-        <activity android:name=".QUIZ.Home" android:screenOrientation="portrait" />
-        <activity android:name=".QUIZ.Start" android:screenOrientation="portrait" />
-        <activity android:name=".QUIZ.ScoreDetail" android:screenOrientation="portrait" />
-        <activity android:name=".QUIZ.Playing" android:screenOrientation="portrait" />
+        <activity
+            android:name=".QUIZ.Done"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QUIZ.Home"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QUIZ.Start"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QUIZ.ScoreDetail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QUIZ.Playing"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
