@@ -9,6 +9,7 @@
     tools:context=".testeRealmDB.QuiosqueActivity">
 
     <!--android:background="#F0F0F0"-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarQuiosque"
         android:layout_width="match_parent"
@@ -180,7 +181,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
                     <TextSwitcher
                         android:id="@+id/title"
                         android:layout_gravity="center"
@@ -192,9 +192,8 @@
                         android:id="@+id/coverflow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:coverHeight="@dimen/cover_height"
-                        app:coverWidth="@dimen/cover_width"
+                        app:coverHeight="@dimen/cover_height_big"
+                        app:coverWidth="@dimen/cover_width_big"
                         app:maxScaleFactor="1.5"
                         app:reflectionGap="0px"
                         app:rotationThreshold="0.5"
@@ -220,8 +219,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-
                     <TextSwitcher
                         android:id="@+id/title2"
                         android:layout_gravity="center"
@@ -229,12 +226,14 @@
                         android:layout_height="wrap_content">
                     </TextSwitcher>
 
+
+
                     <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
                         android:id="@+id/coverflow2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:coverHeight="@dimen/cover_height"
-                        app:coverWidth="@dimen/cover_width"
+                        app:coverHeight="@dimen/cover_height_big"
+                        app:coverWidth="@dimen/cover_width_big"
                         app:maxScaleFactor="1.5"
                         app:reflectionGap="0px"
                         app:rotationThreshold="0.5"
@@ -260,8 +259,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-
                     <TextSwitcher
                         android:id="@+id/title3"
                         android:layout_gravity="center"
@@ -269,12 +266,14 @@
                         android:layout_height="wrap_content">
                     </TextSwitcher>
 
+
+
                     <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
                         android:id="@+id/coverflow3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:coverHeight="@dimen/cover_height"
-                        app:coverWidth="@dimen/cover_width"
+                        app:coverHeight="@dimen/cover_height_big"
+                        app:coverWidth="@dimen/cover_width_big"
                         app:maxScaleFactor="1.5"
                         app:reflectionGap="0px"
                         app:rotationThreshold="0.5"

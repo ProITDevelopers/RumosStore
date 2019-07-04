@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
@@ -62,6 +63,8 @@ public class QuiosqueActivity extends AppCompatActivity {
     private Revistas revistas;
     private List<Revistas> mercadoList,vanguardaList,rumoList;
     private RevistasAdapter revistasMercadoAdapter,revistasVanguardaAdapter,revistasRumoAdapter;
+
+
 
     int indexMercado,indexVanguarda,indexRumo=0;
 
@@ -374,6 +377,7 @@ public class QuiosqueActivity extends AppCompatActivity {
 
 
 
+
     }
 
     private void setVanguardaAdapter(List<Revistas> vanguardaList){
@@ -428,6 +432,7 @@ public class QuiosqueActivity extends AppCompatActivity {
 
         cardVanguarda.setVisibility(View.VISIBLE);
         linearCarregarVanguarda.setVisibility(View.GONE);
+
 
     }
 

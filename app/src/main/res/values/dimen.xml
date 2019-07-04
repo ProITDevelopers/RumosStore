@@ -17,4 +17,7 @@
     <dimen name="cover_height">110dp</dimen>
     <dimen name="cover_width">80dp</dimen>
 
+    <dimen name="cover_height_big">170dp</dimen>
+    <dimen name="cover_width_big">120dp</dimen>
+
 </resources>
