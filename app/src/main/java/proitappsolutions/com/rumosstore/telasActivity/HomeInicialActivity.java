@@ -12,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -47,13 +48,13 @@ import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInte
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAprocessar;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgCamposDiferentes;
-import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgDesejaTerminarSessao;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenha;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSenhaAlterada;
 
 
-public class HomeInicialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class HomeInicialActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private String TAG = "HomeInicialActivityDebug";
     private CircleImageView circleImageView;
@@ -63,7 +64,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private Toolbar toolbar;
     private ProgressDialog progressDialog;
     private ShowHidePasswordEditText edtSenhaAntiga, edtConfSenhaNova;
-    private Dialog caixa_dialogo_cancelar, dialogSenhaEnviarEmailSenhaNova;
+    private Dialog dialogSenhaEnviarEmailSenhaNova;
     public DataUserApi dataUserApi = new DataUserApi();
     ActionBarDrawerToggle toggle;
 
@@ -89,19 +90,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         txtName = headerView.findViewById(R.id.txtName);
         txtEmail = headerView.findViewById(R.id.txtEmail);
         tv_inicial_nome = headerView.findViewById(R.id.tv_inicial_nome);
-
-        caixa_dialogo_cancelar = new Dialog(HomeInicialActivity.this);
-        caixa_dialogo_cancelar.setContentView(R.layout.caixa_de_dialogo_redif_senha);
-        caixa_dialogo_cancelar.setCancelable(false);
-
-        Button btnCancelar_dialog = caixa_dialogo_cancelar.findViewById(R.id.btnCancelar_dialog);
-        Button btnSim = caixa_dialogo_cancelar.findViewById(R.id.btnSim);
-        Button btnNao = caixa_dialogo_cancelar.findViewById(R.id.btnNao);
-        TextView diagolo_titulo = caixa_dialogo_cancelar.findViewById(R.id.diagolo_titulo);
-        btnCancelar_dialog.setOnClickListener(HomeInicialActivity.this);
-        diagolo_titulo.setText(msgDesejaTerminarSessao);
-        btnSim.setOnClickListener(HomeInicialActivity.this);
-        btnNao.setOnClickListener(HomeInicialActivity.this);
 
         //Dialogo enviar senha nova email
         dialogSenhaEnviarEmailSenhaNova = new Dialog(HomeInicialActivity.this);
@@ -277,7 +265,7 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
                 alterarSenha();
                 break;
             case R.id.action_logout:
-                caixa_dialogo_cancelar.show();
+                mostrarDialogoSessao();
                 break;
         }
 
@@ -339,9 +327,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
     private void logOut() {
 
         AppDatabase.getInstance().clearData();
-
-        caixa_dialogo_cancelar.dismiss();
-
         Intent intent = new Intent(HomeInicialActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -349,7 +334,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
 
     }
 
-    //Sharing the app
     private void shareTheApp() {
 
         final String appPackageName = getPackageName();
@@ -371,12 +355,6 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         switch (view.getId()) {
             case R.id.btnSim:
                 logOut();
-                break;
-            case R.id.btnNao:
-                caixa_dialogo_cancelar.dismiss();
-                break;
-            case R.id.btnCancelar_dialog:
-                caixa_dialogo_cancelar.dismiss();
                 break;
             case R.id.btn_redif_senha:
                 if (verificarCamposDialogo()) {
@@ -467,5 +445,21 @@ public class HomeInicialActivity extends AppCompatActivity implements Navigation
         edtConfSenhaNova.setError(null);
         edtSenhaAntiga.setError(null);
         dialogSenhaEnviarEmailSenhaNova.dismiss();
+    }
+
+    private void mostrarDialogoSessao() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeInicialActivity.this, R.style.AlertDialogCustomizado);
+        alertDialog.setTitle("Terminar sessão");
+        alertDialog.setMessage("Tem certeza que deseja sair ?");
+        alertDialog.setIcon(R.drawable.logo_media_rumo_black);
+        alertDialog.setCancelable(false);
+
+        alertDialog.setNegativeButton("Não", (dialogInterface, i) -> dialogInterface.dismiss());
+
+        alertDialog.setPositiveButton("Sim", (dialogInterface, i) -> logOut());
+
+        alertDialog.show();
+
     }
 }

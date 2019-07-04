@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
@@ -26,7 +25,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_clear_black_24dp"/>
+                android:src="@drawable/ic_clear_black_24dp"
+                android:contentDescription="@string/imageView" />
 
         </LinearLayout>
 
@@ -65,14 +65,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/cor_borda"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center"
                     android:text="@string/hit_receber_denovo"/>
 
                 <TextView
@@ -81,122 +81,34 @@
                     android:textStyle="bold"
                     android:textColor="@color/cor_borda"
                     android:textSize="@dimen/txtTamanho12"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="Tentar de novo"/>
+                    android:text="@string/txtTentarNovamente"/>
 
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:textColor="@color/cor_borda"
-                android:text="@string/hit_email_enviado"
-                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/tv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/cor_borda"
-                android:textSize="12dp" />
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/borda_arredondada"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/cor_borda"
+                android:textSize="12sp" />
 
-                <EditText
-                    android:id="@+id/editCod1"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod2"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod3"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod4"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod5"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-                <EditText
-                    android:id="@+id/editCod6"
-                    android:layout_width="40dp"
-                    android:layout_height="33dp"
-                    android:layout_marginRight="1dp"
-                    android:gravity="center"
-                    android:background="#EDE3C0"
-                    android:hint="@string/hit_cod"
-                    android:ems="10"
-                    android:maxLength="1"
-                    android:inputType="number"
-                    android:theme="@style/MyEditTextTheme"
-                    android:layout_marginEnd="1dp" />
-
-            </LinearLayout>
+            <com.goodiebag.pinview.Pinview
+                android:id="@+id/pinCodigoConfirmacaoEmail"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                app:pinWidth="20dp"
+                app:pinHeight="30dp"
+                app:pinLength="6"
+                app:cursorVisible="true"
+                app:forceKeyboard="false"
+                app:hint="*"
+                app:inputType="number"
+                app:password="false" />
 
             <LinearLayout
                 android:layout_width="270dp"

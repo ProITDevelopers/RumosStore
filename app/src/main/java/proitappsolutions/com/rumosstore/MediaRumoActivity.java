@@ -9,12 +9,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.goodiebag.pinview.Pinview;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import proitappsolutions.com.rumosstore.api.ApiClient;
@@ -42,17 +44,22 @@ import retrofit2.Response;
 
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.bearerApi;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.esconderTeclado;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAEnviarEmail;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAEnviarTelefone;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAprocessar;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgCamposIguais;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgEnviandoCodigo;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSEmail;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSTelefone;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroTelefone;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgReenviarNumTelef;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSenhaFracaAjuda;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSupporte;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgVerificando;
+
 
 public class MediaRumoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -79,32 +86,22 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private Dialog dialogOpcaoSenhaEnviarTelefone;
     private AppCompatEditText dialog_editTelefone_telefone;
     private String telefoneRedif_senha;
+    private Pinview pinCodigoConfirmacaoTelef;
 
     //Esqueceu a senha? ----EnviarCodRedifinicao
     private Dialog dialogSenhaEnviarEmailCodReset;
-    private EditText editCod1, editCod2, editCod3, editCod4, editCod5, editCod6;
+    private Pinview pinCodigoConfirmacaoEmail;
     private TextView tv_email;
     private String id;
     private String emailReceberDeNovo;
-    private String codigo1;
-    private String codigo2;
-    private String codigo3;
-    private String codigo4;
-    private String codigo5;
-    private String codigo6;
+    private String codigoConfEmail;
 
     //Esqueceu a senha? ----EnviarCodRedifinicao Telefone
     private Dialog dialogSenhaEnviarTelefoneCodReset;
-    private EditText editCod1Telef, editCod2Telef, editCod3Telef, editCod4Telef, editCod5Telef, editCod6Telef;
     private TextView tv_telefone;
     private String idTelef;
     private String telefoneReceberDeNovo;
-    private String codigo1Telef;
-    private String codigo2Telef;
-    private String codigo3Telef;
-    private String codigo4Telef;
-    private String codigo5Telef;
-    private String codigo6Telef;
+    private String codigoConfTelef;
 
     //Esqueceu a senha? ----SalvarSenha
     private Dialog dialogSenhaEnviarEmailSenhaNova;
@@ -166,12 +163,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         dialogSenhaEnviarEmailCodReset = new Dialog(MediaRumoActivity.this);
         dialogSenhaEnviarEmailCodReset.setContentView(R.layout.dialogo_activity_op_email_reset);
         dialogSenhaEnviarEmailCodReset.setCancelable(false);
-        editCod1 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod1);
-        editCod2 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod2);
-        editCod3 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod3);
-        editCod4 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod4);
-        editCod5 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod5);
-        editCod6 = dialogSenhaEnviarEmailCodReset.findViewById(R.id.editCod6);
+        pinCodigoConfirmacaoEmail = dialogSenhaEnviarEmailCodReset.findViewById(R.id.pinCodigoConfirmacaoEmail);
         tv_email = dialogSenhaEnviarEmailCodReset.findViewById(R.id.tv_email);
         TextView receberDeNovo = dialogSenhaEnviarEmailCodReset.findViewById(R.id.receberDeNovo);
         Button btn_enviar_cod_reset = dialogSenhaEnviarEmailCodReset.findViewById(R.id.btn_enviar_cod_reset);
@@ -185,19 +177,15 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         dialogSenhaEnviarTelefoneCodReset = new Dialog(MediaRumoActivity.this);
         dialogSenhaEnviarTelefoneCodReset.setContentView(R.layout.dialogo_activity_op_telefone_reset);
         dialogSenhaEnviarTelefoneCodReset.setCancelable(false);
-        editCod1Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod1Telef);
-        editCod2Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod2Telef);
-        editCod3Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod3Telef);
-        editCod4Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod4Telef);
-        editCod5Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod5Telef);
-        editCod6Telef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.editCod6Telef);
         tv_telefone = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.tv_telefone);
+        pinCodigoConfirmacaoTelef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.pinCodigoConfirmacaoTelef);
         TextView receberDeNovoTelefone = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.receberDeNovoTelefone);
         Button btn_enviar_cod_resetTelef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.btn_enviar_cod_resetTelef);
         LinearLayout linearBtnFecharTelef = dialogSenhaEnviarTelefoneCodReset.findViewById(R.id.linearBtnFecharTelef);
         receberDeNovoTelefone.setOnClickListener(MediaRumoActivity.this);
         btn_enviar_cod_resetTelef.setOnClickListener(MediaRumoActivity.this);
         linearBtnFecharTelef.setOnClickListener(MediaRumoActivity.this);
+
         //-------------------------------------------------------------
 
         //Dialogo enviar senha nova email
@@ -225,6 +213,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.btnEntrar:
                 autenticacaoLoginApi();
+                esconderTeclado(MediaRumoActivity.this);
                 break;
 
             case R.id.btnRegistrate:
@@ -246,24 +235,30 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.dialog_btn_email_redif_enviar_email:
                 enviarEmailRedif();
+                esconderTeclado(MediaRumoActivity.this);
                 break;
 
             case R.id.dialog_btn_telefone_redif_enviar_telefone:
+                esconderTeclado(MediaRumoActivity.this);
                 enviarTelefonelRedif();
                 break;
 
             case R.id.dialog_btn_cancelar_enviar_email:
                 cancelarEnvioEmail();
+                esconderTeclado(MediaRumoActivity.this);
                 break;
 
             case R.id.dialog_btn_cancelar_enviar_telefone:
+                esconderTeclado(MediaRumoActivity.this);
                 cancelarEnvioTelefone();
                 break;
 
             case R.id.receberDeNovo:
                 if (!TextUtils.isEmpty(emailReceberDeNovo)) {
+                    esconderTeclado(MediaRumoActivity.this);
                     enviarEmailRedifDeNovo();
                 } else {
+                    esconderTeclado(MediaRumoActivity.this);
                     mostrarMensagem(MediaRumoActivity.this, R.string.txtTentarmaistarde);
                 }
                 break;
@@ -272,44 +267,43 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                 if (!TextUtils.isEmpty(telefoneReceberDeNovo)) {
                     enviarTelefoneRedifDeNovo();
                 } else {
+                    esconderTeclado(MediaRumoActivity.this);
                     mostrarMensagem(MediaRumoActivity.this, R.string.txtTentarmaistarde);
                 }
                 break;
 
             case R.id.btn_enviar_cod_reset:
-                if (verificarCampo())
+                if (verificarCampo()){
+                    esconderTeclado(MediaRumoActivity.this);
                     enviarCodRedifinicao();
+                }
                 break;
             case R.id.btn_enviar_cod_resetTelef:
-                if (verificarCampoTelef())
+                if (verificarCampoTelef()){
+                    esconderTeclado(MediaRumoActivity.this);
                     enviarCodRedifinicaoTelef();
+                }
                 break;
             case R.id.linearBtnFechar:
+                esconderTeclado(MediaRumoActivity.this);
                 dialogSenhaEnviarEmailCodReset.cancel();
-                apagarCamposDialogResetCode(editCod1);
-                apagarCamposDialogResetCode(editCod2);
-                apagarCamposDialogResetCode(editCod3);
-                apagarCamposDialogResetCode(editCod4);
-                apagarCamposDialogResetCode(editCod5);
-                apagarCamposDialogResetCode(editCod6);
+                limparPinView(pinCodigoConfirmacaoEmail);
                 break;
             case R.id.linearBtnFecharTelef:
+                esconderTeclado(MediaRumoActivity.this);
                 dialogSenhaEnviarTelefoneCodReset.cancel();
-                apagarCamposDialogResetCode(editCod1Telef);
-                apagarCamposDialogResetCode(editCod2Telef);
-                apagarCamposDialogResetCode(editCod3Telef);
-                apagarCamposDialogResetCode(editCod4Telef);
-                apagarCamposDialogResetCode(editCod5Telef);
-                apagarCamposDialogResetCode(editCod6Telef);
+                limparPinView(pinCodigoConfirmacaoTelef);
                 break;
             case R.id.btn_redif_senha:
                 if (verificarCampoSenhas()) {
+                    esconderTeclado(MediaRumoActivity.this);
                     salvarSenhaNova();
                 }
                 break;
 
             case R.id.btn_cancelar:
                 cancelarAlterarSenhaEmail();
+                esconderTeclado(MediaRumoActivity.this);
                 break;
         }
     }
@@ -480,83 +474,29 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private boolean verificarCampo() {
-        codigo1 = editCod1.getText().toString().trim();
-        codigo2 = editCod2.getText().toString().trim();
-        codigo3 = editCod3.getText().toString().trim();
-        codigo4 = editCod4.getText().toString().trim();
-        codigo5 = editCod5.getText().toString().trim();
-        codigo6 = editCod6.getText().toString().trim();
-
-        if (codigo1.isEmpty()) {
-            editCod1.setError(msgErro);
+        codigoConfEmail = pinCodigoConfirmacaoEmail.getValue();
+        if (codigoConfEmail.isEmpty()) {
+            mostrarMensagem(MediaRumoActivity.this, R.string.txtMsgCondConf);
             return false;
         }
-
-        if (codigo2.isEmpty()) {
-            editCod2.setError(msgErro);
+        if (codigoConfEmail.length() !=6) {
+            mostrarMensagem(MediaRumoActivity.this, R.string.txtMsgCondConfCod);
             return false;
         }
-
-        if (codigo3.isEmpty()) {
-            editCod3.setError(msgErro);
-            return false;
-        }
-
-        if (codigo4.isEmpty()) {
-            editCod4.setError(msgErro);
-            return false;
-        }
-        if (codigo5.isEmpty()) {
-            editCod5.setError(msgErro);
-            return false;
-        }
-
-        if (codigo6.isEmpty()) {
-            editCod6.setError(msgErro);
-            return false;
-        }
-
         return true;
 
     }
 
     private boolean verificarCampoTelef() {
-        codigo1Telef = editCod1Telef.getText().toString().trim();
-        codigo2Telef = editCod2Telef.getText().toString().trim();
-        codigo3Telef = editCod3Telef.getText().toString().trim();
-        codigo4Telef = editCod4Telef.getText().toString().trim();
-        codigo5Telef = editCod5Telef.getText().toString().trim();
-        codigo6Telef = editCod6Telef.getText().toString().trim();
-
-        if (codigo1Telef.isEmpty()) {
-            editCod1Telef.setError(msgErro);
+        codigoConfTelef = pinCodigoConfirmacaoTelef.getValue();
+        if (codigoConfTelef.isEmpty()) {
+            mostrarMensagem(MediaRumoActivity.this, R.string.txtMsgCondConf);
             return false;
         }
-
-        if (codigo2Telef.isEmpty()) {
-            editCod2Telef.setError(msgErro);
+        if (codigoConfTelef.length() !=6) {
+            mostrarMensagem(MediaRumoActivity.this, R.string.txtMsgCondConfCod);
             return false;
         }
-
-        if (codigo3Telef.isEmpty()) {
-            editCod3Telef.setError(msgErro);
-            return false;
-        }
-
-        if (codigo4Telef.isEmpty()) {
-            editCod4Telef.setError(msgErro);
-            return false;
-        }
-        if (codigo5Telef.isEmpty()) {
-            editCod5Telef.setError(msgErro);
-            return false;
-        }
-
-        if (codigo6Telef.isEmpty()) {
-            editCod6Telef.setError(msgErro);
-            return false;
-        }
-
         return true;
 
     }
@@ -568,7 +508,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         progressDialog.setMessage(msgEnviandoCodigo);
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<CodConfirmacaoResult> enviarCod = apiInterface.enviarConfirCodigo(id, codigo1 + codigo2 + codigo3 + codigo4 + codigo5 + codigo6);
+        Call<CodConfirmacaoResult> enviarCod = apiInterface.enviarConfirCodigo(id, codigoConfEmail);
         enviarCod.enqueue(new Callback<CodConfirmacaoResult>() {
             @Override
             public void onResponse(@NonNull Call<CodConfirmacaoResult> call, @NonNull Response<CodConfirmacaoResult> response) {
@@ -581,12 +521,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         token = response.body().getToken();
                         dialogSenhaEnviarEmailCodReset.cancel();
                         dialogSenhaEnviarEmailSenhaNova.show();
-                        apagarCamposDialogResetCode(editCod1);
-                        apagarCamposDialogResetCode(editCod2);
-                        apagarCamposDialogResetCode(editCod3);
-                        apagarCamposDialogResetCode(editCod4);
-                        apagarCamposDialogResetCode(editCod5);
-                        apagarCamposDialogResetCode(editCod6);
+                        limparPinView(pinCodigoConfirmacaoEmail);
                     }
                     progressDialog.dismiss();
                 }
@@ -611,11 +546,11 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private void enviarCodRedifinicaoTelef() {
 
         errorLayout.setVisibility(View.GONE);
-
+        Log.i(TAG, "codConfi" + codigoConfTelef);
         progressDialog.setMessage(msgEnviandoCodigo);
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-        Call<CodConfirmacaoResult> enviarCod = apiInterface.enviarConfirCodigo(idTelef, codigo1Telef + codigo2Telef + codigo3Telef + codigo4Telef + codigo5Telef + codigo6Telef);
+        Call<CodConfirmacaoResult> enviarCod = apiInterface.enviarConfirCodigo(idTelef, codigoConfTelef);
         enviarCod.enqueue(new Callback<CodConfirmacaoResult>() {
             @Override
             public void onResponse(@NonNull Call<CodConfirmacaoResult> call, @NonNull Response<CodConfirmacaoResult> response) {
@@ -628,17 +563,11 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                         token = response.body().getToken();
                         dialogSenhaEnviarTelefoneCodReset.cancel();
                         dialogSenhaEnviarEmailSenhaNova.show();
-                        apagarCamposDialogResetCode(editCod1Telef);
-                        apagarCamposDialogResetCode(editCod2Telef);
-                        apagarCamposDialogResetCode(editCod3Telef);
-                        apagarCamposDialogResetCode(editCod4Telef);
-                        apagarCamposDialogResetCode(editCod5Telef);
-                        apagarCamposDialogResetCode(editCod6Telef);
+                        limparPinView(pinCodigoConfirmacaoTelef);
                     }
                     progressDialog.dismiss();
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<CodConfirmacaoResult> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
@@ -655,8 +584,14 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void apagarCamposDialogResetCode(EditText editText) {
-        editText.getText().clear();
+    private void limparPinView(Pinview pinCodigoConfirmacaoTelef) {
+        try {
+            for (int i = 0;i < pinCodigoConfirmacaoTelef.getPinLength();i++) {
+                pinCodigoConfirmacaoTelef.onKey(pinCodigoConfirmacaoTelef.getFocusedChild(), KeyEvent.KEYCODE_DEL, new KeyEvent(KeyEvent.ACTION_UP,KeyEvent.KEYCODE_DEL));
+            }
+        }catch (Exception e){
+            Log.i(TAG,"falha limInput" + e.getMessage());
+        }
     }
 
     private void enviarEmailRedif() {
@@ -673,15 +608,18 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private boolean verificarTelefone() {
 
-        if (dialog_editTelefone_telefone.getText() != null)
+        if (dialog_editTelefone_telefone.getText() != null) {
             telefoneRedif_senha = dialog_editTelefone_telefone.getText().toString().trim();
-
-        if (!telefoneRedif_senha.matches("9[1-9][1-9]\\d{6}")) {
-            dialog_editTelefone_telefone.setError(msgErroTelefone);
+            if (!telefoneRedif_senha.matches("9[1-9][1-9]\\d{6}")) {
+                dialog_editTelefone_telefone.setError(msgErroTelefone);
+                return false;
+            }else {
+                return true;
+            }
+        }else {
+            dialog_editTelefone_telefone.setError(msgErroSTelefone);
+            return false;
         }
-
-        return true;
-
     }
 
     private void mandarEmailResetSenha(String email) {
@@ -690,7 +628,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         emailReceberDeNovo = email;
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<RecuperarSenha> enviarEmailReset = apiInterface.enviarEmail(email);
-        progressDialog.setMessage("A enviar o e-mail..");
+        progressDialog.setMessage(msgAEnviarEmail);
         progressDialog.show();
         enviarEmailReset.enqueue(new Callback<RecuperarSenha>() {
             @Override
@@ -700,7 +638,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     progressDialog.cancel();
                     dialog_editEmail_email.setText(null);
                     dialogOpcaoSenhaEnviarEmail.cancel();
-                    tv_email.setText(email);
+                    tv_email.setText(msgSupporte.concat(email));
                     dialogSenhaEnviarEmailCodReset.show();
                 } else {
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);
@@ -730,7 +668,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         telefoneReceberDeNovo = telefone;
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<RecuperarSenha> enviarTelefoneReset = apiInterface.enviarTelefone(telefone);
-        progressDialog.setMessage("A enviar o nº Telefone..");
+        progressDialog.setMessage(msgAEnviarTelefone);
         progressDialog.show();
         enviarTelefoneReset.enqueue(new Callback<RecuperarSenha>() {
             @Override
@@ -740,7 +678,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     progressDialog.cancel();
                     dialog_editTelefone_telefone.setText(null);
                     dialogOpcaoSenhaEnviarTelefone.cancel();
-                    tv_telefone.setText(telefone);
+                    tv_telefone.setText(msgSupporte.concat(telefone));
                     dialogSenhaEnviarTelefoneCodReset.show();
                 } else {
                     ErrorResponce errorResponce = ErrorUtils.parseError(response);

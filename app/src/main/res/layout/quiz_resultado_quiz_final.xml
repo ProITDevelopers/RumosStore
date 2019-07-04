@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
+    android:layout_marginBottom="10dp"
     android:background="@color/black"
     android:orientation="vertical">
 
@@ -16,25 +17,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_light"
-        android:id="@+id/tv_pergunta_errada"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:background="#02E609"
-        android:id="@+id/tv_pergunta_certa"
+        <TextView
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:id="@+id/tv_pergunta_errada"
+            android:layout_width="0dp"
+            android:layout_weight="90"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:src="@drawable/ic_errado_quiz_24dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/imageView"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:id="@+id/tv_pergunta_certa"
+            android:layout_width="0dp"
+            android:layout_weight="90"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_certo_quiz_24dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/imageView" />
+    </LinearLayout>
 
 </LinearLayout>

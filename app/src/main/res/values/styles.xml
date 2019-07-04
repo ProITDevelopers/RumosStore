@@ -24,6 +24,10 @@
         <item name="android:fontFamily">@font/sansa_pro</item>
     </style>
 
+    <style name="AlertDialogCustomizado" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/colorBotaoLogin</item>
         <item name="android:fontFamily">@font/sansa_pro</item>
