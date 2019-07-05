@@ -2,6 +2,7 @@ package proitappsolutions.com.rumosstore.telasActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -69,29 +70,46 @@ public class WebViewActivity extends AppCompatActivity  {
                     Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.mercado));
                     ColorDrawable corMerdado = new ColorDrawable(ContextCompat.getColor(this, R.color.mercado));
                     getSupportActionBar().setBackgroundDrawable(corMerdado);
+                    if (toolbar.getNavigationIcon()!=null){
+                        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+                    }
                     setSupportActionBar(toolbar);
                     break;
                 case "vanguarda":
                     Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.vanguarda));
                     ColorDrawable corVanguarda = new ColorDrawable(ContextCompat.getColor(this, R.color.vanguarda));
                     getSupportActionBar().setBackgroundDrawable(corVanguarda);
+                    if (toolbar.getNavigationIcon()!=null){
+                        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
                 case "rumo": {
                     Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
                     ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
                     getSupportActionBar().setBackgroundDrawable(corRumo);
+                    if (toolbar.getNavigationIcon()!=null){
+                        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
                 }
                 case "instagram": {
                     Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.white));
                     ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.white));
                     getSupportActionBar().setBackgroundDrawable(corRumo);
+
+                    if (toolbar.getNavigationIcon()!=null){
+                        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+                    }
+
                     break;
                 }
                 case "facebook": {
                     Common.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.facebook_webview));
                     ColorDrawable corRumo = new ColorDrawable(ContextCompat.getColor(this, R.color.facebook_webview));
                     getSupportActionBar().setBackgroundDrawable(corRumo);
+                    if (toolbar.getNavigationIcon()!=null){
+                        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
                 }
             }
