@@ -32,6 +32,7 @@ import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.MainActivity;
 import proitappsolutions.com.rumosstore.QUIZ.Home;
 import proitappsolutions.com.rumosstore.R;
+import proitappsolutions.com.rumosstore.SobreNosActivity;
 import proitappsolutions.com.rumosstore.modelo.Usuario;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
@@ -310,11 +311,19 @@ public class HomeInicialActivity extends AppCompatActivity implements
         }
 
 
-        else if (id == R.id.nav_instagram) {
-            enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/", "instagram", HomeInicialActivity.this);
-        } else if (id == R.id.nav_facebook) {
-            enviarLinkActivity("https://www.facebook.com/jornalmercado/", "facebook", HomeInicialActivity.this);
-        } else if (id == R.id.nav_share) {
+//        else if (id == R.id.nav_instagram) {
+//            enviarLinkActivity("https://www.instagram.com/jornalvanguardaa/", "instagram", HomeInicialActivity.this);
+//        } else if (id == R.id.nav_facebook) {
+//            enviarLinkActivity("https://www.facebook.com/jornalmercado/", "facebook", HomeInicialActivity.this);
+//        }
+
+        else if (id == R.id.nav_sobre_nos) {
+            Intent intent = new Intent(HomeInicialActivity.this, SobreNosActivity.class);
+            startActivity(intent);
+        }
+
+
+        else if (id == R.id.nav_share) {
             shareTheApp();
         }
 

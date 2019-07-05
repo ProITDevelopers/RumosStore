@@ -1,4 +1,4 @@
-package proitappsolutions.com.rumosstore;
+package proitappsolutions.com.rumosstore.fragmentos;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

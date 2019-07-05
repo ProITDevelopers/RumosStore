@@ -4,19 +4,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.SectionsPagerAdapter;
+import proitappsolutions.com.rumosstore.fragmentos.SectionsPagerAdapter;
 
 public class MultimediaActivity extends AppCompatActivity {
 
