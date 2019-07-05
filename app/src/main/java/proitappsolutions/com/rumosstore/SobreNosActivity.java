@@ -99,7 +99,7 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
                 verifConecxao("https://www.facebook.com/jornalmercado/", "facebook", SobreNosActivity.this);
                 break;
             case R.id.mercado_social_inst:
-                verifConecxao("https://www.instagram.com/explore/tags/jornalmercado/", "instagram", SobreNosActivity.this);
+                verifConecxao("https://www.instagram.com/jornalmercado/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.mercado_social_linked:
                 verifConecxao("https://pt.linkedin.com/company/media-rumo", "mercado", SobreNosActivity.this);
@@ -107,13 +107,13 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
 
             //VANGUARDA
             case R.id.vanguarda_social_fb:
-                verifConecxao("https://pt-br.facebook.com/pages/category/Media-News-Company/Vanguarda-1923156214577988/", "facebook", SobreNosActivity.this);
+                verifConecxao("https://www.facebook.com/Vanguarda-1923156214577988", "facebook", SobreNosActivity.this);
                 break;
             case R.id.vanguarda_social_inst:
                 verifConecxao("https://www.instagram.com/jornalvanguardaa/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.vanguarda_social_linked:
-                verifConecxao("https://pt.linkedin.com/company/media-rumo", "vanguarda", SobreNosActivity.this);
+                verifConecxao("https://www.linkedin.com/showcase/revista-rumo/about/", "vanguarda", SobreNosActivity.this);
                 break;
 
             //RUMO
@@ -124,7 +124,7 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
                 verifConecxao("https://www.instagram.com/revistarumo/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.rumo_social_linked:
-                verifConecxao("https://pt.linkedin.com/showcase/revista-rumo", "rumo", SobreNosActivity.this);
+                verifConecxao("https://www.linkedin.com/showcase/revista-rumo/about/", "rumo", SobreNosActivity.this);
                 break;
 
 
