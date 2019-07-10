@@ -21,11 +21,13 @@
         android:usesCleartextTraffic="true">
         <activity
             android:screenOrientation="portrait"
-            android:name=".SobreNosActivity">
-        </activity>
+            android:name=".testeRealmDB.RevistaDetalheActivity"></activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name=".telasActivity.MultimediaActivity" />
+            android:name=".SobreNosActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".telasActivity.MultimediaActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".testeRealmDB.QuiosqueActivity"
             android:screenOrientation="portrait" />
