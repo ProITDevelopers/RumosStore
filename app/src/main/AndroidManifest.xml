@@ -62,7 +62,9 @@
         <activity
             android:name=".telasActivity.ImagemPegarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".telasActivity.WebViewActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".telasActivity.WebViewActivity" />
         <activity
             android:name=".QUIZ.Done"
             android:screenOrientation="portrait" />
