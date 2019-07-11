@@ -83,6 +83,26 @@ Este aplicativo precisa de permissão para usar esse recurso. Você pode conced�
         <item>Feminino</item>
         <item>Masculino</item>
     </string-array>
+    <string-array name="cidade">
+        <item>Luanda</item>
+        <item>Bengo</item>
+        <item>Benguela</item>
+        <item>Bié</item>
+        <item>Cabinda</item>
+        <item>Cuando-Cubango</item>
+        <item>Cuanza Norte</item>
+        <item>Cuanza Sul</item>
+        <item>Cunene</item>
+        <item>Huambo</item>
+        <item>Huíla</item>
+        <item>Lunda Norte</item>
+        <item>Lunda Sul</item>
+        <item>Malanje</item>
+        <item>Moxico</item>
+        <item>Namibe</item>
+        <item>Uíge</item>
+        <item>Zaire</item>
+    </string-array>
 
 
     <!--valores quiz-->
@@ -107,6 +127,7 @@ Este aplicativo precisa de permissão para usar esse recurso. Você pode conced�
     <string name="exemplo_perguntas_certas">Perg. Certas : 0/30</string>
     <string name="exemplo_tentar_denovo">Tentar de Novo</string>
     <string name="exemplo_nome">Jogador</string>
+    <string name="exemplo_lugar">Lugar</string>
     <string name="exemplo_categoria_nome">Categoria</string>
     <string name="exemplo_pontuacao_desc">Pontuação</string>
     <string name="exemplo_pontos">Pontos</string>

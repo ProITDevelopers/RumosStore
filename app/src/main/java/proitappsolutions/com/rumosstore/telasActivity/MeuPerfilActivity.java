@@ -11,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -87,8 +89,8 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Button btnEditarPerfil;
     private RelativeLayout relativeLayoutMeuPerfil, relativeLayoutEditarPerfil;
     private String telefone, cidade, municipio, rua, genero, dataNasc;
-    private Spinner editGeneroEditar;
-    private AppCompatEditText editTelefoneEditar, editCidadeEditar, editMunicipioEditar,
+    private Spinner editGeneroEditar,editCidadeEditar;
+    private AppCompatEditText editTelefoneEditar, editMunicipioEditar,
             editRuaEditar, editDataNascEditar;
     private ProgressDialog progressDialog;
     private String id;
@@ -100,9 +102,9 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     private Toolbar toolbar_meu_perfil;
     private Toolbar toolbar_editPerfil;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private String valorGeneroItem;
+    private String valorGeneroItem,valorCidadeItem;
     ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
-
+    ArrayAdapter<CharSequence> adapterCidade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,13 +157,18 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         txtNameEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtNameEditar);
         txtEmailEditar = relativeLayoutEditarPerfil.findViewById(R.id.txtEmailEditar);
         editTelefoneEditar = relativeLayoutEditarPerfil.findViewById(R.id.editTelefoneEditar);
-        editCidadeEditar = relativeLayoutEditarPerfil.findViewById(R.id.editCidadeEditar);
         editMunicipioEditar = relativeLayoutEditarPerfil.findViewById(R.id.editMunicipioEditar);
         editRuaEditar = relativeLayoutEditarPerfil.findViewById(R.id.editRuaEditar);
+        editCidadeEditar = relativeLayoutEditarPerfil.findViewById(R.id.editCidadeSpiner);
         editGeneroEditar = relativeLayoutEditarPerfil.findViewById(R.id.editGeneroEditar);
         editDataNascEditar = relativeLayoutEditarPerfil.findViewById(R.id.editDataNascEditar);
         Button btnSalvarDados = relativeLayoutEditarPerfil.findViewById(R.id.btnSalvarDados);
 
+        adapterCidade = ArrayAdapter.createFromResource(MeuPerfilActivity.this,
+                R.array.cidade, android.R.layout.simple_spinner_item);
+        adapterCidade.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editCidadeEditar.setAdapter(adapterCidade);
+        editCidadeEditar.setOnItemSelectedListener(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.genero, android.R.layout.simple_spinner_item);
@@ -223,7 +230,14 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             }
             if (usuario.getProvincia() != null) {
                 valorProvincia.setText(usuario.getProvincia());
-                editCidadeEditar.setText(usuario.getProvincia());
+                String valorCidade = usuario.getProvincia();
+                /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cidades, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
+                editCidadeEditar.setAdapter(adapterCidade);
+                if (valorCidade != null) {
+                    int posicaoValor = adapterCidade.getPosition(valorCidade);
+                    editCidadeEditar.setSelection(posicaoValor);
+                }
             }
             if (usuario.getMunicipio() != null) {
                 valorMunicipio.setText(usuario.getMunicipio());
@@ -407,7 +421,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-
     private File salvarBitmap(Bitmap bitmap, String path) {
         File file = null;
         if (bitmap != null) {
@@ -444,7 +457,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         return Uri.parse(path);
     }
 
-
     public Bitmap reduzirImagem(Bitmap image, int maxSize) {
         int width = 10;
         int height = 10;
@@ -469,7 +481,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
         try {
             telefone = editTelefoneEditar.getText().toString().trim();
-            cidade = editCidadeEditar.getText().toString().trim();
+            cidade = valorCidadeItem;
             municipio = editMunicipioEditar.getText().toString().trim();
             rua = editRuaEditar.getText().toString().trim();
             genero = valorGeneroItem;
@@ -493,30 +505,17 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             return false;
         }
 
-        if (cidade.isEmpty()) {
-            editCidadeEditar.setError(msgErro);
-            return false;
-        }
 
         if (municipio.isEmpty()) {
-            editCidadeEditar.setError(msgErro);
+            editMunicipioEditar.setError(msgErro);
             return false;
         }
 
         if (rua.isEmpty()) {
-            editCidadeEditar.setError(msgErro);
+            editRuaEditar.setError(msgErro);
             return false;
         }
 
-        if (genero.isEmpty()) {
-            editCidadeEditar.setError(msgErro);
-            return false;
-        }
-
-        if (dataNasc.isEmpty()) {
-            editCidadeEditar.setError(msgErro);
-            return false;
-        }
 
         return true;
     }
@@ -569,7 +568,6 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
         progressDialog.setMessage(msgAprocessar);
         progressDialog.show();
         erroLayout.setVisibility(View.GONE);
-
         relativeLayoutEditarPerfil.setVisibility(View.VISIBLE);
         Call<Void> call = apiInterface.atualizarDados(id, cidade, municipio, rua, genero, dataNasc, telefone);
 
@@ -704,7 +702,21 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        valorGeneroItem = parent.getItemAtPosition(position).toString();
+        //parent.getItemAtPosition(position);
+        /*Toast.makeText(MeuPerfilActivity.this,"lwslasadadada",Toast.LENGTH_SHORT).show();
+        Log.i("valorpos",position + "");
+        Log.i("valorpos",parent.getId() + "");*/
+        switch (parent.getId())
+        {
+            case R.id.editCidadeSpiner:
+                valorCidadeItem = parent.getItemAtPosition(position).toString();
+                break;
+
+            case R.id.editGeneroEditar:
+                valorGeneroItem = parent.getItemAtPosition(position).toString();
+                break;
+
+        }
     }
 
     @Override

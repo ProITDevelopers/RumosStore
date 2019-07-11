@@ -6,7 +6,6 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import proitappsolutions.com.rumosstore.modelo.Autenticacao;
 import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
 import proitappsolutions.com.rumosstore.modelo.Data;
 import proitappsolutions.com.rumosstore.modelo.DataDados;

@@ -14,12 +14,15 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import java.text.Normalizer;
 import java.util.regex.Pattern;
 
 public class MetodosComuns {
 
     public static String bearerApi = "Bearer ";
     public static String msgErro = "Preencha o campo.";
+    public static String msgErroLetras = "Preencha o com letras.";
     public static String msgErroSenha = "Senha fraca.";
     public static String msgQuasePronto = "Quase Pronto...!";
     public static String msgSenhaAlterada = "A sua senha foi alterada com sucesso.!";
@@ -42,9 +45,16 @@ public class MetodosComuns {
     public static String msgEnviandoCodigo = "Enviando o código de confirmação..!";
     public static String msgSupporte = "Enviamos o código de confirmação para - ";
     public static String msgSenhaFracaAjuda = "Senha fraca.O campo precisa de ter mais de 6 caracteres.";
+    public static String txtPerguntasErradas = "Perguntas Erradas - ";
 
 
     private static String TAG = "FalhaSis";
+
+    public static String removeAcentos(String text) {
+        return text == null ? null :
+                Normalizer.normalize(text, Normalizer.Form.NFD)
+                        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
 
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;

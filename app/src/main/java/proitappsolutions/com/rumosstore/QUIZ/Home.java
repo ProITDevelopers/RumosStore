@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.User;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
-import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
 
-import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class Home extends AppCompatActivity {
@@ -42,33 +38,35 @@ public class Home extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        User login =new User (AppDatabase.getInstance().getUser().getEmail().split("@")[0]
+        /*.getEmail().split("@")[0]*/
+
+        Common.currentUser = new User (AppDatabase.getInstance().getUser().nomeCliente
                 , "",
                 proitappsolutions.com.rumosstore.Common.mCurrentUser.getEmail());
-        Common.currentUser = login;
 
         verifConecxao();
 
 
         bottomNavigationView = findViewById(R.id.navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment selectedFragment = null;
-                switch (menuItem.getItemId()){
-                    case R.id.action_category:
-                        selectedFragment = new CategoryFragment().newInstance();
-                        break;
-                    case R.id.action_ranking:
-                        selectedFragment = new RankingFragment().newInstance();
-                        break;
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            Fragment selectedFragment = null;
+            switch (menuItem.getItemId()){
+                case R.id.action_category:
+                    new CategoryFragment(); //Instancia criada. Antes fazia um acesso direito
+                    selectedFragment = CategoryFragment.newInstance();
+                    break;
+                case R.id.action_ranking:
+                    new RankingFragment(); //Instancia criada. Antes fazia um acesso direito
+                    selectedFragment = RankingFragment.newInstance();
+                    break;
+            }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (selectedFragment != null){
                 transaction.replace(R.id.frame_layout,selectedFragment);
                 transaction.commit();
-                return true;
             }
+            return true;
         });
         setDefaultFragment();
     }

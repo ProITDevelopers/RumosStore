@@ -7,9 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,21 +43,27 @@ public class FragHomeInicial extends Fragment {
     private LinearLayout linearLayout;
     private TextView btnTentarDeNovo;
     private MinhaAsyncTask minhaAsyncTask;
-    private final String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
-    private final String RSS_link_vanguarda = "https://vanguarda.co.ao/rss/newsletter";
-    private final String RSS_PARA_JSON_API = "https://api.rss2json.com/v1/api.json?rss_url=";
+    private SwipeRefreshLayout swiperefresh;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home_inicial, container, false);
+        swiperefresh = view.findViewById(R.id.swiperefresh);
         progress_amarela = view.findViewById(R.id.progress_amarela);
         recyclerView = view.findViewById(R.id.recyclerView);
         errorLayout = view.findViewById(R.id.erroLayout);
         linearLayout = view.findViewById(R.id.linearLayout);
         btnTentarDeNovo = view.findViewById(R.id.btn);
         btnTentarDeNovo.setText(msgTentarDeNovo);
+
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                verifConecxao();
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -69,7 +75,6 @@ public class FragHomeInicial extends Fragment {
     }
 
     public class MinhaAsyncTask extends AsyncTask<String, String, String> {
-
 
         public MinhaAsyncTask(Context mContext) {
         }
@@ -84,13 +89,13 @@ public class FragHomeInicial extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+            swiperefresh.setRefreshing(false);
             progress_amarela.setVisibility(View.GONE);
             rssObjecto = new Gson().fromJson(s, RSSObjecto.class);
             FeedAdapter adapter = new FeedAdapter(rssObjecto, getContext());
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-
     }
 
     /* private void carregarRss() {
@@ -132,13 +137,18 @@ public class FragHomeInicial extends Fragment {
             progress_amarela.setVisibility(View.VISIBLE);
             if (netInfo == null) {
                 mostarMsnErro();
+                mostrarMensagem(getActivity(), R.string.txtMsgErroRede);
             } else {
                 if (conexaoInternetTrafego(getActivity()))
                     mostrarMensagem(getActivity(), R.string.txtMsg);
-                else
+                else {
                     progress_amarela.setVisibility(View.GONE);
-                minhaAsyncTask = new MinhaAsyncTask(getContext());
-                minhaAsyncTask.execute(RSS_PARA_JSON_API + RSS_link);
+                    minhaAsyncTask = new MinhaAsyncTask(getContext());
+                    String RSS_link = "https://mercado.co.ao/rss/newsletter.xml";
+                    //private final String RSS_link_vanguarda = "https://vanguarda.co.ao/rss/newsletter";
+                    String RSS_PARA_JSON_API = "https://api.rss2json.com/v1/api.json?rss_url=";
+                    minhaAsyncTask.execute(RSS_PARA_JSON_API + RSS_link);
+                }
             }
         }
     }
@@ -162,7 +172,7 @@ public class FragHomeInicial extends Fragment {
 
     @Override
     public void onDestroy() {
-        minhaAsyncTask.cancel(true);
+        //minhaAsyncTask.cancel(true);
         super.onDestroy();
     }
 }

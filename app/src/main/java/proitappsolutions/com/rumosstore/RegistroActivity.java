@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
+import java.text.Normalizer;
+
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
 import proitappsolutions.com.rumosstore.api.erroApi.ErrorResponce;
@@ -37,9 +39,11 @@ import retrofit2.Response;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErro;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroLetras;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenha;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSenhaDiferente;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgQuasePronto;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.removeAcentos;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -114,8 +118,19 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         String senha = editTextPassRegistro.getText().toString().trim();
         String senhaConf = editTextPassRegistro2.getText().toString().trim();
 
+        try {
+            nome = removeAcentos(nome);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if (nome.isEmpty()){
             editTextNomeRegistro.setError(msgErro);
+            return false;
+        }
+
+        if (!nome.matches("^[a-zA-Z\\s]+$")){
+            editTextNomeRegistro.setError(msgErroLetras);
             return false;
         }
 
@@ -159,15 +174,19 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         UsuarioApi usuarioApi = new UsuarioApi(editTextNomeRegistro.getText().toString().trim(),editTextEmailRegistro.getText().toString().trim()
                 ,editTextPassRegistro.getText().toString().trim());
-        UsuarioFire usuarioFire = new UsuarioFire(editTextNomeRegistro.getText().toString().trim().toUpperCase()
-                ,editTextEmailRegistro.getText().toString().trim());
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
         Call<Void> call = apiInterface.registrarCliente(usuarioApi);
+
        call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()){
-                    users.child(editTextEmailRegistro.getText().toString().trim().split("@")[0].toUpperCase())
+                    String nome = editTextNomeRegistro.getText().toString();
+                    String nomeValor;
+                    nomeValor = nome.replace(" ","_");
+                    UsuarioFire usuarioFire = new UsuarioFire(nomeValor
+                            ,editTextEmailRegistro.getText().toString().trim());
+                    users.child(nome.toUpperCase())
                             .setValue(usuarioFire).addOnCompleteListener(task -> {
                                 Toast.makeText(RegistroActivity.this,R.string.txtEfetuadoregistro,Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();

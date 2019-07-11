@@ -123,7 +123,9 @@
                         android:layout_marginTop="25dp"
                         android:paddingRight="25dp"
                         android:paddingLeft="10dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingEnd="25dp"
+                        android:paddingStart="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -141,13 +143,13 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="right">
+                                android:gravity="end">
 
                                 <Button
                                     android:id="@+id/btnCancelarEdicao"
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
-                                    android:layout_gravity="right"
+                                    android:layout_gravity="end"
                                     android:layout_marginTop="@dimen/margem_cima"
                                     android:background="@drawable/ic_cancelar_24dp"/>
 
@@ -170,27 +172,18 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/borda_spinner"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <android.support.design.widget.TextInputLayout
+                                <Spinner
+                                    android:id="@+id/editCidadeSpiner"
                                     android:layout_width="0dp"
                                     android:layout_weight="2"
-                                    android:layout_height="wrap_content"
-                                    android:theme="@style/MyEditTextTheme"
-                                    android:id="@+id/txtCidadeEditar">
-
-                                    <android.support.v7.widget.AppCompatEditText
-                                        android:id="@+id/editCidadeEditar"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:hint="@string/txtProvinciaE"
-                                        android:inputType="text"
-                                        android:theme="@style/MyEditTextTheme"/>
-
-
-                                </android.support.design.widget.TextInputLayout>
-
+                                    android:backgroundTint="@color/black"
+                                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                                    android:layout_height="40dp" />
 
                             </LinearLayout>
 
@@ -293,6 +286,8 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/borda_spinner"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
@@ -300,8 +295,9 @@
                                     android:id="@+id/editGeneroEditar"
                                     android:layout_width="0dp"
                                     android:layout_weight="2"
+                                    android:backgroundTint="@color/black"
+                                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                                     android:layout_height="40dp" />
-
 
                             </LinearLayout>
 

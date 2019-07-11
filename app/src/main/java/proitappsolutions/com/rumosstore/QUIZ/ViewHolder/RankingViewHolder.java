@@ -12,7 +12,7 @@ import proitappsolutions.com.rumosstore.R;
 public class RankingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_name,txt_score;
-    public ImageView trofeu_score;
+    public ImageView trofeu_ouro,trofeu_prata,trofeu_bronze;
 
     private ItemClickListener itemClickListener;
 
@@ -20,7 +20,9 @@ public class RankingViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         txt_name = itemView.findViewById(R.id.txt_name);
         txt_score = itemView.findViewById(R.id.txt_score);
-        trofeu_score = itemView.findViewById(R.id.trofeu_score);
+        trofeu_ouro = itemView.findViewById(R.id.trofeu_ouro);
+        trofeu_prata = itemView.findViewById(R.id.trofeu_prata);
+        trofeu_bronze = itemView.findViewById(R.id.trofeu_bronze);
 
         itemView.setOnClickListener(this);
     }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swiperefresh"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -14,7 +15,8 @@
             android:layout_height="220dp"
             app:layout_collapseMode="parallax"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_media_rumo"/>
+            android:src="@drawable/img_media_rumo"
+            android:contentDescription="@string/imageView" />
         <ProgressBar
             android:id="@+id/progress_amarela"
             android:layout_gravity="center"
@@ -37,4 +39,4 @@
     <include layout="@layout/activity_sem_internet" />
 
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

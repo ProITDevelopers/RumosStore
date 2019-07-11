@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,8 +22,6 @@ import dmax.dialog.SpotsDialog;
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Question;
 import proitappsolutions.com.rumosstore.R;
-
-import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
 import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class Start extends AppCompatActivity {

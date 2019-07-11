@@ -16,14 +16,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://console.proitappsolutions.com/v1/app/";
-    public static Retrofit retrofit;
+    private static final String BASE_URL = "https://console.proitappsolutions.com/v1/app/";
+    private static Retrofit retrofit;
+
+    private static OkHttpClient okHttpClientvalor = new OkHttpClient.Builder()
+            .connectTimeout(90, TimeUnit.SECONDS)
+            .writeTimeout(90, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)
+            .build();
 
     public static Retrofit apiClient(){
 
         if (retrofit == null){
             retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                    .client(getUnsafeOkHttpClient().build())
+                    .client(okHttpClientvalor)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -57,7 +63,8 @@ public class ApiClient {
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(90, TimeUnit.SECONDS)
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS)
                     .readTimeout(90, TimeUnit.SECONDS)
                     .writeTimeout(90, TimeUnit.SECONDS);
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);

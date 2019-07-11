@@ -5,12 +5,12 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:layout_marginBottom="10dp"
-    android:background="@color/black"
+    android:background="@drawable/quiz_sombra_resultado"
     android:orientation="vertical">
 
     <TextView
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:id="@+id/tv_pergunta_feita"
@@ -25,20 +25,21 @@
 
         <TextView
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
             android:textColor="@android:color/white"
             android:id="@+id/tv_pergunta_errada"
             android:layout_width="0dp"
-            android:layout_weight="90"
+            android:layout_weight="80"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"/>
 
         <ImageView
+            android:id="@+id/icone_errado"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:src="@drawable/ic_errado_quiz_24dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/imageView"
             android:layout_marginBottom="10dp"/>
@@ -51,20 +52,20 @@
         android:orientation="horizontal">
         <TextView
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
             android:textColor="@android:color/white"
             android:id="@+id/tv_pergunta_certa"
             android:layout_width="0dp"
-            android:layout_weight="90"
+            android:layout_weight="80"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_certo_quiz_24dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:contentDescription="@string/imageView" />
     </LinearLayout>
 

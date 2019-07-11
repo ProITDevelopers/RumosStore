@@ -288,7 +288,7 @@ public class HomeInicialActivity extends AppCompatActivity implements
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, fragHomeInicial);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_meu_perfil) {
+        }else if (id == R.id.nav_meu_perfil) {
             Intent intent = new Intent(HomeInicialActivity.this, MeuPerfilActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_quiz) {

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class AdapterResFinal extends RecyclerView.Adapter<AdapterResFinal.MyView
             viewHolder.tv_pergunta_errada.setText(perguntaErrada.getpErrada());
         }else {
             viewHolder.tv_pergunta_errada.setVisibility(View.GONE);
+            viewHolder.icone_errado.setVisibility(View.GONE);
         }
         viewHolder.tv_pergunta_certa.setText(perguntaErrada.getpCerta());
     }
@@ -60,6 +62,7 @@ public class AdapterResFinal extends RecyclerView.Adapter<AdapterResFinal.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tv_pergunta_feita,tv_pergunta_errada,tv_pergunta_certa,tv_quiz;
+        ImageView icone_errado;
 
         MyViewHolder(View itemView, OnItemClickListener onItemClickListener){
             super(itemView);
@@ -67,6 +70,7 @@ public class AdapterResFinal extends RecyclerView.Adapter<AdapterResFinal.MyView
             tv_pergunta_feita = itemView.findViewById(R.id.tv_pergunta_feita);
             tv_pergunta_errada = itemView.findViewById(R.id.tv_pergunta_errada);
             tv_pergunta_certa = itemView.findViewById(R.id.tv_pergunta_certa);
+            icone_errado = itemView.findViewById(R.id.icone_errado);
         }
 
         @Override

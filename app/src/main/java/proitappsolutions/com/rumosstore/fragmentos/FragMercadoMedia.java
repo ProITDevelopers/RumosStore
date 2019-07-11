@@ -3,13 +3,10 @@ package proitappsolutions.com.rumosstore.fragmentos;
 import android.app.Activity;
 import android.graphics.Color;
 import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +35,6 @@ public class FragMercadoMedia extends Fragment {
 
     private View view;
     private WebView webView;
-    private RelativeLayout coordinatorLayout;
     private LinearLayout progressBar;
     RingProgressBar anelprogressbar;
 
@@ -89,10 +85,10 @@ public class FragMercadoMedia extends Fragment {
 
     private void carregarWebView(View view){
 
-        webView = (WebView) view.findViewById(R.id.webViewMercado);
-        coordinatorLayout = (RelativeLayout) view.findViewById(R.id.coordinatorLayout);
-        progressBar = (LinearLayout) view.findViewById(R.id.linearProgresso);
-        anelprogressbar = (RingProgressBar) view.findViewById(R.id.progressbar_1);
+        webView = view.findViewById(R.id.webViewMercado);
+        RelativeLayout coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
+        progressBar = view.findViewById(R.id.linearProgresso);
+        anelprogressbar = view.findViewById(R.id.progressbar_1);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
@@ -121,39 +117,21 @@ public class FragMercadoMedia extends Fragment {
 
             public void onProgressChanged(WebView webView, int progress) {
 
-
-
-
-
                     if (progress < 100){
-
-
                         progressBar.setVisibility(ProgressBar.VISIBLE);
                         anelprogressbar.setTextColor(Color.parseColor("#000000"));
                         anelprogressbar.setProgress(progress);
-
-
                     }
 
                     if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
-
-
                         anelprogressbar.setProgress(progress);
                         progressBar.setVisibility(ProgressBar.VISIBLE);
-
-
                     }
 
                     if(progress == 100) {
-
                         progressBar.setVisibility(ProgressBar.GONE);
                         anelprogressbar.setVisibility(View.GONE);
-
-
                     }
-
-
-
             }
         });
     }

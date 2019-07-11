@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,17 +24,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
-import proitappsolutions.com.rumosstore.QUIZ.Interface.ItemClickListener;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Category;
 import proitappsolutions.com.rumosstore.QUIZ.ViewHolder.CategoryViewHolder;
 import proitappsolutions.com.rumosstore.R;
-import proitappsolutions.com.rumosstore.RegistroActivity;
-
-import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
-import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
 
 public class CategoryFragment extends Fragment {
 
@@ -41,13 +36,14 @@ public class CategoryFragment extends Fragment {
     RecyclerView listCategory;
     ProgressBar progress_quiz;
     RecyclerView.LayoutManager layoutManager;
+    SwipeRefreshLayout swiperefreshCategorias;
     FirebaseRecyclerAdapter<Category, CategoryViewHolder> adapter ;
     FirebaseDatabase database;
     DatabaseReference categories;
 
     public static CategoryFragment newInstance(){
-        CategoryFragment categoryFragment = new CategoryFragment();
-        return categoryFragment;
+        //CategoryFragment categoryFragment = new CategoryFragment();
+        return new CategoryFragment();
     }
 
     @Override
@@ -64,11 +60,14 @@ public class CategoryFragment extends Fragment {
         myFragment = inflater.inflate(R.layout.quiz_fragment_category,container,false);
         //Carrega o menu
         progress_quiz =  myFragment.findViewById(R.id.progress_quiz);
+        swiperefreshCategorias =  myFragment.findViewById(R.id.swiperefreshCategorias);
         progress_quiz.setVisibility(View.VISIBLE);
         listCategory =  myFragment.findViewById(R.id.listCategory);
         listCategory.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         listCategory.setLayoutManager(layoutManager);
+
+        swiperefreshCategorias.setOnRefreshListener(this::loadCategories);
 
         loadCategories();
 
@@ -87,10 +86,11 @@ public class CategoryFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull CategoryViewHolder holder, int position, @NonNull final Category model) {
                 progress_quiz.setVisibility(View.GONE);
-                    holder.category_name.setText(model.getName());;
+                swiperefreshCategorias.setRefreshing(false);
+                    holder.category_name.setText(model.getName());
                 try{
                     Glide
-                            .with(getActivity())
+                            .with(myFragment)
                             .load(model.getImage()).listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -108,14 +108,11 @@ public class CategoryFragment extends Fragment {
                     Log.e("erro",e.getMessage());
                 }
 
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        Intent startGame = new Intent(getActivity(),Start.class);
-                        Common.categoryId = adapter.getRef(position).getKey();
-                        Common.categoryName = model.getName();
-                        startActivity(startGame);
-                    }
+                holder.setItemClickListener((view, position1, isLongClick) -> {
+                    Intent startGame = new Intent(getActivity(),Start.class);
+                    Common.categoryId = adapter.getRef(position1).getKey();
+                    Common.categoryName = model.getName();
+                    startActivity(startGame);
                 });
             }
 

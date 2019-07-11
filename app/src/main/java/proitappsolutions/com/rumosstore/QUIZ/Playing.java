@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import java.util.Locale;
 
 import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
 import proitappsolutions.com.rumosstore.QUIZ.Model.PerguntaErrada;
@@ -24,6 +24,7 @@ import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMens
 
 public class Playing extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = "PlayingDebug";
     final static long INTERVAL = 1000; //UM segundo
     final static long TIMEOUT = 15000; //SET segundo
     int progressValue = 0;
@@ -69,6 +70,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
         ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
+            Log.i(TAG, "Internet Sem internet");
             mostrarMensagem(Playing.this,R.string.txtMsgErroRede);
         }
     }
@@ -96,15 +98,15 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
                 Common.questErradasList.add(perguntaEoutros);
                 showQuestion(++index);
             }
-            txtScore.setText(String.format("%d",score));
+            txtScore.setText(String.format(Locale.US,"%d",score));
         }
     }
-
-    private void showQuestion(int i) {
-
+    //ATT CASO PROBLEMA AO MOSTRAR PERGUNTAS O index primeiro não estava a ser usado
+    private void showQuestion(int index) {
+        pergunta_passada = null;
         if (index < totalQuestion) {
             thisQuestion++;
-            txtQuestionNum.setText(String.format("%d / %d", thisQuestion, totalQuestion));
+            txtQuestionNum.setText(String.format(Locale.US,"%d / %d", thisQuestion, totalQuestion));
             progresssBar.setProgress(0);
             progressValue = 0;
 
@@ -126,12 +128,11 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
 
             mCountDown.start(); //Comecar timer
         } else {
-            for (int i1 = 0; i1 < Common.questErradasList.size(); i1++) {
-                Log.i("Perguntas", "Certa - " + Common.questErradasList.get(i1).getpCerta());
-                Log.i("Perguntas", "Errada - " + Common.questErradasList.get(i1).getpErrada());
-                Log.i("Perguntas", "Feita - " + Common.questErradasList.get(i1).getpFeita());
-            }
-          //  Toast.makeText(Playing.this, "" + Common.questErradasList.size(), Toast.LENGTH_SHORT).show();
+           /* for (int i1 = 0; i1 < Common.questErradasList.size(); i1++) {
+                Log.i(TAG, "Certa - " + Common.questErradasList.get(i1).getpCerta());
+                Log.i(TAG, "Errada - " + Common.questErradasList.get(i1).getpErrada());
+                Log.i(TAG, "Feita - " + Common.questErradasList.get(i1).getpFeita());
+            } */
             //Se for a ultima questao
             Intent intent = new Intent(this, Done.class);
             Bundle dataSend = new Bundle();
@@ -182,6 +183,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         mCountDown.cancel();
+        Log.i(TAG, "Activity destruida");
     }
 
     @Override

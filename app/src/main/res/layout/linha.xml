@@ -71,14 +71,6 @@
 
         </LinearLayout>
 
-     <!--   <TextView
-            android:id="@+id/conteudo"
-            android:text="Informação"
-            android:textSize="14sp"
-            android:textStyle="normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-     -->
     </LinearLayout>
 
 

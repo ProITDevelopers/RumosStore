@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import proitappsolutions.com.rumosstore.QUIZ.Common.Common;
-import proitappsolutions.com.rumosstore.QUIZ.Interface.ItemClickListener;
+import proitappsolutions.com.rumosstore.Adapter.AdapterClassificacaoJogador;
+import proitappsolutions.com.rumosstore.AppDatabase;
 import proitappsolutions.com.rumosstore.QUIZ.Interface.RankingCallBack;
 import proitappsolutions.com.rumosstore.QUIZ.Model.QuestionStore;
 import proitappsolutions.com.rumosstore.QUIZ.Model.Ranking;
@@ -38,15 +38,18 @@ public class RankingFragment extends Fragment {
     View myFragment;
     RecyclerView rankingList;
     LinearLayoutManager layoutManager;
+    SwipeRefreshLayout swiperefreshRanking;
     FirebaseRecyclerAdapter<Ranking, RankingViewHolder> adapter ;
+    private AdapterClassificacaoJogador adapterRecycler;
+    private List<Ranking> rankings = new ArrayList<>();
     FirebaseDatabase database;
     ProgressBar progress_quiz_ranking;
     DatabaseReference questionScore,rankingTbl;
     int sum=0;
 
     public static RankingFragment newInstance(){
-        RankingFragment rankingFragment = new RankingFragment();
-        return rankingFragment;
+        //RankingFragment rankingFragment = new RankingFragment();
+        return new RankingFragment();
     }
 
     @Override
@@ -62,6 +65,7 @@ public class RankingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myFragment = inflater.inflate(R.layout.quiz_fragment_ranking,container,false);
+        swiperefreshRanking =  myFragment.findViewById(R.id.swiperefreshRanking);
         progress_quiz_ranking =  myFragment.findViewById(R.id.progress_quiz_ranking);
         progress_quiz_ranking.setVisibility(View.VISIBLE);
         rankingList =  myFragment.findViewById(R.id.rankingList);
@@ -74,39 +78,72 @@ public class RankingFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         rankingList.setLayoutManager(layoutManager);
-
-        updateScore(Common.currentUser.getUserName(), new RankingCallBack<Ranking>() {
-            @Override
-            public void callBack(Ranking ranking) {
+        try{
+            String nome = AppDatabase.getInstance().getUser().nomeCliente;
+            nome = nome.replace(" ","_");
+            updateScore(nome, ranking -> {
                 rankingTbl.child(ranking.getUserName())
                         .setValue(ranking);
-                //  showRanking(); //Depois de atalizar, mostrar o resultado do ranking ordenado
+                //showRanking(); //Depois de atalizar, mostrar o resultado do ranking ordenado
+            });
+            swiperefreshRanking.setOnRefreshListener(this::carregarClassificacao);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        carregarClassificacao();
+        
+        return myFragment;
+    }
+
+    private void carregarClassificacao() {
+
+        rankingTbl.orderByChild("score").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                swiperefreshRanking.setRefreshing(false);
+                progress_quiz_ranking.setVisibility(View.GONE);
+                rankings.clear();
+                for (DataSnapshot data: dataSnapshot.getChildren()){
+                    Ranking ques = data.getValue(Ranking.class);
+                    if (ques != null ){
+                        rankings.add(ques);
+                    }
+                }
+                adapterRecycler = new AdapterClassificacaoJogador(rankings,getContext());
+                rankingList.setAdapter(adapterRecycler);
+                adapterRecycler.notifyDataSetChanged();
+                initListner();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
-        FirebaseRecyclerOptions<Ranking> options =
+
+        /*FirebaseRecyclerOptions<Ranking> options =
                 new FirebaseRecyclerOptions.Builder<Ranking>()
                         .setQuery(rankingTbl.orderByChild("score"), Ranking.class)
                         .build();
-
 
         //configurando o adapter
         adapter = new FirebaseRecyclerAdapter<Ranking, RankingViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull RankingViewHolder holder, int position, @NonNull final Ranking model) {
+                swiperefreshRanking.setRefreshing(false);
                 progress_quiz_ranking.setVisibility(View.GONE);
                 // Log.i("valormax",valorMaximo + "---" + model.getScore());
                 holder.txt_name.setText(model.getUserName());
                 holder.txt_score.setText(String.valueOf(model.getScore()));
 
                 //resolvendo o erro quando o usario clica no item
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        Intent scoreDetail = new Intent(getActivity(),ScoreDetail.class);
-                        scoreDetail.putExtra("viewUser",model.getUserName());
-                        startActivity(scoreDetail);
-                    }
+                holder.setItemClickListener((view, position1, isLongClick) -> {
+                    Intent scoreDetail = new Intent(getActivity(),ScoreDetail.class);
+                    scoreDetail.putExtra("viewUser",model.getUserName());
+                    startActivity(scoreDetail);
                 });
 
             }
@@ -121,9 +158,16 @@ public class RankingFragment extends Fragment {
         };
         rankingList.setAdapter(adapter);
         //adapter.notifyDataSetChanged();
-        adapter.startListening();
-        
-        return myFragment;
+        adapter.startListening();*/
+    }
+
+    private void initListner(){
+        adapterRecycler.setOnItemClickListener((view, position) -> {
+            Ranking ranking = rankings.get(position);
+            Intent scoreDetail = new Intent(getActivity(),ScoreDetail.class);
+            scoreDetail.putExtra("viewUser",ranking.getUserName());
+            startActivity(scoreDetail);
+        });
     }
 
 
