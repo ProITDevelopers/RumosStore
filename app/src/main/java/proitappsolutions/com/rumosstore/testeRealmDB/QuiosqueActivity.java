@@ -328,6 +328,8 @@ public class QuiosqueActivity extends AppCompatActivity {
         //===========================================MERCADO==============================================
         //===============================================================================================
 
+        // Order the list by regist date.
+        Collections.reverse(mercadoList);
 
         revistasMercadoAdapter = new RevistasAdapter(mercadoList,this);
         revistasMercadoAdapter.notifyDataSetChanged();
@@ -387,7 +389,8 @@ public class QuiosqueActivity extends AppCompatActivity {
         //===========================================VANGUARDA==============================================
         //=========================================================================================
 
-
+        // Order the list by regist date.
+        Collections.reverse(vanguardaList);
 
         revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,this);
         revistasVanguardaAdapter.notifyDataSetChanged();
@@ -443,6 +446,8 @@ public class QuiosqueActivity extends AppCompatActivity {
         //==============================================RUMO===========================================
         //=========================================================================================
 
+        // Order the list by regist date.
+        Collections.reverse(rumoList);
 
         revistasRumoAdapter = new RevistasAdapter(rumoList,this);
         revistasRumoAdapter.notifyDataSetChanged();
