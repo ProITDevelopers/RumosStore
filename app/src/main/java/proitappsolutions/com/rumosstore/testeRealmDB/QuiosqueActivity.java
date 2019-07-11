@@ -273,18 +273,45 @@ public class QuiosqueActivity extends AppCompatActivity {
         Collections.sort(revistasList, new Revistas());
 
         for (int i = 0; i <revistasList.size() ; i++) {
-            revistas = revistasList.get(i);
+            revistas = new Revistas(Integer.parseInt(String.valueOf(revistasList.get(i).id_jornal)),
+                    String.valueOf(revistasList.get(i).nome),String.valueOf(revistasList.get(i).fotoJornal),
+                    String.valueOf(revistasList.get(i).link),String.valueOf(revistasList.get(i).categoria),
+                    String.valueOf(revistasList.get(i).dataEdicao),String.valueOf(revistasList.get(i).descricao));
 
-            if (revistas.getCategoria().equals("mercado") || revistas.getCategoria().equals("Mercado")){
-                mercadoList.add(revistas);
+//            if (revistas.getCategoria().equals("mercado") || revistas.getCategoria().equals("Mercado")){
+            if (revistas.getCategoria().equalsIgnoreCase("mercado")){
+
+                if(!revistas.getNome().equals("") && !revistas.getNome().isEmpty() ||
+                        !revistas.getFotoJornal().equals("") && !revistas.getFotoJornal().isEmpty() ||
+                        !revistas.getLink().equals("") &&!revistas.getLink().isEmpty() ||
+                        !revistas.getDataEdicao().equals("") &&!revistas.getDataEdicao().isEmpty()){
+
+                    mercadoList.add(revistas);
+                }
+
             }
 
-            if (revistas.getCategoria().equals("vanguarda") || revistas.getCategoria().equals("Vanguarda")){
-                vanguardaList.add(revistas);
+            if (revistas.getCategoria().equalsIgnoreCase("vanguarda")){
+
+                if(!revistas.getNome().equals("") && !revistas.getNome().isEmpty() ||
+                        !revistas.getFotoJornal().equals("") && !revistas.getFotoJornal().isEmpty() ||
+                        !revistas.getLink().equals("") &&!revistas.getLink().isEmpty() ||
+                        !revistas.getDataEdicao().equals("") &&!revistas.getDataEdicao().isEmpty()){
+
+                    vanguardaList.add(revistas);
+                }
             }
 
-            if (revistas.getCategoria().equals("rumo") || revistas.getCategoria().equals("Rumo")){
-                rumoList.add(revistas);
+            if (revistas.getCategoria().equalsIgnoreCase("rumo")){
+
+                if(!revistas.getNome().equals("") && !revistas.getNome().isEmpty() ||
+                        !revistas.getFotoJornal().equals("") && !revistas.getFotoJornal().isEmpty() ||
+                        !revistas.getLink().equals("") &&!revistas.getLink().isEmpty()||
+                        !revistas.getDataEdicao().equals("") &&!revistas.getDataEdicao().isEmpty()){
+
+
+                    rumoList.add(revistas);
+                }
             }
 
         }
