@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore.fragmentos;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.net.http.SslError;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.R;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class FragRumoMedia extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";

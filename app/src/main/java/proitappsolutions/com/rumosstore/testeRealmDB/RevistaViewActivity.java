@@ -1,5 +1,6 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import proitappsolutions.com.rumosstore.Common;
 import proitappsolutions.com.rumosstore.R;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class RevistaViewActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -99,6 +101,7 @@ public class RevistaViewActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void carregarPDFView(String pdf){
 
