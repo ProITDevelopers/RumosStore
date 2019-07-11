@@ -7,42 +7,53 @@
     android:background="@color/black"
     tools:context=".testeRealmDB.RevistaDetalheActivity">
 
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        android:background="@color/black">
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBotaoLogin" />
+
     <LinearLayout
+        android:layout_below="@+id/viewDivider"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/white"
-            android:background="@color/black">
 
-        </android.support.v7.widget.Toolbar>
 
         <ImageView
             android:id="@+id/imgRev"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_avatar"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
             android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_margin="20dp"
             android:scaleType="fitCenter"
-            android:layout_marginBottom="20dp"/>
+
+            />
 
         <TextView
             android:id="@+id/txt_name"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:textColor="@color/colorBotaoLogin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:id="@+id/txt_description"
             android:textColor="@color/colorBotaoLogin"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +62,6 @@
         <Button
             android:id="@+id/btnLer"
             android:layout_width="270dp"
-
             android:text="Ler"
             android:layout_gravity="center"
             android:textColor="@color/black"
@@ -61,5 +71,9 @@
 
 
     </LinearLayout>
+
+
+
+
 
 </RelativeLayout>
