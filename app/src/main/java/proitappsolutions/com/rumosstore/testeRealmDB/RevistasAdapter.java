@@ -70,7 +70,7 @@ public class RevistasAdapter extends BaseAdapter  {
             name.setText(revistas.getNome());
             Picasso.with(mContext).load(revistas.getFotoJornal()).resize(210, 300).onlyScaleDown().placeholder(R.drawable.revista_placeholder).error(R.drawable.revista_image_error).into(image);
 
-            itemView.setOnClickListener(onClickListener(i));
+            image.setOnClickListener(onClickListener(i));
 
 
             return itemView;

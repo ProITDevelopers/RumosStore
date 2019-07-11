@@ -305,7 +305,12 @@ public class HomeInicialActivity extends AppCompatActivity implements
             enviarLinkActivity("https://www.vanguarda.co.ao/", "vanguarda", HomeInicialActivity.this);
         } else if (id == R.id.nav_rumo) {
             enviarLinkActivity("https://mediarumo.com/", "rumo", HomeInicialActivity.this);
-        }  else if (id == R.id.nav_multimedia) {
+        }  else if (id == R.id.nav_media_rumo) {
+            enviarLinkActivity("https://mediarumo.com/", "rumo", HomeInicialActivity.this);
+        }
+
+
+        else if (id == R.id.nav_multimedia) {
             Intent intent = new Intent(this, MultimediaActivity.class);
             startActivity(intent);
         }

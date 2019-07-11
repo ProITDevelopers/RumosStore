@@ -28,6 +28,7 @@
             android:layout_height="?android:attr/actionBarSize"
             android:layout_gravity="bottom"
             app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/colorBotaoLogin"
             app:tabIndicatorColor="@color/colorBotaoLogin"
             android:background="@color/black"
             />

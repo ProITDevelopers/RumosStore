@@ -330,6 +330,7 @@ public class QuiosqueActivity extends AppCompatActivity {
 
 
         revistasMercadoAdapter = new RevistasAdapter(mercadoList,this);
+        revistasMercadoAdapter.notifyDataSetChanged();
         coverFlow.setAdapter(revistasMercadoAdapter);
 
 
@@ -389,6 +390,7 @@ public class QuiosqueActivity extends AppCompatActivity {
 
 
         revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,this);
+        revistasVanguardaAdapter.notifyDataSetChanged();
         coverFlow2.setAdapter(revistasVanguardaAdapter);
 
 
@@ -443,6 +445,7 @@ public class QuiosqueActivity extends AppCompatActivity {
 
 
         revistasRumoAdapter = new RevistasAdapter(rumoList,this);
+        revistasRumoAdapter.notifyDataSetChanged();
         coverFlow3.setAdapter(revistasRumoAdapter);
 
 

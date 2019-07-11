@@ -36,13 +36,13 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
         }
 
 //        //MEDIA
-//        media_social_fb = findViewById(R.id.media_social_fb);
-//        media_social_inst = findViewById(R.id.media_social_inst);
-//        media_social_linked = findViewById(R.id.media_social_linked);
-//
-//        media_social_fb.setOnClickListener(this);
-//        media_social_inst.setOnClickListener(this);
-//        media_social_linked.setOnClickListener(this);
+        media_social_fb = findViewById(R.id.media_social_fb);
+        media_social_inst = findViewById(R.id.media_social_inst);
+        media_social_linked = findViewById(R.id.media_social_linked);
+
+        media_social_fb.setOnClickListener(this);
+        media_social_inst.setOnClickListener(this);
+        media_social_linked.setOnClickListener(this);
 
         //MERCADO
         mercado_social_fb = findViewById(R.id.mercado_social_fb);
@@ -83,15 +83,15 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
 
 //            //MEDIA
-//            case R.id.media_social_fb:
-//                verifConecxao("https://www.facebook.com/jornalmercado/", "facebook", SobreNosActivity.this);
-//                break;
-//            case R.id.media_social_inst:
-//                verifConecxao("https://www.instagram.com/explore/tags/jornalmercado/", "instagram", SobreNosActivity.this);
-//                break;
-//            case R.id.media_social_linked:
-//                verifConecxao("https://pt.linkedin.com/company/media-rumo", "mercado", SobreNosActivity.this);
-//                break;
+            case R.id.media_social_fb:
+                verifConecxao("https://www.facebook.com/jornalmercado/", "facebook", SobreNosActivity.this);
+                break;
+            case R.id.media_social_inst:
+                verifConecxao("https://www.instagram.com/jornalmercado/", "instagram", SobreNosActivity.this);
+                break;
+            case R.id.media_social_linked:
+                verifConecxao("https://www.linkedin.com/company/media-rumo/", "mercado", SobreNosActivity.this);
+                break;
 
 
             //MERCADO
@@ -102,7 +102,7 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
                 verifConecxao("https://www.instagram.com/jornalmercado/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.mercado_social_linked:
-                verifConecxao("https://pt.linkedin.com/company/media-rumo", "mercado", SobreNosActivity.this);
+                verifConecxao("https://www.linkedin.com/", "mercado", SobreNosActivity.this);
                 break;
 
             //VANGUARDA
@@ -113,18 +113,18 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
                 verifConecxao("https://www.instagram.com/jornalvanguardaa/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.vanguarda_social_linked:
-                verifConecxao("https://www.linkedin.com/showcase/revista-rumo/about/", "vanguarda", SobreNosActivity.this);
+                verifConecxao("https://www.linkedin.com/", "vanguarda", SobreNosActivity.this);
                 break;
 
             //RUMO
             case R.id.rumo_social_fb:
-                verifConecxao("https://www.facebook.com/jornalmercado/", "facebook", SobreNosActivity.this);
+                verifConecxao("https://www.facebook.com/RumoBusinessInteligence/", "facebook", SobreNosActivity.this);
                 break;
             case R.id.rumo_social_inst:
                 verifConecxao("https://www.instagram.com/revistarumo/", "instagram", SobreNosActivity.this);
                 break;
             case R.id.rumo_social_linked:
-                verifConecxao("https://www.linkedin.com/showcase/revista-rumo/about/", "rumo", SobreNosActivity.this);
+                verifConecxao("https://www.linkedin.com/showcase/revista-rumo/", "rumo", SobreNosActivity.this);
                 break;
 
 
