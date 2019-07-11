@@ -15,16 +15,18 @@ public class Revistas implements Comparator<Revistas> {
     public String link;
     public String categoria;
     public String dataEdicao;
+    public String descricao;
 
     public Revistas() {}
 
-    public Revistas(int id_jornal, String nome, String fotoJornal, String link, String categoria, String dataEdicao) {
+    public Revistas(int id_jornal, String nome, String fotoJornal, String link, String categoria, String dataEdicao, String descricao) {
         this.id_jornal = id_jornal;
         this.nome = nome;
         this.fotoJornal = fotoJornal;
         this.link = link;
         this.categoria = categoria;
         this.dataEdicao = dataEdicao;
+        this.descricao = descricao;
     }
 
     public int getId_jornal() {
@@ -81,6 +83,14 @@ public class Revistas implements Comparator<Revistas> {
         int ret = o1.getDataEdicao().compareTo(o2.getDataEdicao());
 
         return ret;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     //    @PrimaryKey

@@ -1,12 +1,14 @@
 package proitappsolutions.com.rumosstore.testeRealmDB;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -65,12 +67,33 @@ public class RevistasAdapter extends BaseAdapter  {
             name.setText(revistas.getNome());
             Picasso.with(mContext).load(revistas.getFotoJornal()).resize(210, 300).onlyScaleDown().placeholder(R.drawable.revista_placeholder).error(R.drawable.revista_image_error).into(image);
 
+            itemView.setOnClickListener(onClickListener(i));
 
 
             return itemView;
         }
 
         return rowView;
+    }
+
+
+    private View.OnClickListener onClickListener(final int position) {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(mContext, RevistaDetalheActivity.class);
+                intent.putExtra("img",getItem(position).getFotoJornal());
+                intent.putExtra("name",getItem(position).getNome());
+                intent.putExtra("description",getItem(position).getDescricao());
+                intent.putExtra("link",getItem(position).getLink());
+                mContext.startActivity(intent);
+
+//                Toast.makeText(mContext, "Name: "+getItem(position).getNome(), Toast.LENGTH_SHORT).show();
+
+            }
+        };
     }
 
 

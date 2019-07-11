@@ -354,18 +354,18 @@ public class QuiosqueActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
-                if (i<mercadoList.size()){
-                    Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                    intent.putExtra("ViewType",mercadoList.get(i).getLink());
-                    startActivity(intent);
-                }
-
-                if (i>=mercadoList.size()){
-                    i = indexMercado;
-                    Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                    intent.putExtra("ViewType",mercadoList.get(i).getLink());
-                    startActivity(intent);
-                }
+//                if (i<mercadoList.size()){
+//                    Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                    intent.putExtra("ViewType",mercadoList.get(i).getLink());
+//                    startActivity(intent);
+//                }
+//
+//                if (i>=mercadoList.size()){
+//                    i = indexMercado;
+//                    Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                    intent.putExtra("ViewType",mercadoList.get(i).getLink());
+//                    startActivity(intent);
+//                }
 
 
 
@@ -411,22 +411,22 @@ public class QuiosqueActivity extends AppCompatActivity {
         coverFlow2.setOnItemClickListener((adapterView, view, i, l) -> {
 
 
-            if (i<vanguardaList.size()){
-
-                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                intent.putExtra("ViewType",vanguardaList.get(i).getLink());
-                startActivity(intent);
-
-            }
-
-            if (i>=vanguardaList.size()){
-
-                i = indexVanguarda;
-
-                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                intent.putExtra("ViewType",vanguardaList.get(i).getLink());
-                startActivity(intent);
-            }
+//            if (i<vanguardaList.size()){
+//
+//                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                intent.putExtra("ViewType",vanguardaList.get(i).getLink());
+//                startActivity(intent);
+//
+//            }
+//
+//            if (i>=vanguardaList.size()){
+//
+//                i = indexVanguarda;
+//
+//                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                intent.putExtra("ViewType",vanguardaList.get(i).getLink());
+//                startActivity(intent);
+//            }
 
         });
 
@@ -462,20 +462,20 @@ public class QuiosqueActivity extends AppCompatActivity {
         });
         coverFlow3.setOnItemClickListener((adapterView, view, i, l) -> {
 
-            if (i<rumoList.size()){
-                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                intent.putExtra("ViewType",rumoList.get(i).getLink());
-                startActivity(intent);
-            }
-
-            if (i>=rumoList.size()){
-
-                i = indexRumo;
-
-                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
-                intent.putExtra("ViewType",rumoList.get(i).getLink());
-                startActivity(intent);
-            }
+//            if (i<rumoList.size()){
+//                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                intent.putExtra("ViewType",rumoList.get(i).getLink());
+//                startActivity(intent);
+//            }
+//
+//            if (i>=rumoList.size()){
+//
+//                i = indexRumo;
+//
+//                Intent intent = new Intent(QuiosqueActivity.this, RevistaViewActivity.class);
+//                intent.putExtra("ViewType",rumoList.get(i).getLink());
+//                startActivity(intent);
+//            }
         });
 
         cardRumo.setVisibility(View.VISIBLE);
