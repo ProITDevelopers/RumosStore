@@ -14,7 +14,7 @@ public class AppPref {
     private static final String PREF_NAME = "app_prefs";
     private static final int PRIVATE_MODE = 0;
     private static final String KEY_AUTH_TOKEN = "auth_token";
-
+//
     public static AppPref getInstance() {
         if (singleTonInstance == null) {
             singleTonInstance = new AppPref(MyApplication.getInstance().getApplicationContext());
