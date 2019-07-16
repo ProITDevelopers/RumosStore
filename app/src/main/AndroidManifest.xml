@@ -27,6 +27,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".telasActivity.MultimediaActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".testeRealmDB.QuiosqueActivity"
