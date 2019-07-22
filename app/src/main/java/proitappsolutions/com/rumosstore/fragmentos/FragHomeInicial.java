@@ -52,6 +52,7 @@ public class FragHomeInicial extends Fragment {
         View view = inflater.inflate(R.layout.frag_home_inicial, container, false);
         swiperefresh = view.findViewById(R.id.swiperefresh);
         progress_amarela = view.findViewById(R.id.progress_amarela);
+        //progress_amarela.setVisibility(View.VISIBLE);
         recyclerView = view.findViewById(R.id.recyclerView);
         errorLayout = view.findViewById(R.id.erroLayout);
         linearLayout = view.findViewById(R.id.linearLayout);

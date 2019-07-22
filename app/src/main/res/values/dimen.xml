@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="nav_item_baixo">15dp</dimen>
     <dimen name="margem_cima">5dp</dimen>

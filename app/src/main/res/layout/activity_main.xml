@@ -11,26 +11,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="81dp"
             android:layout_height="81dp"
             android:text="Hello World!"
-            android:src="@drawable/logo_media_rumo" />
+            android:src="@drawable/logo_media_rumo"
+            android:contentDescription="@string/imageView" />
 
     </LinearLayout>
 
-
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/progress"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dimen_30"
         app:indicatorColor="@color/colormedia"
         app:indicatorName="BallPulseIndicator" />
 
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="#ffffff"
+        android:text="@string/txt_direitos"/>
 
 </RelativeLayout>

@@ -23,7 +23,7 @@ public class AdapterClassificacaoJogador extends RecyclerView.Adapter<AdapterCla
     private OnItemClickListener onItemClickListener;
     private int lugar = 1;
     String  TAG = "AdapterDescontoDebug";
-    String nomeUsuario = AppDatabase.getInstance().getUser().nomeCliente;
+    private String nomeUsuario;
 
 
     public AdapterClassificacaoJogador(List<Ranking> rankings, Context context) {
@@ -35,46 +35,61 @@ public class AdapterClassificacaoJogador extends RecyclerView.Adapter<AdapterCla
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.quiz_layout_ranking,viewGroup,false);
-        nomeUsuario = nomeUsuario.replace(" ","_");
+        try{
+            nomeUsuario = AppDatabase.getInstance().getUser().nomeCliente;
+            nomeUsuario = nomeUsuario.replace(" ","_");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return new MyViewHolder(view,onItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
         Ranking ranking = rankings.get(i);
+        Log.i("valoresDebug", i + "");
 
         if (i==rankings.size()-1){
             viewHolder.txt_lugar.setText("#".concat(String.valueOf(lugar)));
             viewHolder.txt_name.setText(ranking.getUserName());
             viewHolder.txt_score.setText(String.valueOf(ranking.getScore()));
             viewHolder.trofeu_ouro.setVisibility(View.VISIBLE);
+            viewHolder.trofeu_prata.setVisibility(View.GONE);
+            viewHolder.trofeu_bronze.setVisibility(View.GONE);
         }else if(i==rankings.size()-2) {
             viewHolder.txt_lugar.setText("#".concat(String.valueOf(lugar)));
             viewHolder.txt_name.setText(ranking.getUserName());
             viewHolder.txt_score.setText(String.valueOf(ranking.getScore()));
             viewHolder.trofeu_prata.setVisibility(View.VISIBLE);
+            viewHolder.trofeu_ouro.setVisibility(View.GONE);
+            viewHolder.trofeu_bronze.setVisibility(View.GONE);
         }else if(i==rankings.size()-3) {
             viewHolder.txt_lugar.setText("#".concat(String.valueOf(lugar)));
             viewHolder.txt_name.setText(ranking.getUserName());
             viewHolder.txt_score.setText(String.valueOf(ranking.getScore()));
             viewHolder.trofeu_bronze.setVisibility(View.VISIBLE);
+            viewHolder.trofeu_prata.setVisibility(View.GONE);
+            viewHolder.trofeu_ouro.setVisibility(View.GONE);
         }else {
-            try{
-                if (nomeUsuario.equals(ranking.getUserName())){
-                    viewHolder.txt_name.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
-                    viewHolder.txt_score.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
-                    viewHolder.txt_lugar.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
             viewHolder.txt_lugar.setText("#".concat(String.valueOf(lugar)));
             viewHolder.txt_name.setText(ranking.getUserName());
             viewHolder.txt_score.setText(String.valueOf(ranking.getScore()));
             viewHolder.trofeu_ouro.setVisibility(View.INVISIBLE);
             viewHolder.trofeu_prata.setVisibility(View.GONE);
             viewHolder.trofeu_bronze.setVisibility(View.GONE);
-
+        }
+        try{
+            if (nomeUsuario.equals(ranking.getUserName())){
+                viewHolder.txt_name.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
+                viewHolder.txt_score.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
+                viewHolder.txt_lugar.setTextColor(context.getResources().getColor(R.color.colorBotaoLogin));
+            }else {
+                viewHolder.txt_name.setTextColor(context.getResources().getColor(R.color.black));
+                viewHolder.txt_score.setTextColor(context.getResources().getColor(R.color.black));
+                viewHolder.txt_lugar.setTextColor(context.getResources().getColor(R.color.black));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         lugar++;
     }

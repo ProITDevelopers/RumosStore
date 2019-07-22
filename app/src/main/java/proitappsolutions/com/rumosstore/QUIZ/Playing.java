@@ -110,16 +110,8 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
             progresssBar.setProgress(0);
             progressValue = 0;
 
-            if (Common.questionList.get(index).getIsImageQuestion().equals("true")) {
-                //se existe imagem
-                //Picasso.get().load(Common.questionList.get(index).getQuestion()).into(question_image);
-                question_image.setVisibility(View.VISIBLE);
-                question_text.setVisibility(View.INVISIBLE);
-            } else {
                 question_text.setText(Common.questionList.get(index).getQuestion());
-                question_image.setVisibility(View.INVISIBLE);
-                question_text.setVisibility(View.VISIBLE);
-            }
+
 
             btnA.setText(Common.questionList.get(index).getAnswerA());
             btnB.setText(Common.questionList.get(index).getAnswerB());
@@ -177,6 +169,7 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
     protected void onStop() {
         super.onStop();
         mCountDown.cancel();
+        finish();
     }
 
     @Override
@@ -189,6 +182,9 @@ public class Playing extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-        mCountDown.cancel();
+        /*mCountDown.cancel();
+        Intent intent = new Intent(this, Home.class);
+        startActivity(intent);
+        finish();*/
     }
 }

@@ -522,43 +522,46 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
 
     private void salvarFoto() {
         File file = new File(postPath);
-        RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)), file);
-        MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem", file.getName(), filepart);
+        try {
+            RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)), file);
+            MultipartBody.Part file1 = MultipartBody.Part.createFormData("imagem", file.getName(), filepart);
+            if (verificaUriFoto()) {
+                progressDialog.setMessage(msgSalvandoFoto);
+                progressDialog.show();
+                Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(Integer.valueOf(id), file1);
 
-        if (verificaUriFoto()) {
-            progressDialog.setMessage(msgSalvandoFoto);
-            progressDialog.show();
-            Call<ResponseBody> enviarFoto = apiInterface.enviarFoto(Integer.valueOf(id), file1);
-
-            enviarFoto.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        progressDialog.dismiss();
-                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtFotoAtualizada);
-                        tv_inicial_nome.setVisibility(View.INVISIBLE);
-                        tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
-                    } else {
-                        progressDialog.dismiss();
-                        ErrorResponce errorResponce = ErrorUtils.parseError(response);
-                        mostrarMensagem(MeuPerfilActivity.this, errorResponce.getError());
+                enviarFoto.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            mostrarMensagem(MeuPerfilActivity.this, R.string.txtFotoAtualizada);
+                            tv_inicial_nome.setVisibility(View.INVISIBLE);
+                            tv_inicial_nome_edit.setVisibility(View.INVISIBLE);
+                        } else {
+                            progressDialog.dismiss();
+                            ErrorResponce errorResponce = ErrorUtils.parseError(response);
+                            mostrarMensagem(MeuPerfilActivity.this, errorResponce.getError());
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                    verifConecxao();
-                    progressDialog.dismiss();
-                    if (!conexaoInternetTrafego(MeuPerfilActivity.this)) {
-                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtMsg);
-                    } else if ("timeout".equals(t.getMessage())) {
-                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtTimeout);
-                    } else {
-                        mostrarMensagem(MeuPerfilActivity.this, R.string.txtProblemaMsg);
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        verifConecxao();
+                        progressDialog.dismiss();
+                        if (!conexaoInternetTrafego(MeuPerfilActivity.this)) {
+                            mostrarMensagem(MeuPerfilActivity.this, R.string.txtMsg);
+                        } else if ("timeout".equals(t.getMessage())) {
+                            mostrarMensagem(MeuPerfilActivity.this, R.string.txtTimeout);
+                        } else {
+                            mostrarMensagem(MeuPerfilActivity.this, R.string.txtProblemaMsg);
+                        }
+                        Log.i(TAG, "onFailure" + t.getMessage());
                     }
-                    Log.i(TAG, "onFailure" + t.getMessage());
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }

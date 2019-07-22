@@ -72,10 +72,14 @@ public class Home extends AppCompatActivity {
     }
 
     private void verifConecxao() {
-        ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null){
-            mostrarMensagem(Home.this,R.string.txtMsgErroRede);
+        try {
+            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                mostrarMensagem(Home.this,R.string.txtMsgErroRede);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

@@ -68,9 +68,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private ShowHidePasswordEditText editTextPasslLogin;
 
     private ProgressDialog progressDialog;
-    private RelativeLayout errorLayout;
-    private RelativeLayout relativeLayout;
-    private TextView btnTentarDeNovo;
     public Data data = new Data();
     public DataUserApi dataUserApi = new DataUserApi();
 
@@ -185,7 +182,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         receberDeNovoTelefone.setOnClickListener(MediaRumoActivity.this);
         btn_enviar_cod_resetTelef.setOnClickListener(MediaRumoActivity.this);
         linearBtnFecharTelef.setOnClickListener(MediaRumoActivity.this);
-
         //-------------------------------------------------------------
 
         //Dialogo enviar senha nova email
@@ -199,11 +195,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         Button btn_cancelar = dialogSenhaEnviarEmailSenhaNova.findViewById(R.id.btn_cancelar);
         btn_redif_senha.setOnClickListener(MediaRumoActivity.this);
         btn_cancelar.setOnClickListener(MediaRumoActivity.this);
-
-        errorLayout = findViewById(R.id.erroLayout);
-        relativeLayout = findViewById(R.id.relativeLayout);
-        btnTentarDeNovo = findViewById(R.id.btn);
-        btnTentarDeNovo.setText(R.string.txtVoltar);
 
     }
 
@@ -262,7 +253,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     mostrarMensagem(MediaRumoActivity.this, R.string.txtTentarmaistarde);
                 }
                 break;
-
             case R.id.receberDeNovoTelefone:
                 if (!TextUtils.isEmpty(telefoneReceberDeNovo)) {
                     enviarTelefoneRedifDeNovo();
@@ -271,7 +261,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
                     mostrarMensagem(MediaRumoActivity.this, R.string.txtTentarmaistarde);
                 }
                 break;
-
             case R.id.btn_enviar_cod_reset:
                 if (verificarCampo()){
                     esconderTeclado(MediaRumoActivity.this);
@@ -310,7 +299,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void enviarEmailRedifDeNovo() {
 
-        errorLayout.setVisibility(View.GONE);
         dialog_editEmail_email.setError(null);
         String email = emailReceberDeNovo.trim();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -348,7 +336,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void enviarTelefoneRedifDeNovo() {
 
-        errorLayout.setVisibility(View.GONE);
         dialog_editTelefone_telefone.setError(null);
         String telefone = telefoneReceberDeNovo.trim();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -393,7 +380,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     private void salvarSenhaNova() {
 
         //enviarNovaSenha
-        errorLayout.setVisibility(View.GONE);
         progressDialog.setMessage(msgAprocessar);
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -503,8 +489,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
     private void enviarCodRedifinicao() {
 
-        errorLayout.setVisibility(View.GONE);
-
         progressDialog.setMessage(msgEnviandoCodigo);
         progressDialog.show();
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -544,8 +528,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void enviarCodRedifinicaoTelef() {
-
-        errorLayout.setVisibility(View.GONE);
         Log.i(TAG, "codConfi" + codigoConfTelef);
         progressDialog.setMessage(msgEnviandoCodigo);
         progressDialog.show();
@@ -623,7 +605,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void mandarEmailResetSenha(String email) {
-        errorLayout.setVisibility(View.GONE);
         dialog_editEmail_email.setError(null);
         emailReceberDeNovo = email;
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -663,7 +644,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void mandarTelefoneResetSenha(String telefone) {
-        errorLayout.setVisibility(View.GONE);
         dialog_editTelefone_telefone.setError(null);
         telefoneReceberDeNovo = telefone;
         ApiInterface apiInterface = ApiClient.apiClient().create(ApiInterface.class);
@@ -741,8 +721,6 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void autenticacaoLoginApi() {
-
-        errorLayout.setVisibility(View.GONE);
 
         if (verificarCampos()) {
 
@@ -920,20 +898,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null) {
-            mostarMsnErro();
+            mostrarMensagem(MediaRumoActivity.this,R.string.txtMsg);
         }
-    }
-
-    private void mostarMsnErro() {
-
-        if (errorLayout.getVisibility() == View.GONE) {
-            errorLayout.setVisibility(View.VISIBLE);
-            relativeLayout.setVisibility(View.GONE);
-        }
-
-        btnTentarDeNovo.setOnClickListener(view -> {
-            relativeLayout.setVisibility(View.VISIBLE);
-            errorLayout.setVisibility(View.GONE);
-        });
     }
 }

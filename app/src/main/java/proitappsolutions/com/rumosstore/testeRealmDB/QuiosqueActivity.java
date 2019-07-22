@@ -35,6 +35,7 @@ import java.util.List;
 
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 import proitappsolutions.com.rumosstore.Common;
+import proitappsolutions.com.rumosstore.MediaRumoActivity;
 import proitappsolutions.com.rumosstore.R;
 import proitappsolutions.com.rumosstore.api.ApiClient;
 import proitappsolutions.com.rumosstore.api.ApiInterface;
@@ -42,6 +43,14 @@ import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.conexaoInternetTrafego;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagem;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.mostrarMensagemTextView;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgAprocessar;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroSemResultados;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgErroTentar;
+import static proitappsolutions.com.rumosstore.communs.MetodosComuns.msgSemResultadoJornais;
 
 public class QuiosqueActivity extends AppCompatActivity {
 
@@ -58,12 +67,8 @@ public class QuiosqueActivity extends AppCompatActivity {
 
     private TextSwitcher mTitle,mTitle2,mTitle3;
     private FeatureCoverFlow coverFlow,coverFlow2,coverFlow3;
-    private Animation in,out;
 
-    private Revistas revistas;
     private List<Revistas> mercadoList,vanguardaList,rumoList;
-    private RevistasAdapter revistasMercadoAdapter,revistasVanguardaAdapter,revistasRumoAdapter;
-
 
 
     int indexMercado,indexVanguarda,indexRumo=0;
@@ -89,11 +94,11 @@ public class QuiosqueActivity extends AppCompatActivity {
 
     private void initView() {
 
-        in = AnimationUtils.loadAnimation(getBaseContext(),R.anim.slide_in_top);
-        out = AnimationUtils.loadAnimation(getBaseContext(),R.anim.slide_out_bottom);
+        Animation in = AnimationUtils.loadAnimation(getBaseContext(), R.anim.slide_in_top);
+        Animation out = AnimationUtils.loadAnimation(getBaseContext(), R.anim.slide_out_bottom);
         errorLayout = findViewById(R.id.erroLayout);
         btnTentarDeNovo = findViewById(R.id.btn);
-        btnTentarDeNovo.setText("Tentar de Novo");
+        mostrarMensagemTextView(btnTentarDeNovo,msgErroTentar);
         btnTentarDeNovo.setTextColor(getResources().getColor(R.color.colorExemplo));
 
         linearLayoutCarregando = findViewById(R.id.linearLayoutCarregando);
@@ -110,11 +115,9 @@ public class QuiosqueActivity extends AppCompatActivity {
         cardVanguarda = findViewById(R.id.cardVanguarda);
         cardRumo = findViewById(R.id.cardRumo);
 
-        txtCarregandoMercado.setText("Carregando...");
-        txtCarregandoVanguarda.setText("Carregando...");
-        txtCarregandoRumo.setText("Carregando...");
-
-
+        mostrarMensagemTextView(txtCarregandoMercado,msgAprocessar);
+        mostrarMensagemTextView(txtCarregandoVanguarda,msgAprocessar);
+        mostrarMensagemTextView(txtCarregandoRumo,msgAprocessar);
 
         mTitle = (TextSwitcher)findViewById(R.id.title);
         mTitle.setFactory(new ViewSwitcher.ViewFactory() {
@@ -182,13 +185,10 @@ public class QuiosqueActivity extends AppCompatActivity {
             linearLayoutCarregando.setVisibility(View.GONE);
         }
 
-        btnTentarDeNovo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                linearLayoutCarregando.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
-                verifConecxaoRevistas();
-            }
+        btnTentarDeNovo.setOnClickListener(view -> {
+            linearLayoutCarregando.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.GONE);
+            verifConecxaoRevistas();
         });
     }
 
@@ -207,9 +207,9 @@ public class QuiosqueActivity extends AppCompatActivity {
                     progressMercado.setVisibility(View.GONE);
                     progressVanguarda.setVisibility(View.GONE);
                     progressRumo.setVisibility(View.GONE);
-                    txtCarregandoMercado.setText("Sem resultados!");
-                    txtCarregandoVanguarda.setText("Sem resultados!");
-                    txtCarregandoRumo.setText("Sem resultados!");
+                    mostrarMensagemTextView(txtCarregandoMercado,msgErroSemResultados);
+                    mostrarMensagemTextView(txtCarregandoVanguarda,msgErroSemResultados);
+                    mostrarMensagemTextView(txtCarregandoRumo,msgErroSemResultados);
                 } else {
 
 
@@ -219,45 +219,30 @@ public class QuiosqueActivity extends AppCompatActivity {
                         filtrarRevistas(response.body());
 
                     } else {
-
                         progressMercado.setVisibility(View.GONE);
                         progressVanguarda.setVisibility(View.GONE);
                         progressRumo.setVisibility(View.GONE);
-                        txtCarregandoMercado.setText("Sem resultados!");
-                        txtCarregandoVanguarda.setText("Sem resultados!");
-                        txtCarregandoRumo.setText("Sem resultados!");
+                        mostrarMensagemTextView(txtCarregandoMercado,msgErroSemResultados);
+                        mostrarMensagemTextView(txtCarregandoVanguarda,msgErroSemResultados);
+                        mostrarMensagemTextView(txtCarregandoRumo,msgErroSemResultados);
                     }
-
-
-
-
-
                 }
-
-
-
-
             }
 
             @Override
-            public void onFailure(Call<List<Revistas>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Revistas>> call, @NonNull Throwable t) {
                 progressMercado.setVisibility(View.GONE);
                 progressVanguarda.setVisibility(View.GONE);
                 progressRumo.setVisibility(View.GONE);
-                txtCarregandoMercado.setText("Sem resultados!");
-                txtCarregandoVanguarda.setText("Sem resultados!");
-                txtCarregandoRumo.setText("Sem resultados!");
-                switch (t.getMessage()){
-                    case "timeout":
-                        Toast.makeText(QuiosqueActivity.this,
-                                "Impossivel se comunicar. Internet lenta.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(QuiosqueActivity.this,
-                                "Algum problema aconteceu. Tente novamente.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                mostrarMensagemTextView(txtCarregandoMercado,msgErroSemResultados);
+                mostrarMensagemTextView(txtCarregandoVanguarda,msgErroSemResultados);
+                mostrarMensagemTextView(txtCarregandoRumo,msgErroSemResultados);
+                if (!conexaoInternetTrafego(QuiosqueActivity.this)){
+                    mostrarMensagem(QuiosqueActivity.this,R.string.txtMsg);
+                }else  if ("timeout".equals(t.getMessage())) {
+                    mostrarMensagem(QuiosqueActivity.this,R.string.txtTimeout);
+                }else {
+                    mostrarMensagem(QuiosqueActivity.this,R.string.txtProblemaMsg);
                 }
             }
         });
@@ -273,10 +258,10 @@ public class QuiosqueActivity extends AppCompatActivity {
         Collections.sort(revistasList, new Revistas());
 
         for (int i = 0; i <revistasList.size() ; i++) {
-            revistas = new Revistas(Integer.parseInt(String.valueOf(revistasList.get(i).id_jornal)),
-                    String.valueOf(revistasList.get(i).nome),String.valueOf(revistasList.get(i).fotoJornal),
-                    String.valueOf(revistasList.get(i).link),String.valueOf(revistasList.get(i).categoria),
-                    String.valueOf(revistasList.get(i).dataEdicao),String.valueOf(revistasList.get(i).descricao));
+            Revistas revistas = new Revistas(Integer.parseInt(String.valueOf(revistasList.get(i).id_jornal)),
+                    String.valueOf(revistasList.get(i).nome), String.valueOf(revistasList.get(i).fotoJornal),
+                    String.valueOf(revistasList.get(i).link), String.valueOf(revistasList.get(i).categoria),
+                    String.valueOf(revistasList.get(i).dataEdicao), String.valueOf(revistasList.get(i).descricao));
 
 //            if (revistas.getCategoria().equals("mercado") || revistas.getCategoria().equals("Mercado")){
             if (revistas.getCategoria().equalsIgnoreCase("mercado")){
@@ -323,7 +308,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         } else {
             cardMercado.setVisibility(View.INVISIBLE);
             progressMercado.setVisibility(View.GONE);
-            txtCarregandoMercado.setText("Sem resultados dos jornais Mercado!");
+            mostrarMensagemTextView(txtCarregandoMercado,msgSemResultadoJornais);
 
         }
 
@@ -332,7 +317,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         } else {
             cardVanguarda.setVisibility(View.INVISIBLE);
             progressVanguarda.setVisibility(View.GONE);
-            txtCarregandoVanguarda.setText("Sem resultados dos jornais Vanguarda!");
+            mostrarMensagemTextView(txtCarregandoVanguarda,msgSemResultadoJornais);
 
         }
 
@@ -341,8 +326,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         } else {
             cardRumo.setVisibility(View.INVISIBLE);
             progressRumo.setVisibility(View.GONE);
-            txtCarregandoRumo.setText("Sem resultados das revista Rumo!");
-
+            mostrarMensagemTextView(txtCarregandoRumo,msgSemResultadoJornais);
         }
 
 
@@ -358,7 +342,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         // Order the list by regist date.
         Collections.reverse(mercadoList);
 
-        revistasMercadoAdapter = new RevistasAdapter(mercadoList,this);
+        RevistasAdapter revistasMercadoAdapter = new RevistasAdapter(mercadoList, this);
         revistasMercadoAdapter.notifyDataSetChanged();
         coverFlow.setAdapter(revistasMercadoAdapter);
 
@@ -419,7 +403,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         // Order the list by regist date.
         Collections.reverse(vanguardaList);
 
-        revistasVanguardaAdapter = new RevistasAdapter(vanguardaList,this);
+        RevistasAdapter revistasVanguardaAdapter = new RevistasAdapter(vanguardaList, this);
         revistasVanguardaAdapter.notifyDataSetChanged();
         coverFlow2.setAdapter(revistasVanguardaAdapter);
 
@@ -476,7 +460,7 @@ public class QuiosqueActivity extends AppCompatActivity {
         // Order the list by regist date.
         Collections.reverse(rumoList);
 
-        revistasRumoAdapter = new RevistasAdapter(rumoList,this);
+        RevistasAdapter revistasRumoAdapter = new RevistasAdapter(rumoList, this);
         revistasRumoAdapter.notifyDataSetChanged();
         coverFlow3.setAdapter(revistasRumoAdapter);
 
@@ -518,8 +502,6 @@ public class QuiosqueActivity extends AppCompatActivity {
 
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

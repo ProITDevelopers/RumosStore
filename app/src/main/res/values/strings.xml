@@ -131,4 +131,5 @@ Este aplicativo precisa de permissão para usar esse recurso. Você pode conced�
     <string name="exemplo_categoria_nome">Categoria</string>
     <string name="exemplo_pontuacao_desc">Pontuação</string>
     <string name="exemplo_pontos">Pontos</string>
+    <string name="txt_direitos">Copyright © 2019 Pro-it Consulting</string>
 </resources>

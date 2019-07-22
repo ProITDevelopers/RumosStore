@@ -100,46 +100,47 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull FeedViewHolder feedViewHolder, int i) {
 
-        CustomizarResultadoXml resultadoXml = new
-                CustomizarResultadoXml("<img src=",rssObjecto.getItems().get(i).getContent());
-
-        CustomizarResultadoXml resultadoXmlConteudo = new
-                CustomizarResultadoXml("<p>",rssObjecto.getItems().get(i).getContent());
-
-
-        feedViewHolder.txtTitulo.setText(rssObjecto.getItems().get(i).getTitle());
-        feedViewHolder.txtDataPublicacao.setText(rssObjecto.getItems().get(i).getPubDate());
-        //feedViewHolder.txtConteudo.setText(resultadoXmlConteudo.conteudo().get(resultadoXmlConteudo.conteudo().size()-1));
-
         try {
-            Glide
-                    .with(mContext)
-                    .load(resultadoXml.comecar()).listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    feedViewHolder.progress_bar.setVisibility(View.GONE);
-                    return false;
-                }
+            CustomizarResultadoXml resultadoXml = new
+                    CustomizarResultadoXml("<img src=",rssObjecto.getItems().get(i).getContent());
+            feedViewHolder.txtTitulo.setText(rssObjecto.getItems().get(i).getTitle());
+            feedViewHolder.txtDataPublicacao.setText(rssObjecto.getItems().get(i).getPubDate());
+            //feedViewHolder.txtConteudo.setText(resultadoXmlConteudo.conteudo().get(resultadoXmlConteudo.conteudo().size()-1));
 
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    feedViewHolder.progress_bar.setVisibility(View.GONE);
-                    return false;
-                }
-            }).into(feedViewHolder.imgPublicacao);
-
-            feedViewHolder.setItemClickListener(new ItemClickListener() {
-                @Override
-                public void onClick(View view, int position, boolean isLongClick) {
-                    if (!isLongClick){
-                       enviarLinkActivity(rssObjecto.getItems().get(i).getLink(),"mercado",mContext);
+            try {
+                Glide
+                        .with(mContext)
+                        .load(resultadoXml.comecar()).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        feedViewHolder.progress_bar.setVisibility(View.GONE);
+                        return false;
                     }
-                }
-            });
-        } catch (IndexOutOfBoundsException e) {
-            feedViewHolder.progress_bar.setVisibility(View.GONE);
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        feedViewHolder.progress_bar.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(feedViewHolder.imgPublicacao);
+
+                feedViewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        if (!isLongClick){
+                            enviarLinkActivity(rssObjecto.getItems().get(i).getLink(),"mercado",mContext);
+                        }
+                    }
+                });
+            } catch (IndexOutOfBoundsException e) {
+                feedViewHolder.progress_bar.setVisibility(View.GONE);
+                e.printStackTrace();
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
+
+
     }
 
     public void enviarLinkActivity(String s, String cor, Context context) {

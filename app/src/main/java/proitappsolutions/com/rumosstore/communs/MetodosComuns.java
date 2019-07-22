@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.Normalizer;
@@ -21,7 +23,10 @@ import java.util.regex.Pattern;
 public class MetodosComuns {
 
     public static String bearerApi = "Bearer ";
+    public static String msgErroSemResultados = "Sem resultados";
+    public static String msgSemResultadoJornais = "Sem resultados dos jornais Mercado!";
     public static String msgErro = "Preencha o campo.";
+    public static String msgErroTentar = "Tentar de Novo";
     public static String msgErroLetras = "Preencha o com letras.";
     public static String msgErroSenha = "Senha fraca.";
     public static String msgQuasePronto = "Quase Pronto...!";
@@ -54,6 +59,10 @@ public class MetodosComuns {
         return text == null ? null :
                 Normalizer.normalize(text, Normalizer.Form.NFD)
                         .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+
+    public static void mostrarMensagemTextView(TextView textView, String valorString) {
+        textView.setText(valorString);
     }
 
     public static boolean validarEmail(String email) {

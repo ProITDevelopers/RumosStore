@@ -24,10 +24,9 @@
 
        <TextView
            android:id="@+id/question_text"
-           android:visibility="invisible"
            android:textSize="20sp"
            android:layout_gravity="center"
-           android:textColor="@android:color/white"
+           android:textColor="@color/white"
            android:layout_marginTop="25dp"
            android:gravity="center"
            android:layout_width="match_parent"

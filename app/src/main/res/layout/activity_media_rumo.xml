@@ -35,7 +35,8 @@
                         android:layout_width="150dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/logotipo_mediarumo"/>
+                        android:src="@drawable/logotipo_mediarumo"
+                        android:contentDescription="@string/imageView" />
 
                 </LinearLayout>
 
@@ -65,7 +66,8 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:id="@+id/ic_user"
-                                android:src="@drawable/usuario_icone" />
+                                android:src="@drawable/usuario_icone"
+                                android:contentDescription="@string/imageView" />
 
                         </LinearLayout>
 
@@ -78,8 +80,11 @@
                             android:textColor="@color/cor_principal"
                             android:textColorHint="@color/cor_principal"
                             android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
                             android:hint="@string/hit_btn_entrar_email"
                             android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
                             android:inputType="textEmailAddress" />
 
                     </LinearLayout>
@@ -118,23 +123,11 @@
                             android:layout_marginLeft="4dp"
                             android:hint="@string/hit_senha"
                             android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:inputType="textPassword"
                             app:tint_color="@android:color/white"
                             android:layout_marginStart="4dp"
                             android:paddingStart="10dp" />
-
-                        <!--<EditText-->
-                            <!--android:id="@+id/editTextPasslLogin"-->
-                            <!--android:layout_width="230dp"-->
-                            <!--android:background="@drawable/borda_lateral"-->
-                            <!--android:layout_height="44dp"-->
-                            <!--android:textCursorDrawable="@drawable/cor_cursor"-->
-                            <!--android:textColor="@android:color/white"-->
-                            <!--android:textColorHint="@color/colorExemplo"-->
-                            <!--android:layout_marginLeft="4dp"-->
-                            <!--android:hint="@string/hit_senha"-->
-                            <!--android:paddingLeft="10dp"-->
-                            <!--android:inputType="textPassword" />-->
 
                     </LinearLayout>
 
@@ -183,7 +176,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
-    <include layout="@layout/activity_sem_internet" />
 
 </RelativeLayout>
