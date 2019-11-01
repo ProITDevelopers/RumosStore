@@ -132,4 +132,7 @@ Este aplicativo precisa de permissão para usar esse recurso. Você pode conced�
     <string name="exemplo_pontuacao_desc">Pontuação</string>
     <string name="exemplo_pontos">Pontos</string>
     <string name="txt_direitos">Copyright © 2019 Pro-it Consulting</string>
+    <!--CHAVES ADMOB-->
+    <string name="admob_app_id">ca-app-pub-6092038717578928~2803129299</string>
+    <string name="admob_banner_ad">ca-app-pub-6092038717578928/7013837040</string>
 </resources>

@@ -19,12 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PublicidadeActivity"></activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name=".testeRealmDB.RevistaDetalheActivity"></activity>
+            android:name=".testeRealmDB.RevistaDetalheActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SobreNosActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".telasActivity.MultimediaActivity"
             android:hardwareAccelerated="true"
@@ -64,8 +65,8 @@
             android:name=".telasActivity.ImagemPegarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".telasActivity.WebViewActivity" />
+            android:name=".telasActivity.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".QUIZ.Done"
             android:screenOrientation="portrait" />
@@ -81,6 +82,12 @@
         <activity
             android:name=".QUIZ.Playing"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id"
+            />
+
     </application>
 
 </manifest>

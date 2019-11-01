@@ -6,6 +6,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
+
 import proitappsolutions.com.rumosstore.telasActivity.HomeInicialActivity;
 import proitappsolutions.com.rumosstore.telasActivity.MeuPerfilActivity;
 
@@ -24,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (TextUtils.isEmpty(AppDatabase.getInstance().getAuthToken())) {
                 Intent intent = new Intent(MainActivity.this, MediaRumoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return;

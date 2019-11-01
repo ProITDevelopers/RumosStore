@@ -1,16 +1,12 @@
 package proitappsolutions.com.rumosstore.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import proitappsolutions.com.rumosstore.modelo.CodConfirmacaoResult;
 import proitappsolutions.com.rumosstore.modelo.Data;
-import proitappsolutions.com.rumosstore.modelo.DataDados;
 import proitappsolutions.com.rumosstore.modelo.DataUserApi;
-import proitappsolutions.com.rumosstore.modelo.EmSessao;
 import proitappsolutions.com.rumosstore.modelo.RecuperarSenha;
 import proitappsolutions.com.rumosstore.modelo.UsuarioApi;
 import proitappsolutions.com.rumosstore.testeRealmDB.Revistas;
@@ -45,7 +41,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/v1/app/verify")
-    Call<CodConfirmacaoResult> enviarConfirCodigo(@Field("id") String id, @Field("resetPass") String resetPass);
+    Call<CodConfirmacaoResult> enviarConfirCodigo(@Field("id") String id,
+                                                  @Field("resetPass") String resetPass);
 
     @POST("/v1/app/setPassword")
     @FormUrlEncoded

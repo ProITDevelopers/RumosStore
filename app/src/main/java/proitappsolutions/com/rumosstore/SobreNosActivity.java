@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.formats.NativeAd;
+
 import proitappsolutions.com.rumosstore.telasActivity.WebViewActivity;
 
 public class SobreNosActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,6 +36,15 @@ public class SobreNosActivity extends AppCompatActivity implements View.OnClickL
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        ImageView img_media_rumo = findViewById(R.id.img_media_rumo);
+        img_media_rumo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SobreNosActivity.this,PublicidadeActivity.class));
+                finish();
+            }
+        });
 
 //        //MEDIA
         media_social_fb = findViewById(R.id.media_social_fb);

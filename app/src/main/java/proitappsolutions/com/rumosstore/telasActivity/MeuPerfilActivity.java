@@ -521,6 +521,7 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void salvarFoto() {
+        tv_inicial_nome_edit.setVisibility(View.GONE);
         File file = new File(postPath);
         try {
             RequestBody filepart = RequestBody.create(MediaType.parse(getContentResolver().getType(selectedImage)), file);
@@ -736,6 +737,14 @@ public class MeuPerfilActivity extends AppCompatActivity implements View.OnClick
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(MeuPerfilActivity.this, HomeInicialActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
 

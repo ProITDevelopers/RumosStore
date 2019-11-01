@@ -592,7 +592,7 @@ public class MediaRumoActivity extends AppCompatActivity implements View.OnClick
 
         if (dialog_editTelefone_telefone.getText() != null) {
             telefoneRedif_senha = dialog_editTelefone_telefone.getText().toString().trim();
-            if (!telefoneRedif_senha.matches("9[1-9][1-9]\\d{6}")) {
+            if (!telefoneRedif_senha.matches("9[1-9][1-9]\\d{8}")) {
                 dialog_editTelefone_telefone.setError(msgErroTelefone);
                 return false;
             }else {
