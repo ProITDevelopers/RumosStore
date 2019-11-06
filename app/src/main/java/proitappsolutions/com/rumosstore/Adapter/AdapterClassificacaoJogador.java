@@ -22,7 +22,7 @@ public class AdapterClassificacaoJogador extends RecyclerView.Adapter<AdapterCla
     private Context context;
     private OnItemClickListener onItemClickListener;
     private int lugar = 1;
-    String  TAG = "AdapterDescontoDebug";
+    String  TAG = "AdapterDescontoDebugx";
     private String nomeUsuario;
 
 
